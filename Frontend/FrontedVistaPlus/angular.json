@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "backendVistaPlus": {
+    "FrontedVistaPlus": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -61,10 +61,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "backendVistaPlus:build:production"
+              "buildTarget": "FrontedVistaPlus:build:production"
             },
             "development": {
-              "buildTarget": "backendVistaPlus:build:development"
+              "buildTarget": "FrontedVistaPlus:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -93,8 +93,5 @@
         }
       }
     }
-  },
-  "cli": {
-    "analytics": "a83d99d4-edae-4d52-ad00-c6652b468eb6"
   }
 }
