@@ -1,5 +1,5 @@
 package AppProyecto.Persistence.Entitys;
 
-public class Crea {
+public class crea {
 
 }

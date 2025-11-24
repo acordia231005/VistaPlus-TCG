@@ -1,4 +1,4 @@
 package AppProyecto.Services.Exceptions;
-public class NotFoundException extends RuntimeException{
+public class usuarioNotFoundException extends RuntimeException{
 	private static final long serialVersionUID = 1L;
 }

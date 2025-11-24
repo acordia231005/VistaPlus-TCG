@@ -2,6 +2,8 @@ package AppProyecto.Persistence.Entitys;
 
 import java.time.LocalDateTime;
 
+import AppProyecto.Persistence.Entitys.Enum.genero;
+import AppProyecto.Persistence.Entitys.Enum.tipo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,25 +18,25 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "autor")
-public class Autor {
+@Table(name = "obra")
+public class obra {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(columnDefinition = "varchar(30)")
-	private String nombre;
+	@Column(columnDefinition = "enum")
+	private tipo tipo;
 	
 	@Column(columnDefinition = "varchar(150)")
-	private String nacionalidad;
+	private String titulo;
 
-	@Column(columnDefinition = "varchar(50)")
-	private String email;
+	@Column(columnDefinition = "enum")
+	private genero genero;
 	
-	@Column(columnDefinition = "varchar(30)")
-	private String password;
+	@Column(columnDefinition = "text")
+	private String sinopsis;
 	
 	@Column(columnDefinition = "Date")
-	private LocalDateTime FechaNac;
+	private LocalDateTime year;
 }

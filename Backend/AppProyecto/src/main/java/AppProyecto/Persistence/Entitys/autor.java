@@ -16,23 +16,25 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "opinion")
-public class Opinion {
+@Table(name = "autor")
+public class autor {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
 	@Column(columnDefinition = "varchar(30)")
-	private String comentario;
-
-	@Column(columnDefinition = "int")
-	private int puntuacion;
+	private String nombre;
 	
-	@Column(columnDefinition = "tinyint")
-	private boolean marcar;
+	@Column(columnDefinition = "varchar(150)")
+	private String nacionalidad;
+
+	@Column(columnDefinition = "varchar(50)")
+	private String email;
+	
+	@Column(columnDefinition = "varchar(30)")
+	private String password;
 	
 	@Column(columnDefinition = "Date")
-	private LocalDateTime Fecha;
-	
+	private LocalDateTime FechaNac;
 }

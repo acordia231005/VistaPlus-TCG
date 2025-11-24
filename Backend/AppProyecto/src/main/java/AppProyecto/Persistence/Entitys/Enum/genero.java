@@ -1,5 +1,5 @@
 package AppProyecto.Persistence.Entitys.Enum;
 
-public enum Genero {
+public enum genero {
 
 }
