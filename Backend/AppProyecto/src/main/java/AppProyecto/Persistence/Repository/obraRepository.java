@@ -1,5 +1,6 @@
 package AppProyecto.Persistence.Repository;
-
-public class obraRepository {
-
+import org.springframework.data.jpa.repository.JpaRepository;
+import AppProyecto.Persistence.Entitys.obra;
+public interface obraRepository extends JpaRepository<obra, Integer>{
+	
 }

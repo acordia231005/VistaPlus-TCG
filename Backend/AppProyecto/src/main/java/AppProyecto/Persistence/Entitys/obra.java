@@ -9,6 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,4 +41,20 @@ public class obra {
 	
 	@Column(columnDefinition = "Date")
 	private LocalDateTime year;
+	
+	@Column(columnDefinition = "opinion")
+	private int id_opinion;
+	
+	@Column(columnDefinition = "autor")
+	private int id_autor;
+	
+	@ManyToOne
+	@JoinColumn(name = "autor", referencedColumnName = "id",
+				insertable = false, updatable = false)
+	private autor autor;
+	
+	@ManyToOne
+	@JoinColumn(name = "opinion", referencedColumnName = "id",
+				insertable = false, updatable = false)
+	private opinion opinion;
 }

@@ -1,5 +1,6 @@
 package AppProyecto.Persistence.Repository;
-
-public class opinionRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import AppProyecto.Persistence.Entitys.opinion;
+public interface opinionRepository extends JpaRepository<opinion, Integer> {
 
 }

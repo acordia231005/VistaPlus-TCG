@@ -1,12 +1,16 @@
 package AppProyecto.Persistence.Entitys;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,4 +39,14 @@ public class opinion {
 	@Column(columnDefinition = "Date")
 	private LocalDateTime Fecha;
 	
+	@Column(name = "usuario")
+	private int Usuario;
+	
+	@ManyToOne
+	@JoinColumn(name = "usuario", referencedColumnName = "id",
+				insertable = false, updatable = false)
+	private usuario usuario;
+	
+	@OneToMany(mappedBy = "pedido")
+	private List<obra> obras;
 }
