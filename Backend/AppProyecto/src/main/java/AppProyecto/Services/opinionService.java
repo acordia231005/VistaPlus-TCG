@@ -17,4 +17,11 @@ public class opinionService {
 	public List<opinion> findAll(){
 		return this.opinionrepository.findAll();
 	}
+	
+	public opinion findById(int id) {
+		if (this.opinionrepository.existsById(id)) {
+			throw new IllegalArgumentException("No se encuentra ninguna opinion por ese id.");
+		}
+		return this.opinionrepository.findById(id).get();
+	}
 }

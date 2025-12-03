@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import AppProyecto.Persistence.Entitys.autor;
+import AppProyecto.Persistence.Entitys.opinion;
 import AppProyecto.Persistence.Repository.autorRepository;
 
 @Service
@@ -16,5 +17,12 @@ public class autorService {
 	
 	public List<autor> findAll(){
 		return this.autorrepository.findAll();
+	}
+	
+	public autor findById(int id) {
+		if (this.autorrepository.existsById(id)) {
+			throw new IllegalArgumentException("No se encuentra ningun autor por ese id.");
+		}
+		return this.autorrepository.findById(id).get();
 	}
 }
