@@ -47,6 +47,6 @@ public class opinion {
 				insertable = false, updatable = false)
 	private usuario usuario;
 	
-	@OneToMany(mappedBy = "pedido")
+	@OneToMany(mappedBy = "opinion")
 	private List<obra> obras;
 }

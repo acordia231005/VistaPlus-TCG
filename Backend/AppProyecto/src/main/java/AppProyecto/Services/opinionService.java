@@ -24,4 +24,16 @@ public class opinionService {
 		}
 		return this.opinionrepository.findById(id).get();
 	}
+	
+	// create
+	
+	// update
+		
+	// delete
+	public void deleteById(int id) {
+		if (this.opinionrepository.existsById(id)) {
+			this.opinionrepository.deleteById(id);
+		}
+		return;
+	}
 }

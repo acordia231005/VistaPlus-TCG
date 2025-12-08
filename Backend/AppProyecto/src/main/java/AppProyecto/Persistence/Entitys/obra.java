@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -48,9 +49,7 @@ public class obra {
 	@Column(columnDefinition = "autor")
 	private int id_autor;
 	
-	@ManyToOne
-	@JoinColumn(name = "autor", referencedColumnName = "id",
-				insertable = false, updatable = false)
+	@OneToMany(mappedBy = "obra")
 	private autor autor;
 	
 	@ManyToOne

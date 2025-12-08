@@ -25,4 +25,16 @@ public class usuarioService {
 		}
 		return this.usuariorepository.findById(id).get();
 	}
+	
+	// create
+	
+	// update
+		
+	// delete
+	public void deleteById(int id) {
+		if (this.usuariorepository.existsById(id)) {
+			this.usuariorepository.deleteById(id);
+		}
+		return;
+	}
 }
