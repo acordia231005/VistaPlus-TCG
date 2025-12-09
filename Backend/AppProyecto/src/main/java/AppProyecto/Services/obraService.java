@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import AppProyecto.Persistence.Entitys.obra;
 import AppProyecto.Persistence.Repository.obraRepository;
+import AppProyecto.Services.Dtos.obraDTO;
+import AppProyecto.Services.Mappers.obraMapper;
 
 @Service
 public class obraService {
@@ -26,7 +28,7 @@ public class obraService {
 	}
 	
 	// create
-	public ObraDTO create(ObraDTO dto) {
+	public obraDTO create(obraDTO dto) {
         obra obra = new obra();
 
         obra.setTipo(dto.getTipo());

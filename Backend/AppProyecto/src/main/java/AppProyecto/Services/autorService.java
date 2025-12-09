@@ -38,7 +38,7 @@ public class autorService {
         nuevoAutor.setPassword(dto.getPassword());
         nuevoAutor.setFechaNac(dto.getFechaNac());
 
-        return autorRepository.save(nuevoAutor);
+        return this.autorrepository.save(nuevoAutor);
     }
 	
 	// update
@@ -52,7 +52,7 @@ public class autorService {
         autorExistente.setFechaNac(updatedData.getFechaNac());
         autorExistente.setObra(updatedData.getObra());
 
-        return autorRepository.save(autorExistente);
+        return this.autorrepository.save(autorExistente);
     }
 	
 	// delete
