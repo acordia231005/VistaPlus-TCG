@@ -1,12 +1,12 @@
-package AppProyecto.Services.Mappers;
+package AppProyecto.services.mappers;
 
-import AppProyecto.Persistence.Entitys.obra;
-import AppProyecto.Services.Dtos.obraDTO;
+import AppProyecto.persistence.entitys.Obra;
+import AppProyecto.services.dtos.ObraDTO;
 
-public class obraMapper {
+public class ObraMapper {
 
-	public static obraDTO toDTO(obra obra) {
-        obraDTO dto = new obraDTO();
+	public static ObraDTO toDTO(Obra obra) {
+		ObraDTO dto = new ObraDTO();
 
         dto.setId(obra.getId());
         dto.setTipo(obra.getTipo());

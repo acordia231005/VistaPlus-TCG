@@ -1,4 +1,4 @@
-package AppProyecto.Web.Controller;
+package AppProyecto.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import AppProyecto.Persistence.Entitys.autor;
-import AppProyecto.Services.autorService;
-import AppProyecto.Services.Dtos.autorDTO;
-import AppProyecto.Services.Exceptions.opinionNotFoundException;
+import AppProyecto.persistence.entitys.Autor;
+import AppProyecto.services.AutorService;
+import AppProyecto.services.dtos.AutorDTO;
+import AppProyecto.services.exceptions.AutorNotFoundException;
 
 @RestController
 @RequestMapping("/autor")
-public class autorController {
+public class AutorController {
 
 	@Autowired
-	private autorService autorservice;
+	private AutorService autorservice;
 	
 	@GetMapping
 	public ResponseEntity<?> findAll(){
@@ -32,25 +32,25 @@ public class autorController {
 	public ResponseEntity<?> findById(@PathVariable int id){
 		try {
 			return ResponseEntity.ok(this.autorservice.findById(id));
-		}catch (opinionNotFoundException ex) {
+		}catch (AutorNotFoundException ex) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
 		}
 	}
 	
 	@PostMapping
-    public ResponseEntity<?> create(@RequestBody autorDTO dto) {
+    public ResponseEntity<?> create(@RequestBody AutorDTO dto) {
 		try {
 			return ResponseEntity.ok(this.autorservice.create(dto));
-		}catch (opinionNotFoundException ex) {
+		}catch (AutorNotFoundException ex) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
 		}
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable int id, @RequestBody autor autor) {
+    public ResponseEntity<?> update(@PathVariable int id, @RequestBody Autor autor) {
     	try {
 			return ResponseEntity.ok(this.autorservice.update(id, autor));
-		}catch (opinionNotFoundException ex) {
+		}catch (AutorNotFoundException ex) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
 		}
     }

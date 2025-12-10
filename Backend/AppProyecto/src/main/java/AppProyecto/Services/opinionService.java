@@ -1,24 +1,25 @@
-package AppProyecto.Services;
+package AppProyecto.services;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import AppProyecto.Persistence.Entitys.opinion;
-import AppProyecto.Persistence.Repository.opinionRepository;
+import AppProyecto.persistence.entitys.Opinion;
+import AppProyecto.persistence.repository.OpinionRepository;
+
 
 @Service
-public class opinionService {
+public class OpinionService {
 
 	@Autowired
-	private opinionRepository opinionrepository;
+	private OpinionRepository opinionrepository;
 	
-	public List<opinion> findAll(){
+	public List<Opinion> findAll(){
 		return this.opinionrepository.findAll();
 	}
 	
-	public opinion findById(int id) {
+	public Opinion findById(int id) {
 		if (this.opinionrepository.existsById(id)) {
 			throw new IllegalArgumentException("No se encuentra ninguna opinion por ese id.");
 		}

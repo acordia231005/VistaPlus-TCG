@@ -1,5 +1,5 @@
-package AppProyecto.Services.Mappers;
+package AppProyecto.services.mappers;
 
-public class autorMapper {
+public class AutorMapper {
 
 }

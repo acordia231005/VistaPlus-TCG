@@ -1,26 +1,27 @@
-package AppProyecto.Services;
+package AppProyecto.services;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import AppProyecto.Persistence.Entitys.autor;
-import AppProyecto.Persistence.Entitys.obra;
-import AppProyecto.Persistence.Repository.autorRepository;
-import AppProyecto.Services.Dtos.autorDTO;
+import AppProyecto.persistence.entitys.Autor;
+import AppProyecto.persistence.repository.AutorRepository;
+import AppProyecto.services.dtos.AutorDTO;
+
+
 
 @Service
-public class autorService {
+public class AutorService {
 
 	@Autowired
-	private autorRepository autorrepository;
+	private AutorRepository autorrepository;
 	
-	public List<autor> findAll(){
+	public List<Autor> findAll(){
 		return this.autorrepository.findAll();
 	}
 	
-	public autor findById(int id) {
+	public Autor findById(int id) {
 		if (this.autorrepository.existsById(id)) {
 			throw new IllegalArgumentException("No se encuentra ningun autor por ese id.");
 		}
@@ -28,9 +29,9 @@ public class autorService {
 	}
 	
 	// create
-	public autor create(autorDTO dto) {
+	public Autor create(AutorDTO dto) {
 
-        autor nuevoAutor = new autor();
+        Autor nuevoAutor = new Autor();
 
         nuevoAutor.setNombre(dto.getNombre());
         nuevoAutor.setNacionalidad(dto.getNacionalidad());
@@ -42,8 +43,8 @@ public class autorService {
     }
 	
 	// update
-	public autor update(int id, autor updatedData) {
-        autor autorExistente = this.findById(id);
+	public Autor update(int id, Autor updatedData) {
+        Autor autorExistente = this.findById(id);
 
         autorExistente.setNombre(updatedData.getNombre());
         autorExistente.setEmail(updatedData.getEmail());

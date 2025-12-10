@@ -1,26 +1,27 @@
-package AppProyecto.Services;
+package AppProyecto.services;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import AppProyecto.Persistence.Entitys.obra;
-import AppProyecto.Persistence.Repository.obraRepository;
-import AppProyecto.Services.Dtos.obraDTO;
-import AppProyecto.Services.Mappers.obraMapper;
+import AppProyecto.persistence.entitys.Obra;
+import AppProyecto.persistence.repository.ObraRepository;
+import AppProyecto.services.dtos.ObraDTO;
+import AppProyecto.services.mappers.ObraMapper;
+
 
 @Service
-public class obraService {
+public class ObraService {
 
 	@Autowired
-	private obraRepository obrarepository;
+	private ObraRepository obrarepository;
 	
-	public List<obra> findAll(){
+	public List<Obra> findAll(){
 		return this.obrarepository.findAll();
 	}
 	
-	public obra findById(int id) {
+	public Obra findById(int id) {
 		if (this.obrarepository.existsById(id)) {
 			throw new IllegalArgumentException("No se encuentra ninguna obra por ese id.");
 		}
@@ -28,8 +29,8 @@ public class obraService {
 	}
 	
 	// create
-	public obraDTO create(obraDTO dto) {
-        obra obra = new obra();
+	public ObraDTO create(ObraDTO dto) {
+        Obra obra = new Obra();
 
         obra.setTipo(dto.getTipo());
         obra.setTitulo(dto.getTitulo());
@@ -39,7 +40,7 @@ public class obraService {
         obra.setId_opinion(dto.getIdOpinion());
         obra.setId_autor(dto.getIdAutor());
 
-        return obraMapper.toDTO(obra);
+        return ObraMapper.toDTO(obra);
     }
 	// update
 		

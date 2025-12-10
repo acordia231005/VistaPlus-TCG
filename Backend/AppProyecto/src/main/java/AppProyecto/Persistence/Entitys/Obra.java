@@ -1,9 +1,9 @@
-package AppProyecto.Persistence.Entitys;
+package AppProyecto.persistence.entitys;
 
 import java.time.LocalDateTime;
 
-import AppProyecto.Persistence.Entitys.Enum.genero;
-import AppProyecto.Persistence.Entitys.Enum.tipo;
+import AppProyecto.persistence.entitys.enumerados.Genero;
+import AppProyecto.persistence.entitys.enumerados.Tipo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,20 +22,20 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "obra")
-public class obra {
+public class Obra {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
 	@Column(columnDefinition = "enum")
-	private tipo tipo;
+	private Tipo tipo;
 	
 	@Column(columnDefinition = "varchar(150)")
 	private String titulo;
 
 	@Column(columnDefinition = "enum")
-	private genero genero;
+	private Genero genero;
 	
 	@Column(columnDefinition = "text")
 	private String sinopsis;
@@ -50,10 +50,10 @@ public class obra {
 	private int id_autor;
 	
 	@OneToMany(mappedBy = "obra")
-	private autor autor;
+	private Autor autor;
 	
 	@ManyToOne
 	@JoinColumn(name = "opinion", referencedColumnName = "id",
 				insertable = false, updatable = false)
-	private opinion opinion;
+	private Opinion opinion;
 }

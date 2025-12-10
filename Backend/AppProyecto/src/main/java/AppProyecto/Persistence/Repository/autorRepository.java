@@ -1,6 +1,6 @@
-package AppProyecto.Persistence.Repository;
+package AppProyecto.persistence.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
-import AppProyecto.Persistence.Entitys.autor;
-public interface autorRepository extends JpaRepository<autor, Integer>{
+import AppProyecto.persistence.entitys.Autor;
+public interface AutorRepository extends JpaRepository<Autor, Integer>{
 
 }

@@ -1,6 +1,6 @@
-package AppProyecto.Persistence.Repository;
+package AppProyecto.persistence.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
-import AppProyecto.Persistence.Entitys.usuario;
-public interface usuarioRepository extends JpaRepository<usuario, Integer>{
+import AppProyecto.persistence.entitys.Usuario;
+public interface UsuarioRepository extends JpaRepository<Usuario, Integer>{
 
 }

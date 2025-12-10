@@ -1,4 +1,4 @@
-package AppProyecto.Web.Controller;
+package AppProyecto.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,15 +8,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import AppProyecto.Services.opinionService;
-import AppProyecto.Services.Exceptions.opinionNotFoundException;
+import AppProyecto.services.OpinionService;
+import AppProyecto.services.exceptions.OpinionNotFoundException;
+
 
 @RestController
 @RequestMapping("/opinion")
-public class opinionController {
+public class OpinionController {
 
 	@Autowired
-	private opinionService opinionservice;
+	private OpinionService opinionservice;
 	
 	@GetMapping
 	public ResponseEntity<?> findAll(){
@@ -27,7 +28,7 @@ public class opinionController {
 	public ResponseEntity<?> findById(@PathVariable int id){
 		try {
 			return ResponseEntity.ok(this.opinionservice.findById(id));
-		}catch (opinionNotFoundException ex) {
+		}catch (OpinionNotFoundException ex) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
 		}
 	}

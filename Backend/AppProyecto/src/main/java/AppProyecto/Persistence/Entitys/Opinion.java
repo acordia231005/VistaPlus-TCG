@@ -1,4 +1,4 @@
-package AppProyecto.Persistence.Entitys;
+package AppProyecto.persistence.entitys;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,7 +21,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "opinion")
-public class opinion {
+public class Opinion {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,8 +45,8 @@ public class opinion {
 	@ManyToOne
 	@JoinColumn(name = "usuario", referencedColumnName = "id",
 				insertable = false, updatable = false)
-	private usuario usuario;
+	private Usuario usuario;
 	
 	@OneToMany(mappedBy = "opinion")
-	private List<obra> obras;
+	private List<Obra> obras;
 }

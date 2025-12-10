@@ -1,4 +1,4 @@
-package AppProyecto.Services.Exceptions;
-public class usuarioException extends RuntimeException{
+package AppProyecto.services.exceptions;
+public class UsuarioException extends RuntimeException{
 	private static final long serialVersionUID = 1L;
 }

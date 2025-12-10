@@ -1,7 +1,7 @@
-package AppProyecto.Services.Dtos;
+package AppProyecto.services.dtos;
 
 import java.time.LocalDateTime;
-import AppProyecto.Persistence.Entitys.Enum.*;
+import AppProyecto.persistence.entitys.enumerados.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,12 +9,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class obraDTO {
+public class ObraDTO {
 
 	private int id;
-    private tipo tipo;
+    private Tipo tipo;
     private String titulo;
-    private genero genero;
+    private Genero genero;
     private String sinopsis;
     private LocalDateTime year;
     private int idOpinion;

@@ -1,25 +1,24 @@
-package AppProyecto.Services;
+package AppProyecto.services;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import AppProyecto.Persistence.Entitys.obra;
-import AppProyecto.Persistence.Entitys.usuario;
-import AppProyecto.Persistence.Repository.usuarioRepository;
+import AppProyecto.persistence.entitys.Usuario;
+import AppProyecto.persistence.repository.UsuarioRepository;
 
 @Service
-public class usuarioService {
+public class UsuarioService {
 
 	@Autowired
-	private usuarioRepository usuariorepository;
+	private UsuarioRepository usuariorepository;
 	
-	public List<usuario> findAll() {
+	public List<Usuario> findAll() {
 		return this.usuariorepository.findAll();
 	}
 	
-	public usuario findById(int id) {
+	public Usuario findById(int id) {
 		if (this.usuariorepository.existsById(id)) {
 			throw new IllegalArgumentException("No se encuentra ningun usuario por ese id.");
 		}

@@ -1,4 +1,4 @@
-package AppProyecto.Web.Controller;
+package AppProyecto.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import AppProyecto.Services.obraService;
-import AppProyecto.Services.Exceptions.opinionNotFoundException;
+import AppProyecto.services.ObraService;
+import AppProyecto.services.exceptions.ObraNotFoundException;
 
 @RestController
 @RequestMapping("/obra")
-public class obraController {
+public class ObraController {
 
 	@Autowired
-	private obraService obraservice;
+	private ObraService obraservice;
 	
 	@GetMapping
 	public ResponseEntity<?> findAll(){
@@ -27,7 +27,7 @@ public class obraController {
 	public ResponseEntity<?> findById(@PathVariable int id){
 		try {
 			return ResponseEntity.ok(this.obraservice.findById(id));
-		}catch (opinionNotFoundException ex) {
+		}catch (ObraNotFoundException ex) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
 		}
 	}

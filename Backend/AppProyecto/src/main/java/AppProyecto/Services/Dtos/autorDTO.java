@@ -1,4 +1,4 @@
-package AppProyecto.Services.Dtos;
+package AppProyecto.services.dtos;
 
 import java.time.LocalDateTime;
 
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class autorDTO {
+public class AutorDTO {
 
 	private String nombre;
     private String nacionalidad;
