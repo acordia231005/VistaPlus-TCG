@@ -2,7 +2,13 @@ package AppProyecto.Services.Dtos;
 
 import java.time.LocalDateTime;
 import AppProyecto.Persistence.Entitys.Enum.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class obraDTO {
 
 	private int id;
