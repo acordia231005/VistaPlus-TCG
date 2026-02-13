@@ -1,8 +1,10 @@
 package daw.VistaPlus.services;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import daw.VistaPlus.persistence.entities.Usuario;
@@ -13,27 +15,27 @@ public class UsuarioService {
 
 	@Autowired
 	private UsuarioRepository usuariorepository;
-	
-	public List<Usuario> findAll() {
-		return this.usuariorepository.findAll();
+
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		Usuario usuario = this.usuariorepository.findByUsername(username)
+				.orElseThrow(() -> new UsernameNotFoundException("El Usuario(" + username  +") no ha sido encontrado"));
+		return User.builder()
+				.username(usuario.getNombre())
+				.password(usuario.getPassword())
+				.roles(usuario.getRol())
+				.build();
 	}
 	
-	public Usuario findById(int id) {
-		if (this.usuariorepository.existsById(id)) {
-			throw new IllegalArgumentException("No se encuentra ningun usuario por ese id.");
-		}
-		return this.usuariorepository.findById(id).get();
+	public Usuario create(String username, String password) {
+		Usuario usuario = new Usuario();
+		usuario.setNombre(username);
+		usuario.setPassword(new BCryptPasswordEncoder().encode(password));
+		usuario.setRol("USER");
+		return usuariorepository.save(usuario);
 	}
-	
-	// create
-	
-	// update
-		
-	// delete
-	public void deleteById(int id) {
-		if (this.usuariorepository.existsById(id)) {
-			this.usuariorepository.deleteById(id);
-		}
-		return;
+
+	public Usuario findByUsername(String username) {
+		return this.usuariorepository.findByUsername(username)
+				.orElseThrow(() -> new UsernameNotFoundException("El usuario " + username + " no existe. "));
 	}
 }

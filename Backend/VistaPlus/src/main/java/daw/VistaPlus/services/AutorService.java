@@ -34,8 +34,7 @@ public class AutorService {
         nuevoAutor.setNombre(dto.getNombre());
         nuevoAutor.setNacionalidad(dto.getNacionalidad());
         nuevoAutor.setEmail(dto.getEmail());
-        nuevoAutor.setPassword(dto.getPassword());
-        nuevoAutor.setFechaNac(dto.getFechaNac());
+        nuevoAutor.setFechaNac(dto.getFecha_nac());
 
         return this.autorrepository.save(nuevoAutor);
     }

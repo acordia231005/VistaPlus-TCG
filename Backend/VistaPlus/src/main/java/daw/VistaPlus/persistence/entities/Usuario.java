@@ -27,7 +27,7 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(columnDefinition = "varchar(30)")
+	@Column(columnDefinition = "varchar(30)", unique = true)
 	private String nombre;
 	
 	@Column(columnDefinition = "varchar(150)")
@@ -41,6 +41,7 @@ public class Usuario {
 	
 	@Column(columnDefinition = "Date")
 	private LocalDateTime FechaNac;
+	private String rol;
 	
 	@OneToMany(mappedBy = "usuario")
 	@JsonIgnore
