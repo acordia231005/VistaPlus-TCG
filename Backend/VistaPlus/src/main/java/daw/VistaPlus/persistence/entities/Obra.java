@@ -2,7 +2,6 @@ package daw.VistaPlus.persistence.entities;
 
 import java.time.LocalDateTime;
 
-import daw.VistaPlus.persistence.entities.enums.Genero;
 import daw.VistaPlus.persistence.entities.enums.Tipo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,8 +33,6 @@ public class Obra {
 	@Column(columnDefinition = "varchar(150)")
 	private String titulo;
 
-	@Column(columnDefinition = "enum")
-	private Genero genero;
 	
 	@Column(columnDefinition = "text")
 	private String sinopsis;

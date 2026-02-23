@@ -1,6 +1,5 @@
 package daw.VistaPlus.services.dto;
 import java.time.LocalDateTime;
-import daw.VistaPlus.persistence.entities.enums.Genero;
 import daw.VistaPlus.persistence.entities.enums.Tipo;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +9,6 @@ public class ObraDTO {
 	private int id;
     private Tipo tipo;
     private String titulo;
-    private Genero genero;
     private String sinopsis;
     private LocalDateTime year;
     private int idOpinion;

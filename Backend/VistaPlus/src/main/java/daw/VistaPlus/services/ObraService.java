@@ -33,7 +33,6 @@ public class ObraService {
 
         obra.setTipo(dto.getTipo());
         obra.setTitulo(dto.getTitulo());
-        obra.setGenero(dto.getGenero());
         obra.setSinopsis(dto.getSinopsis());
         obra.setYear(dto.getYear());
         obra.setId_opinion(dto.getIdOpinion());

@@ -11,7 +11,6 @@ public class ObraMapper {
         dto.setId(obra.getId());
         dto.setTipo(obra.getTipo());
         dto.setTitulo(obra.getTitulo());
-        dto.setGenero(obra.getGenero());
         dto.setSinopsis(obra.getSinopsis());
         dto.setYear(obra.getYear());
         dto.setIdOpinion(obra.getId_opinion());
