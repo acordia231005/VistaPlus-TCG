@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import daw.VistaPlus.persistence.entities.Usuario;
@@ -18,8 +17,6 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public List<UsuarioDTO> findAll() {
         return this.usuarioRepository.findAll().stream()
@@ -35,7 +32,7 @@ public class UsuarioService {
 
     public UsuarioDTO create(UsuarioDTO dto) {
         Usuario usuario = UsuarioMapper.toEntity(dto);
-        usuario.setPassword(passwordEncoder.encode(dto.getPassword()));
+        usuario.setPassword(dto.getPassword());
         if (usuario.getRol() == null) {
             usuario.setRol("USER");
         }
@@ -53,7 +50,7 @@ public class UsuarioService {
         usuarioExistente.setRol(dto.getRol());
 
         if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
-            usuarioExistente.setPassword(passwordEncoder.encode(dto.getPassword()));
+            usuarioExistente.setPassword(dto.getPassword());
         }
 
         return UsuarioMapper.toDTO(this.usuarioRepository.save(usuarioExistente));
@@ -67,7 +64,7 @@ public class UsuarioService {
     }
 
     public Usuario findByUsername(String username) {
-        return this.usuarioRepository.findByNombre(username)
+        return this.usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new UsuarioNotFoundException("El usuario " + username + " no existe. "));
     }
 }
