@@ -1,5 +1,6 @@
 package daw.VistaPlus.persistence.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,15 +12,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "autor")
-public class Autor extends Persona {
+@Table(name = "genero")
+public class Genero {
 
-	@OneToMany(mappedBy = "autor")
-	private List<Obra> obras;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Column(columnDefinition = "varchar(50)")
+    private String nombre;
+
+    @ManyToOne
+    @JoinColumn(name = "obra_id")
+    private Obra obra;
 }

@@ -26,28 +26,24 @@ public class Opinion {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column(columnDefinition = "varchar(30)")
 	private String comentario;
 
 	@Column(columnDefinition = "int")
 	private int puntuacion;
-	
+
 	@Column(columnDefinition = "tinyint")
 	private boolean marcar;
-	
+
 	@Column(columnDefinition = "Date")
 	private LocalDateTime Fecha;
-	
-	@Column(name = "usuario")
-	private int Usuario;
-	
-	@ManyToOne
-	@JoinColumn(name = "usuario", referencedColumnName = "id",
-				insertable = false, updatable = false)
-	private Usuario usuario;
-	
-	@OneToMany(mappedBy = "opinion")
-	private List<Obra> obras;
-}
 
+	@ManyToOne
+	@JoinColumn(name = "usuario_id")
+	private Usuario usuario;
+
+	@ManyToOne
+	@JoinColumn(name = "obra_id")
+	private Obra obra;
+}

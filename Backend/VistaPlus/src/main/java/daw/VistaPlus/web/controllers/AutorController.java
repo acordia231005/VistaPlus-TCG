@@ -1,17 +1,11 @@
 package daw.VistaPlus.web.controllers;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import daw.VistaPlus.persistence.entities.Autor;
 import daw.VistaPlus.services.AutorService;
 import daw.VistaPlus.services.dto.AutorDTO;
 import daw.VistaPlus.services.exceptions.AutorNotFoundException;
@@ -21,37 +15,43 @@ import daw.VistaPlus.services.exceptions.AutorNotFoundException;
 public class AutorController {
 
 	@Autowired
-	private AutorService autorservice;
-	
-	@GetMapping
-	public ResponseEntity<?> findAll(){
-		return ResponseEntity.ok(this.autorservice.findAll());
-	}
-	
-	@GetMapping
-	public ResponseEntity<?> findById(@PathVariable int id){
-		try {
-			return ResponseEntity.ok(this.autorservice.findById(id));
-		}catch (AutorNotFoundException ex) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-		}
-	}
-	
-	@PostMapping
-    public ResponseEntity<?> create(@RequestBody AutorDTO dto) {
-		try {
-			return ResponseEntity.ok(this.autorservice.create(dto));
-		}catch (AutorNotFoundException ex) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-		}
-    }
+	private AutorService autorService;
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable int id, @RequestBody Autor autor) {
-    	try {
-			return ResponseEntity.ok(this.autorservice.update(id, autor));
-		}catch (AutorNotFoundException ex) {
+	@GetMapping
+	public ResponseEntity<List<AutorDTO>> findAll() {
+		return ResponseEntity.ok(this.autorService.findAll());
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<?> findById(@PathVariable int id) {
+		try {
+			return ResponseEntity.ok(this.autorService.findById(id));
+		} catch (AutorNotFoundException ex) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
 		}
-    }
+	}
+
+	@PostMapping
+	public ResponseEntity<AutorDTO> create(@RequestBody AutorDTO dto) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(this.autorService.create(dto));
+	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<?> update(@PathVariable int id, @RequestBody AutorDTO dto) {
+		try {
+			return ResponseEntity.ok(this.autorService.update(id, dto));
+		} catch (AutorNotFoundException ex) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+		}
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteById(@PathVariable int id) {
+		try {
+			this.autorService.deleteById(id);
+			return ResponseEntity.noContent().build();
+		} catch (AutorNotFoundException ex) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+		}
+	}
 }

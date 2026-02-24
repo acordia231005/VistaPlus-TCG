@@ -1,41 +1,73 @@
-//package daw.VistaPlus.services;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.core.userdetails.User;
-//import org.springframework.security.core.userdetails.UserDetails;
-//import org.springframework.security.core.userdetails.UsernameNotFoundException;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-//import org.springframework.stereotype.Service;
-//
-//import daw.VistaPlus.persistence.entities.Usuario;
-//import daw.VistaPlus.persistence.repositories.UsuarioRepository;
-//
-//@Service
-//public class UsuarioService {
-//
-//	@Autowired
-//	private UsuarioRepository usuariorepository;
-//
-//	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//		Usuario usuario = this.usuariorepository.findByUsername(username)
-//				.orElseThrow(() -> new UsernameNotFoundException("El Usuario(" + username  +") no ha sido encontrado"));
-//		return User.builder()
-//				.username(usuario.getNombre())
-//				.password(usuario.getPassword())
-//				.roles(usuario.getRol())
-//				.build();
-//	}
-//	
-//	public Usuario create(String username, String password) {
-//		Usuario usuario = new Usuario();
-//		usuario.setNombre(username);
-//		usuario.setPassword(new BCryptPasswordEncoder().encode(password));
-//		usuario.setRol("USER");
-//		return usuariorepository.save(usuario);
-//	}
-//
-//	public Usuario findByUsername(String username) {
-//		return this.usuariorepository.findByUsername(username)
-//				.orElseThrow(() -> new UsernameNotFoundException("El usuario " + username + " no existe. "));
-//	}
-//}
+package daw.VistaPlus.services;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import daw.VistaPlus.persistence.entities.Usuario;
+import daw.VistaPlus.persistence.repositories.UsuarioRepository;
+import daw.VistaPlus.services.dto.UsuarioDTO;
+import daw.VistaPlus.services.mappers.UsuarioMapper;
+import daw.VistaPlus.services.exceptions.UsuarioNotFoundException;
+
+@Service
+public class UsuarioService {
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    public List<UsuarioDTO> findAll() {
+        return this.usuarioRepository.findAll().stream()
+                .map(UsuarioMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public UsuarioDTO findById(int id) {
+        Usuario usuario = this.usuarioRepository.findById(id)
+                .orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado con id: " + id));
+        return UsuarioMapper.toDTO(usuario);
+    }
+
+    public UsuarioDTO create(UsuarioDTO dto) {
+        Usuario usuario = UsuarioMapper.toEntity(dto);
+        usuario.setPassword(passwordEncoder.encode(dto.getPassword()));
+        if (usuario.getRol() == null) {
+            usuario.setRol("USER");
+        }
+        return UsuarioMapper.toDTO(this.usuarioRepository.save(usuario));
+    }
+
+    public UsuarioDTO update(int id, UsuarioDTO dto) {
+        Usuario usuarioExistente = this.usuarioRepository.findById(id)
+                .orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado"));
+
+        usuarioExistente.setNombre(dto.getNombre());
+        usuarioExistente.setEmail(dto.getEmail());
+        usuarioExistente.setNacionalidad(dto.getNacionalidad());
+        usuarioExistente.setFechaNac(dto.getFechaNac());
+        usuarioExistente.setRol(dto.getRol());
+
+        if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
+            usuarioExistente.setPassword(passwordEncoder.encode(dto.getPassword()));
+        }
+
+        return UsuarioMapper.toDTO(this.usuarioRepository.save(usuarioExistente));
+    }
+
+    public void deleteById(int id) {
+        if (!this.usuarioRepository.existsById(id)) {
+            throw new UsuarioNotFoundException("Usuario no encontrado");
+        }
+        this.usuarioRepository.deleteById(id);
+    }
+
+    public Usuario findByUsername(String username) {
+        return this.usuarioRepository.findByNombre(username)
+                .orElseThrow(() -> new UsuarioNotFoundException("El usuario " + username + " no existe. "));
+    }
+}

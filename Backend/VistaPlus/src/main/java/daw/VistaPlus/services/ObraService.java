@@ -1,52 +1,74 @@
 package daw.VistaPlus.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import daw.VistaPlus.persistence.entities.Obra;
+import daw.VistaPlus.persistence.entities.Autor;
 import daw.VistaPlus.persistence.repositories.ObraRepository;
+import daw.VistaPlus.persistence.repositories.AutorRepository;
 import daw.VistaPlus.services.dto.ObraDTO;
 import daw.VistaPlus.services.mappers.ObraMapper;
+import daw.VistaPlus.services.exceptions.ObraNotFoundException;
+import daw.VistaPlus.services.exceptions.AutorNotFoundException;
 
 @Service
 public class ObraService {
 
 	@Autowired
-	private ObraRepository obrarepository;
-	
-	public List<Obra> findAll(){
-		return this.obrarepository.findAll();
+	private ObraRepository obraRepository;
+
+	@Autowired
+	private AutorRepository autorRepository;
+
+	public List<ObraDTO> findAll() {
+		return this.obraRepository.findAll().stream()
+				.map(ObraMapper::toDTO)
+				.collect(Collectors.toList());
 	}
-	
-	public Obra findById(int id) {
-		if (this.obrarepository.existsById(id)) {
-			throw new IllegalArgumentException("No se encuentra ninguna obra por ese id.");
-		}
-		return this.obrarepository.findById(id).get();
+
+	public ObraDTO findById(int id) {
+		Obra obra = this.obraRepository.findById(id)
+				.orElseThrow(() -> new ObraNotFoundException("No se encuentra ninguna obra con el id: " + id));
+		return ObraMapper.toDTO(obra);
 	}
-	
-	// create
+
 	public ObraDTO create(ObraDTO dto) {
-        Obra obra = new Obra();
+		Obra obra = ObraMapper.toEntity(dto);
 
-        obra.setTipo(dto.getTipo());
-        obra.setTitulo(dto.getTitulo());
-        obra.setSinopsis(dto.getSinopsis());
-        obra.setYear(dto.getYear());
-        obra.setId_opinion(dto.getIdOpinion());
-        obra.setId_autor(dto.getIdAutor());
-
-        return ObraMapper.toDTO(obra);
-    }
-	// update
-		
-	// delete
-	public void deleteById(int id) {
-		if (this.obrarepository.existsById(id)) {
-			this.obrarepository.deleteById(id);
+		if (dto.getIdAutor() != 0) {
+			Autor autor = autorRepository.findById(dto.getIdAutor())
+					.orElseThrow(() -> new AutorNotFoundException("Autor no encontrado"));
+			obra.setAutor(autor);
 		}
-		return;
+
+		return ObraMapper.toDTO(this.obraRepository.save(obra));
+	}
+
+	public ObraDTO update(int id, ObraDTO dto) {
+		if (!this.obraRepository.existsById(id)) {
+			throw new ObraNotFoundException("No se puede actualizar. Obra no encontrada.");
+		}
+
+		Obra obra = ObraMapper.toEntity(dto);
+		obra.setId(id);
+
+		if (dto.getIdAutor() != 0) {
+			Autor autor = autorRepository.findById(dto.getIdAutor())
+					.orElseThrow(() -> new AutorNotFoundException("Autor no encontrado"));
+			obra.setAutor(autor);
+		}
+
+		return ObraMapper.toDTO(this.obraRepository.save(obra));
+	}
+
+	public void deleteById(int id) {
+		if (!this.obraRepository.existsById(id)) {
+			throw new ObraNotFoundException("No se puede borrar. Obra no encontrada.");
+		}
+		this.obraRepository.deleteById(id);
 	}
 }

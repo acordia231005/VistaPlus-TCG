@@ -1,6 +1,7 @@
 package daw.VistaPlus.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,55 +9,44 @@ import org.springframework.stereotype.Service;
 import daw.VistaPlus.persistence.entities.Autor;
 import daw.VistaPlus.persistence.repositories.AutorRepository;
 import daw.VistaPlus.services.dto.AutorDTO;
-
+import daw.VistaPlus.services.mappers.AutorMapper;
+import daw.VistaPlus.services.exceptions.AutorNotFoundException;
 
 @Service
 public class AutorService {
 	@Autowired
-	private AutorRepository autorrepository;
-	
-	public List<Autor> findAll(){
-		return this.autorrepository.findAll();
+	private AutorRepository autorRepository;
+
+	public List<AutorDTO> findAll() {
+		return this.autorRepository.findAll().stream()
+				.map(AutorMapper::toDTO)
+				.collect(Collectors.toList());
 	}
-	
-	public Autor findById(int id) {
-		if (this.autorrepository.existsById(id)) {
-			throw new IllegalArgumentException("No se encuentra ningun autor por ese id.");
+
+	public AutorDTO findById(int id) {
+		Autor autor = this.autorRepository.findById(id)
+				.orElseThrow(() -> new AutorNotFoundException("No se encuentra ningún autor con el id: " + id));
+		return AutorMapper.toDTO(autor);
+	}
+
+	public AutorDTO create(AutorDTO dto) {
+		Autor autor = AutorMapper.toEntity(dto);
+		return AutorMapper.toDTO(this.autorRepository.save(autor));
+	}
+
+	public AutorDTO update(int id, AutorDTO dto) {
+		if (!this.autorRepository.existsById(id)) {
+			throw new AutorNotFoundException("No se puede actualizar. Autor no encontrado.");
 		}
-		return this.autorrepository.findById(id).get();
+		Autor autor = AutorMapper.toEntity(dto);
+		autor.setId(id);
+		return AutorMapper.toDTO(this.autorRepository.save(autor));
 	}
-	
-	// create
-	public Autor create(AutorDTO dto) {
 
-        Autor nuevoAutor = new Autor();
-
-        nuevoAutor.setNombre(dto.getNombre());
-        nuevoAutor.setNacionalidad(dto.getNacionalidad());
-        nuevoAutor.setEmail(dto.getEmail());
-        nuevoAutor.setFechaNac(dto.getFecha_nac());
-
-        return this.autorrepository.save(nuevoAutor);
-    }
-	
-	// update
-	public Autor update(int id, Autor cambios) {
-        Autor autorExistente = this.findById(id);
-
-        autorExistente.setNombre(cambios.getNombre());
-        autorExistente.setEmail(cambios.getEmail());
-        autorExistente.setNacionalidad(cambios.getNacionalidad());
-        autorExistente.setFechaNac(cambios.getFechaNac());
-        autorExistente.setObra(cambios.getObra());
-
-        return this.autorrepository.save(autorExistente);
-    }
-	
-	// delete
 	public void deleteById(int id) {
-		if (this.autorrepository.existsById(id)) {
-			this.autorrepository.deleteById(id);
+		if (!this.autorRepository.existsById(id)) {
+			throw new AutorNotFoundException("No se puede borrar. Autor no encontrado.");
 		}
-		return;
+		this.autorRepository.deleteById(id);
 	}
 }
