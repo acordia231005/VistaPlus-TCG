@@ -25,7 +25,7 @@ public class Opinion {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(columnDefinition = "varchar(30)")
+	@Column(columnDefinition = "varchar(500)")
 	private String comentario;
 
 	@Column(columnDefinition = "int")

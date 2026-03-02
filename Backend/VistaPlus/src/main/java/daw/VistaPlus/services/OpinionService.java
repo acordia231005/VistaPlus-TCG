@@ -60,6 +60,38 @@ public class OpinionService {
 		return OpinionMapper.toDTO(this.opinionRepository.save(opinion));
 	}
 
+	public OpinionDTO saveOrUpdate(OpinionDTO dto) {
+		// Validar puntuación
+		if (dto.getPuntuacion() < 1 || dto.getPuntuacion() > 10) {
+			throw new IllegalArgumentException("La puntuación debe estar entre 1 y 10");
+		}
+
+		// Buscar si ya existe una opinión de este usuario para esta obra
+		Opinion opinion = this.opinionRepository.findByUsuarioIdAndObraId(dto.getUsuarioId(), dto.getObraId())
+				.orElse(new Opinion());
+
+		// Mapear campos básicos
+		opinion.setComentario(dto.getComentario());
+		opinion.setPuntuacion(dto.getPuntuacion());
+		opinion.setMarcar(dto.isMarcar());
+		opinion.setFecha(java.time.LocalDateTime.now());
+
+		// Establecer relaciones si es nueva o han cambiado
+		if (opinion.getUsuario() == null || opinion.getUsuario().getId() != dto.getUsuarioId()) {
+			Usuario usuario = usuarioRepository.findById(dto.getUsuarioId())
+					.orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado"));
+			opinion.setUsuario(usuario);
+		}
+
+		if (opinion.getObra() == null || opinion.getObra().getId() != dto.getObraId()) {
+			Obra obra = obraRepository.findById(dto.getObraId())
+					.orElseThrow(() -> new ObraNotFoundException("Obra no encontrada"));
+			opinion.setObra(obra);
+		}
+
+		return OpinionMapper.toDTO(this.opinionRepository.save(opinion));
+	}
+
 	public OpinionDTO update(int id, OpinionDTO dto) {
 		if (!this.opinionRepository.existsById(id)) {
 			throw new OpinionNotFoundException("No se puede actualizar. Opinión no encontrada.");

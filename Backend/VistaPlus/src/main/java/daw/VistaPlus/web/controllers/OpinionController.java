@@ -54,4 +54,9 @@ public class OpinionController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
 		}
 	}
+
+	@PutMapping("/{id}/comentar")
+	public ResponseEntity<OpinionDTO> comentar(@RequestBody OpinionDTO dto) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(this.opinionService.saveOrUpdate(dto));
+	}
 }

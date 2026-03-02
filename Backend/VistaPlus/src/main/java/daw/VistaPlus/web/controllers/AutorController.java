@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import daw.VistaPlus.services.AutorService;
 import daw.VistaPlus.services.dto.AutorDTO;
+import daw.VistaPlus.services.dto.ObraDTO;
+import daw.VistaPlus.services.exceptions.ObraNotFoundException;
 import daw.VistaPlus.services.exceptions.AutorNotFoundException;
 
 @RestController
@@ -52,6 +54,26 @@ public class AutorController {
 			return ResponseEntity.noContent().build();
 		} catch (AutorNotFoundException ex) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+		}
+	}
+
+	@PostMapping("/{id}/obra")
+	public ResponseEntity<?> addObra(@PathVariable int id, @RequestBody ObraDTO obraDto) {
+		try {
+			return ResponseEntity.status(HttpStatus.CREATED).body(this.autorService.addObra(id, obraDto));
+		} catch (AutorNotFoundException ex) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+		}
+	}
+
+	@PutMapping("/{id}/obra/{obraId}")
+	public ResponseEntity<?> updateObra(@PathVariable int id, @PathVariable int obraId, @RequestBody ObraDTO obraDto) {
+		try {
+			return ResponseEntity.ok(this.autorService.updateObra(id, obraId, obraDto));
+		} catch (AutorNotFoundException | ObraNotFoundException ex) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+		} catch (IllegalArgumentException ex) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
 		}
 	}
 }
