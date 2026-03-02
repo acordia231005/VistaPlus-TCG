@@ -5,9 +5,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import daw.VistaPlus.services.exceptions.AutorException;
 import daw.VistaPlus.services.exceptions.AutorNotFoundException;
+import daw.VistaPlus.services.exceptions.ObraException;
 import daw.VistaPlus.services.exceptions.ObraNotFoundException;
+import daw.VistaPlus.services.exceptions.OpinionException;
 import daw.VistaPlus.services.exceptions.OpinionNotFoundException;
+import daw.VistaPlus.services.exceptions.UsuarioException;
 import daw.VistaPlus.services.exceptions.UsuarioNotFoundException;
 
 @RestControllerAdvice
@@ -34,22 +38,22 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(AutorException.class)
-    public ResponseEntity<String> handleAutorNotFound(AutorNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-    }
+	public ResponseEntity<String> handleAutor(AutorException ex){
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+	}
 
     @ExceptionHandler(ObraException.class)
-    public ResponseEntity<String> handleObraNotFound(ObraNotFoundException ex) {
+    public ResponseEntity<String> handleObra(ObraNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
     @ExceptionHandler(OpinionException.class)
-    public ResponseEntity<String> handleOpinionNotFound(OpinionNotFoundException ex) {
+    public ResponseEntity<String> handleOpinion(OpinionNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
     @ExceptionHandler(UsuarioException.class)
-    public ResponseEntity<String> handleUsuarioNotFound(UsuarioNotFoundException ex) {
+    public ResponseEntity<String> handleUsuario(UsuarioNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 }

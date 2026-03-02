@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import daw.VistaPlus.persistence.entities.Autor;
+import daw.VistaPlus.persistence.entities.Obra;
 import daw.VistaPlus.persistence.repositories.AutorRepository;
 import daw.VistaPlus.services.dto.AutorDTO;
 import daw.VistaPlus.services.mappers.AutorMapper;
