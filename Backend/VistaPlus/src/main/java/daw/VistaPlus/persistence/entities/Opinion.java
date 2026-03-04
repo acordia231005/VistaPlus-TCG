@@ -35,7 +35,7 @@ public class Opinion {
 	private boolean marcar;
 
 	@Column(columnDefinition = "Date")
-	private LocalDateTime Fecha;
+	private LocalDateTime fecha;
 
 	@ManyToOne
 	@JoinColumn(name = "usuario_id")

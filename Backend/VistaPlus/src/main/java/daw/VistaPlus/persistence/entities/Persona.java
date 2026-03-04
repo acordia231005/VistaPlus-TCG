@@ -21,7 +21,7 @@ public abstract class Persona {
     private int id;
 
     @Column(columnDefinition = "varchar(30)", unique = true)
-    private String nombre;
+    private String username;
 
     @Column(columnDefinition = "varchar(150)")
     private String nacionalidad;
@@ -33,7 +33,7 @@ public abstract class Persona {
     private String password;
 
     @Column(columnDefinition = "Date")
-    private LocalDateTime FechaNac;
+    private LocalDateTime fechaNac;
 
     private String rol;
 }

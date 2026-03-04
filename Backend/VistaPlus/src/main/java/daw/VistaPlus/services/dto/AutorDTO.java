@@ -11,8 +11,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AutorDTO {
 	private int id;
-	private String nombre;
+	private String username;
 	private String nacionalidad;
 	private String email;
-	private LocalDateTime fecha_nac;
+	private LocalDateTime fechaNac;
 }

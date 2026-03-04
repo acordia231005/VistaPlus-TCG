@@ -8,20 +8,20 @@ public class AutorMapper {
     public static AutorDTO toDTO(Autor autor) {
         AutorDTO dto = new AutorDTO();
         dto.setId(autor.getId());
-        dto.setNombre(autor.getNombre());
+        dto.setUsername(autor.getUsername());
         dto.setNacionalidad(autor.getNacionalidad());
         dto.setEmail(autor.getEmail());
-        dto.setFecha_nac(autor.getFechaNac());
+        dto.setFechaNac(autor.getFechaNac());
         return dto;
     }
 
     public static Autor toEntity(AutorDTO dto) {
         Autor autor = new Autor();
         autor.setId(dto.getId());
-        autor.setNombre(dto.getNombre());
+        autor.setUsername(dto.getUsername());
         autor.setNacionalidad(dto.getNacionalidad());
         autor.setEmail(dto.getEmail());
-        autor.setFechaNac(dto.getFecha_nac());
+        autor.setFechaNac(dto.getFechaNac());
         return autor;
     }
 }

@@ -43,7 +43,7 @@ public class UsuarioService {
         Usuario usuarioExistente = this.usuarioRepository.findById(id)
                 .orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado"));
 
-        usuarioExistente.setNombre(dto.getNombre());
+        usuarioExistente.setUsername(dto.getUsername());
         usuarioExistente.setEmail(dto.getEmail());
         usuarioExistente.setNacionalidad(dto.getNacionalidad());
         usuarioExistente.setFechaNac(dto.getFechaNac());

@@ -38,22 +38,22 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(AutorException.class)
-	public ResponseEntity<String> handleAutor(AutorException ex){
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-	}
+    public ResponseEntity<String> handleAutor(AutorException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
 
     @ExceptionHandler(ObraException.class)
-    public ResponseEntity<String> handleObra(ObraNotFoundException ex) {
+    public ResponseEntity<String> handleObra(ObraException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
     @ExceptionHandler(OpinionException.class)
-    public ResponseEntity<String> handleOpinion(OpinionNotFoundException ex) {
+    public ResponseEntity<String> handleOpinion(OpinionException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
     @ExceptionHandler(UsuarioException.class)
-    public ResponseEntity<String> handleUsuario(UsuarioNotFoundException ex) {
+    public ResponseEntity<String> handleUsuario(UsuarioException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 }
