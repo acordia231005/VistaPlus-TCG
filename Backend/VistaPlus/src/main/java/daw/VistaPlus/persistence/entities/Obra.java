@@ -6,6 +6,8 @@ import java.util.List;
 import daw.VistaPlus.persistence.entities.enums.Tipo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,7 +30,7 @@ public class Obra {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(columnDefinition = "enum")
+	@Enumerated(EnumType.STRING)
 	private Tipo tipo;
 
 	@Column(columnDefinition = "varchar(150)")
@@ -39,13 +41,19 @@ public class Obra {
 
 	@Column(columnDefinition = "Date")
 	private LocalDateTime year;
+	
+	@Column(name = "id_genero")
+	private int idGenero;
 
 	@ManyToOne
-	@JoinColumn(name = "autor_id")
+	@JoinColumn(name = "autor_id", referencedColumnName = "id",
+			insertable = false, updatable = false)
 	private Autor autor;
 
-	@OneToMany(mappedBy = "obra")
-	private List<Genero> generos;
+	@ManyToOne
+	@JoinColumn(name = "id_genero", referencedColumnName = "id",
+			insertable = false, updatable = false)
+	private Genero genero;
 
 	@OneToMany(mappedBy = "obra")
 	private List<Opinion> opiniones;

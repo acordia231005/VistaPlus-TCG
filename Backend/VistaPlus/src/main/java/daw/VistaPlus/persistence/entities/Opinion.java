@@ -24,7 +24,13 @@ public class Opinion {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-
+	
+	@Column(name = "id_usuario")
+	private int idUsuario;
+	
+	@Column(name = "id_obra")
+	private int idObra;
+	
 	@Column(columnDefinition = "varchar(500)")
 	private String comentario;
 
@@ -38,10 +44,12 @@ public class Opinion {
 	private LocalDateTime fecha;
 
 	@ManyToOne
-	@JoinColumn(name = "usuario_id")
+	@JoinColumn(name = "usuario_id", referencedColumnName = "id",
+			insertable = false, updatable = false)
 	private Usuario usuario;
 
 	@ManyToOne
-	@JoinColumn(name = "obra_id")
+	@JoinColumn(name = "obra_id", referencedColumnName = "id",
+			insertable = false, updatable = false)
 	private Obra obra;
 }

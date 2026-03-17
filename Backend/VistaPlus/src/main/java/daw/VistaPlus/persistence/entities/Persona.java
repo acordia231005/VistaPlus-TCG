@@ -35,5 +35,6 @@ public abstract class Persona {
     @Column(columnDefinition = "Date")
     private LocalDateTime fechaNac;
 
+    @Column(columnDefinition = "varchar(10)")
     private String rol;
 }
