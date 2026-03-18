@@ -29,9 +29,6 @@ public class Genero {
     @Column(columnDefinition = "varchar(50)")
     private String nombre;
     
-    @Column(name = "id_obra")
-    private int idObra;
-    
-    @OneToMany(mappedBy = "Genero")
+    @OneToMany(mappedBy = "genero")
     private List<Obra> obra;
 }

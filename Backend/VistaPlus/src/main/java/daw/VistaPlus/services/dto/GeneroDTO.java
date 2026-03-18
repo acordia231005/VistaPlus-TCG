@@ -10,5 +10,4 @@ import lombok.Setter;
 public class GeneroDTO {
     private int id;
     private String nombre;
-    private int obraId;
 }

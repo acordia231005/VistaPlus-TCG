@@ -9,9 +9,6 @@ public class GeneroMapper {
         GeneroDTO dto = new GeneroDTO();
         dto.setId(genero.getId());
         dto.setNombre(genero.getNombre());
-        if (genero.getObra() != null) {
-            dto.setObraId(genero.getObra().getId());
-        }
         return dto;
     }
 
@@ -19,7 +16,6 @@ public class GeneroMapper {
         Genero genero = new Genero();
         genero.setId(dto.getId());
         genero.setNombre(dto.getNombre());
-        // Relación manejada en el servicio
         return genero;
     }
 }

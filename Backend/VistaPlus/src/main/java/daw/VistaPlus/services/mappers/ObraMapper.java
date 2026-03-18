@@ -15,6 +15,9 @@ public class ObraMapper {
         if (obra.getAutor() != null) {
             dto.setIdAutor(obra.getAutor().getId());
         }
+        if (obra.getGenero() != null) {
+            dto.setIdGenero(obra.getGenero().getId());
+        }
         return dto;
     }
 

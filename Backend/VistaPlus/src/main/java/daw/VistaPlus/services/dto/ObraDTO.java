@@ -11,6 +11,6 @@ public class ObraDTO {
     private String titulo;
     private String sinopsis;
     private LocalDateTime year;
-    private int idOpinion;
+    private int idGenero;
     private int idAutor;
 }

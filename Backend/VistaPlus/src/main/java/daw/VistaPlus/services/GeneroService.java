@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import daw.VistaPlus.persistence.entities.Genero;
-import daw.VistaPlus.persistence.entities.Obra;
 import daw.VistaPlus.persistence.repositories.GeneroRepository;
-import daw.VistaPlus.persistence.repositories.ObraRepository;
 import daw.VistaPlus.services.dto.GeneroDTO;
 import daw.VistaPlus.services.mappers.GeneroMapper;
 
@@ -18,9 +16,6 @@ public class GeneroService {
 
     @Autowired
     private GeneroRepository generoRepository;
-
-    @Autowired
-    private ObraRepository obraRepository;
 
     public List<GeneroDTO> findAll() {
         return this.generoRepository.findAll().stream()
@@ -37,12 +32,6 @@ public class GeneroService {
     public GeneroDTO create(GeneroDTO dto) {
         Genero genero = GeneroMapper.toEntity(dto);
 
-        if (dto.getObraId() != 0) {
-            Obra obra = obraRepository.findById(dto.getObraId())
-                    .orElseThrow(() -> new RuntimeException("Obra no encontrada"));
-            genero.setObra(obra);
-        }
-
         return GeneroMapper.toDTO(this.generoRepository.save(genero));
     }
 
@@ -53,12 +42,6 @@ public class GeneroService {
 
         Genero genero = GeneroMapper.toEntity(dto);
         genero.setId(id);
-
-        if (dto.getObraId() != 0) {
-            Obra obra = obraRepository.findById(dto.getObraId())
-                    .orElseThrow(() -> new RuntimeException("Obra no encontrada"));
-            genero.setObra(obra);
-        }
 
         return GeneroMapper.toDTO(this.generoRepository.save(genero));
     }
