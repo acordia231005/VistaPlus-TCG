@@ -40,16 +40,13 @@ public class Opinion {
 	@Column(columnDefinition = "tinyint")
 	private boolean marcar;
 
-	@Column(columnDefinition = "Date")
 	private LocalDateTime fecha;
 
 	@ManyToOne
-	@JoinColumn(name = "usuario_id", referencedColumnName = "id",
-			insertable = true, updatable = false)
+	@JoinColumn(name = "id_usuario", referencedColumnName = "id", insertable = false, updatable = false)
 	private Usuario usuario;
 
 	@ManyToOne
-	@JoinColumn(name = "obra_id", referencedColumnName = "id",
-			insertable = true, updatable = false)
+	@JoinColumn(name = "id_obra", referencedColumnName = "id", insertable = false, updatable = false)
 	private Obra obra;
 }

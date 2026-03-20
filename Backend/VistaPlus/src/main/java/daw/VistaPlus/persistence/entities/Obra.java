@@ -39,20 +39,20 @@ public class Obra {
 	@Column(columnDefinition = "text")
 	private String sinopsis;
 
-	@Column(columnDefinition = "Date")
 	private LocalDateTime year;
 	
 	@Column(name = "id_genero")
 	private int idGenero;
+	
+	@Column(name = "id_autor")
+	private int idAutor;
 
 	@ManyToOne
-	@JoinColumn(name = "autor_id", referencedColumnName = "id",
-			insertable = false, updatable = false)
+	@JoinColumn(name = "id_autor", referencedColumnName = "id", insertable = false, updatable = false)
 	private Autor autor;
 
 	@ManyToOne
-	@JoinColumn(name = "id_genero", referencedColumnName = "id",
-			insertable = false, updatable = false)
+	@JoinColumn(name = "id_genero", referencedColumnName = "id", insertable = false, updatable = false)
 	private Genero genero;
 
 	@OneToMany(mappedBy = "obra")

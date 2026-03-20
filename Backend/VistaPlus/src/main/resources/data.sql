@@ -10,7 +10,7 @@ INSERT INTO genero (nombre) VALUES
 ('Gore'),('Infantil'),('Familiar'),('Político'),('Filosófico');
 
 -- AUTORES
-INSERT INTO autor (username, nacionalidad, email, password, fecha_nac, rol) VALUES 
+INSERT INTO persona (username, nacionalidad, email, password, fecha_nac, rol) VALUES 
 ('hayao_miyazaki', 'Japonesa', 'miyazaki@ghibli.jp', 'pass1234', '1941-01-05', 'AUTOR'),
 ('akira_toriyama', 'Japonesa', 'toriyama@dragonball.jp', 'pass1234', '1955-04-05', 'AUTOR'),
 ('naoki_urasawa', 'Japonesa', 'urasawa@monster.jp', 'pass1234', '1960-01-02', 'AUTOR'),
@@ -33,7 +33,7 @@ INSERT INTO autor (username, nacionalidad, email, password, fecha_nac, rol) VALU
 ('yoshiki_tanaka', 'Japonesa', 'tanaka@logh.jp', 'pass1234', '1952-10-22', 'AUTOR');
 
 -- USUARIOS
-INSERT INTO usuario (username, nacionalidad, email, password, fecha_nac, rol) VALUES 
+INSERT INTO persona (username, nacionalidad, email, password, fecha_nac, rol) VALUES 
 ('user_carlos', 'Española', 'carlos@mail.com', 'pass1234', '1995-03-15', 'USER'),
 ('user_lucia', 'Española', 'lucia@mail.com', 'pass1234', '1998-07-22', 'USER'),
 ('user_miguel', 'Mexicana', 'miguel@mail.com', 'pass1234', '1992-11-30', 'USER'),
