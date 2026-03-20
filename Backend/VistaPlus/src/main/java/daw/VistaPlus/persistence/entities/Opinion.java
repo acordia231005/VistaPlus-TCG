@@ -45,11 +45,11 @@ public class Opinion {
 
 	@ManyToOne
 	@JoinColumn(name = "usuario_id", referencedColumnName = "id",
-			insertable = false, updatable = false)
+			insertable = true, updatable = false)
 	private Usuario usuario;
 
 	@ManyToOne
 	@JoinColumn(name = "obra_id", referencedColumnName = "id",
-			insertable = false, updatable = false)
+			insertable = true, updatable = false)
 	private Obra obra;
 }

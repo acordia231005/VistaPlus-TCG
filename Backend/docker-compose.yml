@@ -4,8 +4,8 @@ services:
     image: mariadb:10.6
     environment:
       MYSQL_ROOT_PASSWORD: secreta
-      MYSQL_DATABASE: daw
-      MYSQL_USER: admin
+      MYSQL_DATABASE: VistaPlus
+      MYSQL_USER: root
       MYSQL_PASSWORD: secreta
     ports:
       - "3307:3306"

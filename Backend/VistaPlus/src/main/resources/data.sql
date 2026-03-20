@@ -1,0 +1,102 @@
+-- GÉNEROS
+INSERT INTO genero (nombre) VALUES 
+('Acción'),('Aventura'),('Comedia'),('Drama'),('Fantasía'),
+('Ciencia Ficción'),('Terror'),('Romance'),('Misterio'),('Thriller'),
+('Historia'),('Biografía'),('Deportes'),('Musical'),('Documental'),
+('Anime'),('Manga'),('Superhéroes'),('Western'),('Noir'),
+('Slice of Life'),('Isekai'),('Shounen'),('Shoujo'),('Seinen'),
+('Josei'),('Mecha'),('Harem'),('Psicológico'),('Sobrenatural'),
+('Magia'),('Post-apocalíptico'),('Cyberpunk'),('Steampunk'),
+('Gore'),('Infantil'),('Familiar'),('Político'),('Filosófico');
+
+-- AUTORES
+INSERT INTO autor (username, nacionalidad, email, password, fecha_nac, rol) VALUES 
+('hayao_miyazaki', 'Japonesa', 'miyazaki@ghibli.jp', 'pass1234', '1941-01-05', 'AUTOR'),
+('akira_toriyama', 'Japonesa', 'toriyama@dragonball.jp', 'pass1234', '1955-04-05', 'AUTOR'),
+('naoki_urasawa', 'Japonesa', 'urasawa@monster.jp', 'pass1234', '1960-01-02', 'AUTOR'),
+('eiichiro_oda', 'Japonesa', 'oda@onepiece.jp', 'pass1234', '1975-01-01', 'AUTOR'),
+('masashi_kishimoto', 'Japonesa', 'kishimoto@naruto.jp', 'pass1234', '1974-11-08', 'AUTOR'),
+('kentaro_miura', 'Japonesa', 'miura@berserk.jp', 'pass1234', '1966-07-11', 'AUTOR'),
+('hajime_isayama', 'Japonesa', 'isayama@aot.jp', 'pass1234', '1986-08-29', 'AUTOR'),
+('tite_kubo', 'Japonesa', 'kubo@bleach.jp', 'pass1234', '1977-06-26', 'AUTOR'),
+('yoshihiro_togashi', 'Japonesa', 'togashi@hxh.jp', 'pass1234', '1966-04-27', 'AUTOR'),
+('hirohiko_araki', 'Japonesa', 'araki@jojo.jp', 'pass1234', '1960-06-07', 'AUTOR'),
+('hiromu_arakawa', 'Japonesa', 'arakawa@fma.jp', 'pass1234', '1973-05-08', 'AUTOR'),
+('junji_ito', 'Japonesa', 'ito@horror.jp', 'pass1234', '1963-07-31', 'AUTOR'),
+('rumiko_takahashi', 'Japonesa', 'takahashi@ranma.jp', 'pass1234', '1957-10-10', 'AUTOR'),
+('osamu_tezuka', 'Japonesa', 'tezuka@astroboy.jp', 'pass1234', '1928-11-03', 'AUTOR'),
+('natsuki_takaya', 'Japonesa', 'takaya@furuba.jp', 'pass1234', '1973-07-07', 'AUTOR'),
+('yuu_watase', 'Japonesa', 'watase@fushigi.jp', 'pass1234', '1970-03-05', 'AUTOR'),
+('kazuki_takahashi', 'Japonesa', 'takahashi_k@yugioh.jp', 'pass1234', '1961-10-04', 'AUTOR'),
+('nobuhiro_watsuki', 'Japonesa', 'watsuki@kenshin.jp', 'pass1234', '1970-05-26', 'AUTOR'),
+('takehiko_inoue', 'Japonesa', 'inoue@slam.jp', 'pass1234', '1967-01-12', 'AUTOR'),
+('yoshiki_tanaka', 'Japonesa', 'tanaka@logh.jp', 'pass1234', '1952-10-22', 'AUTOR');
+
+-- USUARIOS
+INSERT INTO usuario (username, nacionalidad, email, password, fecha_nac, rol) VALUES 
+('user_carlos', 'Española', 'carlos@mail.com', 'pass1234', '1995-03-15', 'USER'),
+('user_lucia', 'Española', 'lucia@mail.com', 'pass1234', '1998-07-22', 'USER'),
+('user_miguel', 'Mexicana', 'miguel@mail.com', 'pass1234', '1992-11-30', 'USER'),
+('user_ana', 'Argentina', 'ana@mail.com', 'pass1234', '2000-01-10', 'USER'),
+('user_pedro', 'Colombiana', 'pedro@mail.com', 'pass1234', '1990-05-18', 'USER'),
+('user_sofia', 'Chilena', 'sofia@mail.com', 'pass1234', '1997-09-25', 'USER'),
+('user_jorge', 'Peruana', 'jorge@mail.com', 'pass1234', '1993-12-05', 'USER'),
+('user_elena', 'Venezolana', 'elena@mail.com', 'pass1234', '2001-04-14', 'USER'),
+('user_david', 'Española', 'david@mail.com', 'pass1234', '1988-08-20', 'USER'),
+('user_marta', 'Española', 'marta@mail.com', 'pass1234', '1996-02-28', 'USER'),
+('user_pablo', 'Uruguaya', 'pablo@mail.com', 'pass1234', '1994-06-17', 'USER'),
+('user_laura', 'Boliviana', 'laura@mail.com', 'pass1234', '1999-10-03', 'USER'),
+('user_raul', 'Ecuatoriana', 'raul@mail.com', 'pass1234', '1991-01-22', 'USER'),
+('user_nuria', 'Española', 'nuria@mail.com', 'pass1234', '2002-07-11', 'USER'),
+('user_ivan', 'Española', 'ivan@mail.com', 'pass1234', '1987-03-29', 'USER'),
+('user_carmen', 'Cubana', 'carmen@mail.com', 'pass1234', '1995-11-16', 'USER'),
+('user_sergio', 'Española', 'sergio@mail.com', 'pass1234', '1989-09-08', 'USER'),
+('user_alba', 'Española', 'alba@mail.com', 'pass1234', '2003-05-01', 'USER'),
+('user_roberto', 'Paraguaya', 'roberto@mail.com', 'pass1234', '1993-08-13', 'USER'),
+('user_cristina', 'Española', 'cristina@mail.com', 'pass1234', '1997-12-24', 'USER');
+
+-- OBRAS (con los 3 tipos: PELICULA, SERIE, LIBRO)
+INSERT INTO obra (tipo, titulo, sinopsis, year, id_genero, autor_id) VALUES 
+('PELICULA', 'El Viaje de Chihiro', 'Una niña queda atrapada en el mundo de los espíritus.', '2001-07-20', 5, 1),
+('SERIE', 'Dragon Ball Z', 'Goku y sus amigos defienden la Tierra de amenazas galácticas.', '1989-04-26', 1, 2),
+('LIBRO', 'Monster Vol.1', 'Un médico salva a un niño que resulta ser un asesino.', '1994-12-05', 10, 3),
+('SERIE', 'One Piece', 'Luffy forma su tripulación para encontrar el One Piece.', '1999-10-20', 2, 4),
+('SERIE', 'Naruto Shippuden', 'Naruto regresa más fuerte para salvar a Sasuke.', '2007-02-15', 23, 5),
+('LIBRO', 'Berserk Vol.1', 'Guts el espadachín negro busca venganza contra Griffith.', '1989-08-25', 5, 6),
+('SERIE', 'Attack on Titan', 'Eren descubre la verdad sobre los titanes y el mundo.', '2013-04-07', 1, 7),
+('SERIE', 'Bleach', 'Ichigo Kurosaki protege a los vivos y los muertos.', '2004-10-05', 1, 8),
+('SERIE', 'Hunter x Hunter 2011', 'Remake fiel con mejor animación de la saga de Gon.', '2011-10-02', 2, 9),
+('SERIE', 'JoJo Part 1: Phantom Blood', 'Jonathan Joestar enfrenta al villano Dio Brando.', '2012-10-06', 1, 10),
+('PELICULA', 'Fullmetal Alchemist: Conqueror of Shamballa', 'Ed intenta regresar a su mundo desde la Alemania nazi.', '2005-07-23', 6, 11),
+('LIBRO', 'Uzumaki', 'Un pueblo japonés es consumido por la maldición de las espirales.', '1998-10-19', 7, 12),
+('SERIE', 'Ranma 1/2', 'Comedia romántica con transformaciones de género por agua.', '1989-04-15', 3, 13),
+('SERIE', 'Astro Boy 2003', 'Remake moderno del clásico robot con corazón humano.', '2003-04-06', 18, 14),
+('LIBRO', 'Fruits Basket Vol.1', 'Tohru Honda descubre el secreto del clan Sohma.', '1998-07-18', 8, 15),
+('LIBRO', 'Fushigi Yuugi Vol.1', 'Miaka es transportada a la China antigua del libro.', '1992-05-19', 8, 16),
+('SERIE', 'Yu-Gi-Oh! DM', 'Yugi y sus amigos afrontan duelos con consecuencias reales.', '2000-04-18', 2, 17),
+('LIBRO', 'Rurouni Kenshin Vol.1', 'El legendario Battousai vive en paz pero el pasado le persigue.', '1994-04-19', 11, 18),
+('PELICULA', 'The First Slam Dunk', 'El equipo Shohoku lucha en el partido más importante.', '2022-12-03', 13, 19),
+('LIBRO', 'Legend of Galactic Heroes Vol.1', 'Dos geniales estrategas lideran facciones opuestas en el espacio.', '1982-12-01', 6, 20);
+
+-- OPINIONES
+INSERT INTO opinion (id_usuario, id_obra, comentario, puntuacion, marcar, fecha) VALUES 
+(1, 1, 'Una obra maestra de la animación, visualmente impresionante.', 10, true, '2024-01-15'),
+(2, 2, 'Dragon Ball Z marcó mi infancia, un clásico eterno.', 9, true, '2024-01-20'),
+(3, 3, 'Monster es el thriller psicológico más intenso que he leído.', 10, true, '2024-02-01'),
+(4, 4, 'One Piece tiene el mejor worldbuilding del manga.', 10, true, '2024-02-10'),
+(5, 5, 'Naruto Shippuden tiene momentos épicos aunque el final decepciona.', 7, false, '2024-02-15'),
+(6, 6, 'Berserk es brutal pero profundamente humano.', 10, true, '2024-03-01'),
+(7, 7, 'Attack on Titan tiene el mejor giro de la historia.', 9, true, '2024-03-05'),
+(8, 8, 'Bleach tiene un arranque brutal pero pierde fuerza al final.', 7, false, '2024-03-10'),
+(9, 9, 'HxH 2011 es impredecible y genial, lástima los hiatuses.', 9, true, '2024-03-15'),
+(10, 10, 'JoJo es única en su estilo, completamente adictiva.', 9, true, '2024-04-01'),
+(11, 11, 'La película de FMA me dejó con sentimientos encontrados.', 7, false, '2024-04-10'),
+(12, 12, 'Uzumaki me dio pesadillas, perturbador de verdad.', 8, true, '2024-04-15'),
+(13, 13, 'Ranma es pura comedia nostálgica, muy entretenida.', 8, false, '2024-05-01'),
+(14, 14, 'Astro Boy 2003 es el origen del manga moderno renovado.', 9, true, '2024-05-10'),
+(15, 15, 'Fruits Basket me hizo llorar varias veces.', 9, true, '2024-05-15'),
+(16, 16, 'Fushigi Yuugi es un clásico del shoujo romántico.', 8, false, '2024-06-01'),
+(17, 17, 'Yu-Gi-Oh! va mucho más allá de las cartas, increíble.', 8, false, '2024-06-15'),
+(18, 18, 'Kenshin combina acción e historia de forma perfecta.', 9, true, '2024-07-01'),
+(19, 19, 'The First Slam Dunk es una película de animación perfecta.', 10, true, '2024-07-10'),
+(20, 20, 'LoGH es la obra de ciencia ficción más inteligente jamás escrita.', 10, true, '2024-07-20');
