@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import daw.VistaPlus.persistence.entities.Obra;
-import daw.VistaPlus.persistence.entities.Autor;
+import daw.VistaPlus.persistence.entities.Usuario;
 import daw.VistaPlus.persistence.repositories.ObraRepository;
-import daw.VistaPlus.persistence.repositories.AutorRepository;
+import daw.VistaPlus.persistence.repositories.UsuarioRepository;
 import daw.VistaPlus.services.dto.ObraDTO;
 import daw.VistaPlus.services.mappers.ObraMapper;
 import daw.VistaPlus.services.exceptions.ObraNotFoundException;
@@ -22,7 +22,7 @@ public class ObraService {
 	private ObraRepository obraRepository;
 
 	@Autowired
-	private AutorRepository autorRepository;
+	private UsuarioRepository autorRepository;
 
 	public List<ObraDTO> findAll() {
 		return this.obraRepository.findAll().stream()
@@ -39,10 +39,10 @@ public class ObraService {
 	public ObraDTO create(ObraDTO dto) {
 		Obra obra = ObraMapper.toEntity(dto);
 
-		if (dto.getIdAutor() != 0) {
-			Autor autor = autorRepository.findById(dto.getIdAutor())
+		if (dto.getIdUsuario() != 0) {
+			Usuario usuario = UsuarioRepository.findById(dto.getIdUsuario())
 					.orElseThrow(() -> new AutorNotFoundException("Autor no encontrado"));
-			obra.setAutor(autor);
+			obra.setUsuario(usuario);
 		}
 
 		return ObraMapper.toDTO(this.obraRepository.save(obra));
@@ -56,10 +56,10 @@ public class ObraService {
 		Obra obra = ObraMapper.toEntity(dto);
 		obra.setId(id);
 
-		if (dto.getIdAutor() != 0) {
-			Autor autor = autorRepository.findById(dto.getIdAutor())
+		if (dto.getIdUsuario() != 0) {
+			Usuario usuario = autorRepository.findById(dto.getIdUsuario())
 					.orElseThrow(() -> new AutorNotFoundException("Autor no encontrado"));
-			obra.setAutor(autor);
+			obra.setUsuario(usuario);
 		}
 
 		return ObraMapper.toDTO(this.obraRepository.save(obra));

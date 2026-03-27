@@ -44,12 +44,12 @@ public class Obra {
 	@Column(name = "id_genero")
 	private int idGenero;
 	
-	@Column(name = "id_autor")
+	@Column(name = "id_usuario")
 	private int idAutor;
 
 	@ManyToOne
-	@JoinColumn(name = "id_autor", referencedColumnName = "id", insertable = false, updatable = false)
-	private Autor autor;
+	@JoinColumn(name = "id_usuario", referencedColumnName = "id", insertable = false, updatable = false)
+	private Usuario usuario ;
 
 	@ManyToOne
 	@JoinColumn(name = "id_genero", referencedColumnName = "id", insertable = false, updatable = false)
