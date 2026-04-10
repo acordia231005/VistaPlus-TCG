@@ -6,4 +6,5 @@ import daw.VistaPlus.persistence.entities.Opinion;
 
 public interface OpinionRepository extends JpaRepository<Opinion, Integer> {
     Optional<Opinion> findByUsuarioIdAndObraId(int usuarioId, int obraId);
+    Optional<Opinion> findByIdUsuarioAndIdObra(int idUsuario, int idObra);
 }

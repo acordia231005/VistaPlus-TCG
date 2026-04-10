@@ -22,7 +22,7 @@ public class ObraService {
 	private ObraRepository obraRepository;
 
 	@Autowired
-	private UsuarioRepository autorRepository;
+	private UsuarioRepository usuarioRepository;
 
 	public List<ObraDTO> findAll() {
 		return this.obraRepository.findAll().stream()
@@ -40,7 +40,7 @@ public class ObraService {
 		Obra obra = ObraMapper.toEntity(dto);
 
 		if (dto.getIdUsuario() != 0) {
-			Usuario usuario = UsuarioRepository.findById(dto.getIdUsuario())
+			Usuario usuario = usuarioRepository.findById(dto.getIdUsuario())
 					.orElseThrow(() -> new AutorNotFoundException("Autor no encontrado"));
 			obra.setUsuario(usuario);
 		}
@@ -57,7 +57,7 @@ public class ObraService {
 		obra.setId(id);
 
 		if (dto.getIdUsuario() != 0) {
-			Usuario usuario = autorRepository.findById(dto.getIdUsuario())
+			Usuario usuario = usuarioRepository.findById(dto.getIdUsuario())
 					.orElseThrow(() -> new AutorNotFoundException("Autor no encontrado"));
 			obra.setUsuario(usuario);
 		}
