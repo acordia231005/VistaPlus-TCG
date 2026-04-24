@@ -15,7 +15,7 @@ import daw.VistaPlus.services.exceptions.ObraNotFoundException;
 import daw.VistaPlus.services.exceptions.UsuarioNotFoundException;
 
 @RestController
-@RequestMapping("/usuarios")
+@RequestMapping("/usuario")
 public class UsuarioController {
 
     @Autowired
@@ -25,7 +25,7 @@ public class UsuarioController {
     // CRUD USUARIO
     // ─────────────────────────────────────────────
 
-    // GET /usuarios
+    // GET /usuario
     @GetMapping
     public ResponseEntity<?> findAll() {
         try {
@@ -37,7 +37,7 @@ public class UsuarioController {
         }
     }
 
-    // GET /usuarios/{id}
+    // GET /usuario/{id}
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable int id) {
         try {
@@ -50,7 +50,7 @@ public class UsuarioController {
         }
     }
 
-    // POST /usuarios
+    // POST /usuario
     @PostMapping
     public ResponseEntity<?> create(@RequestBody UsuarioDTO dto) {
         try {
@@ -61,7 +61,7 @@ public class UsuarioController {
         }
     }
 
-    // PUT /usuarios/{id}
+    // PUT /usuario/{id}
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable int id, @RequestBody UsuarioDTO dto) {
         try {
@@ -74,7 +74,7 @@ public class UsuarioController {
         }
     }
 
-    // DELETE /usuarios/{id}
+    // DELETE /usuario/{id}
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@PathVariable int id) {
         try {
@@ -92,14 +92,14 @@ public class UsuarioController {
     // ENDPOINTS DE AUTOR (gestión de sus obras)
     // ─────────────────────────────────────────────
 
-    // POST /usuarios/{autorId}/obras
-    @PostMapping("/{autorId}/obras")
+    // POST /usuario/{usuarioId}/obras
+    @PostMapping("/{usuarioId}/obras")
     public ResponseEntity<?> addObra(
-            @PathVariable int autorId,
+            @PathVariable int usuarioId,
             @RequestBody ObraDTO obraDto) {
         try {
             return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(this.usuarioService.addObra(autorId, obraDto));
+                    .body(this.usuarioService.addObra(usuarioId, obraDto));
         } catch (AutorNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
@@ -108,14 +108,14 @@ public class UsuarioController {
         }
     }
 
-    // PUT /usuarios/{autorId}/obras/{obraId}
-    @PutMapping("/{autorId}/obras/{obraId}")
+    // PUT /usuario/{usuarioId}/obras/{obraId}
+    @PutMapping("/{usuarioId}/obras/{obraId}")
     public ResponseEntity<?> updateObra(
-            @PathVariable int autorId,
+            @PathVariable int usuarioId,
             @PathVariable int obraId,
             @RequestBody ObraDTO obraDto) {
         try {
-            return ResponseEntity.ok(this.usuarioService.updateObra(autorId, obraId, obraDto));
+            return ResponseEntity.ok(this.usuarioService.updateObra(usuarioId, obraId, obraDto));
         } catch (AutorNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (ObraNotFoundException e) {
@@ -132,7 +132,7 @@ public class UsuarioController {
     // ENDPOINTS DE USUARIO (opiniones sobre obras)
     // ─────────────────────────────────────────────
 
-    // POST /usuarios/{usuarioId}/obras/{obraId}/comentario
+    // POST /usuario/{usuarioId}/obras/{obraId}/comentario
     @PostMapping("/{usuarioId}/obras/{obraId}/comentario")
     public ResponseEntity<?> addComentario(
             @PathVariable int usuarioId,
@@ -149,7 +149,7 @@ public class UsuarioController {
         }
     }
 
-    // POST /usuarios/{usuarioId}/obras/{obraId}/puntuacion
+    // POST /usuario/{usuarioId}/obras/{obraId}/puntuacion
     @PostMapping("/{usuarioId}/obras/{obraId}/puntuacion")
     public ResponseEntity<?> addPuntuacion(
             @PathVariable int usuarioId,
@@ -168,7 +168,7 @@ public class UsuarioController {
         }
     }
 
-    // POST /usuarios/{usuarioId}/obras/{obraId}/marcar
+    // POST /usuario/{usuarioId}/obras/{obraId}/marcar
     @PostMapping("/{usuarioId}/obras/{obraId}/marcar")
     public ResponseEntity<?> marcarObra(
             @PathVariable int usuarioId,

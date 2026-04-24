@@ -93,35 +93,35 @@ public class UsuarioService {
     // ENDPOINTS DE AUTOR (gestión de obras)
     // ─────────────────────────────────────────────
 
-    // POST /usuarios/{autorId}/obras
-    public ObraDTO addObra(int autorId, ObraDTO obraDto) {
-        Usuario usuario = this.usuarioRepository.findById(autorId)
-                .orElseThrow(() -> new AutorNotFoundException("Autor no encontrado con id: " + autorId));
+    // POST /usuarios/{usuarioId}/obras
+    public ObraDTO addObra(int usuarioId, ObraDTO obraDto) {
+        Usuario usuario = this.usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new AutorNotFoundException("Autor no encontrado con id: " + usuarioId));
 
         Obra obra = ObraMapper.toEntity(obraDto);
         obra.setUsuario(usuario);
-        obra.setIdAutor(autorId);
+        obra.setIdUsuario(usuarioId);
 
         return ObraMapper.toDTO(this.obraRepository.save(obra));
     }
 
-    // PUT /usuarios/{autorId}/obras/{obraId}
-    public ObraDTO updateObra(int autorId, int obraId, ObraDTO obraDto) {
-        if (!this.usuarioRepository.existsById(autorId)) {
-            throw new AutorNotFoundException("Autor no encontrado con id: " + autorId);
+    // PUT /usuarios/{usuarioId}/obras/{obraId}
+    public ObraDTO updateObra(int usuarioId, int obraId, ObraDTO obraDto) {
+        if (!this.usuarioRepository.existsById(usuarioId)) {
+            throw new AutorNotFoundException("Autor no encontrado con id: " + usuarioId);
         }
 
         Obra obra = this.obraRepository.findById(obraId)
                 .orElseThrow(() -> new ObraNotFoundException("Obra no encontrada con id: " + obraId));
 
-        if (Integer.compare(obra.getUsuario().getId(), autorId) != 0) {
+        if (Integer.compare(obra.getUsuario().getId(), usuarioId) != 0) {
             throw new IllegalArgumentException("Esta obra no pertenece a este autor");
         }
 
         Obra updatedObra = ObraMapper.toEntity(obraDto);
         updatedObra.setId(obraId);
         updatedObra.setUsuario(obra.getUsuario());
-        updatedObra.setIdAutor(autorId);
+        updatedObra.setIdUsuario(usuarioId);
 
         return ObraMapper.toDTO(this.obraRepository.save(updatedObra));
     }
@@ -170,7 +170,7 @@ public class UsuarioService {
                 .orElseThrow(() -> new ObraNotFoundException("Obra no encontrada con id: " + obraId));
 
         Opinion opinion = getOrCreateOpinion(usuario, obra);
-        // Toggle: si estaba marcada, desmarca; si no, marca
+        //si estaba marcada, desmarca; si no, marca.
         opinion.setMarcar(!opinion.isMarcar());
         opinion.setFecha(LocalDateTime.now());
 

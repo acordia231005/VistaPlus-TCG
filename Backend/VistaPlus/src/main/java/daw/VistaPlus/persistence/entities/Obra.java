@@ -45,7 +45,7 @@ public class Obra {
 	private int idGenero;
 	
 	@Column(name = "id_usuario")
-	private int idAutor;
+	private int idUsuario;
 
 	@ManyToOne
 	@JoinColumn(name = "id_usuario", referencedColumnName = "id", insertable = false, updatable = false)

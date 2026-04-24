@@ -1,49 +1,13 @@
 <main class="app-main">
   <section class="main-content">
-    <div class="obra">
-      <h1 class="titulo">Percy Jackson</h1>
-      <p class="descripcion">El libro de Percy Jackson es una obra de ficción escrita por Rick Riordan.</p>
-      <img class="imagen" src="" alt="">
-    </div>
-    <div class="obra">
-      <h1 class="titulo">Percy Jackson</h1>
-      <p class="descripcion">El libro de Percy Jackson es una obra de ficción escrita por Rick Riordan.</p>
-      <img class="imagen" src="" alt="">
-    </div>
-    <div class="obra">
-      <h1 class="titulo">Percy Jackson</h1>
-      <p class="descripcion">El libro de Percy Jackson es una obra de ficción escrita por Rick Riordan.</p>
-      <img class="imagen" src="" alt="">
-    </div>
-    <div class="obra">
-      <h1 class="titulo">Percy Jackson</h1>
-      <p class="descripcion">El libro de Percy Jackson es una obra de ficción escrita por Rick Riordan.</p>
-      <img class="imagen" src="" alt="">
-    </div>
-    <div class="obra">
-      <h1 class="titulo">Percy Jackson</h1>
-      <p class="descripcion">El libro de Percy Jackson es una obra de ficción escrita por Rick Riordan.</p>
-      <img class="imagen" src="" alt="">
-    </div>
-    <div class="obra">
-      <h1 class="titulo">Percy Jackson</h1>
-      <p class="descripcion">El libro de Percy Jackson es una obra de ficción escrita por Rick Riordan.</p>
-      <img class="imagen" src="" alt="">
-    </div>
-    <div class="obra">
-      <h1 class="titulo">Percy Jackson</h1>
-      <p class="descripcion">El libro de Percy Jackson es una obra de ficción escrita por Rick Riordan.</p>
-      <img class="imagen" src="" alt="">
-    </div>
-    <div class="obra">
-      <h1 class="titulo">Percy Jackson</h1>
-      <p class="descripcion">El libro de Percy Jackson es una obra de ficción escrita por Rick Riordan.</p>
-      <img class="imagen" src="" alt="">
-    </div>
-    <div class="obra">
-      <h1 class="titulo">Percy Jackson</h1>
-      <p class="descripcion">El libro de Percy Jackson es una obra de ficción escrita por Rick Riordan.</p>
-      <img class="imagen" src="" alt="">
-    </div>
+    @for (obra of obrasFiltradas; track obra.id) {
+      <div class="obra" [routerLink]="['/obra', obra.id]" style="cursor: pointer;">
+        <img class="imagen" [src]="obra.imagen" [alt]="obra.titulo">
+        <div class="obra-info">
+          <h1 class="titulo">{{obra.titulo}}</h1>
+          <p class="descripcion">{{obra.descripcion}}</p>
+        </div>
+      </div>
+    }
   </section>
 </main>
