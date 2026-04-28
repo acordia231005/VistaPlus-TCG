@@ -122,6 +122,106 @@
   box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
 }
 
+.acciones-detalle {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn-action {
+  background: rgba(255, 255, 255, 0.05);
+  color: #cbd5e1;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.8rem 1.5rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.btn-action:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.btn-action.active {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.4);
+  color: #60a5fa;
+}
+
+.btn-action svg {
+  transition: transform 0.3s ease;
+}
+
+.btn-action:active svg {
+  transform: scale(0.9);
+}
+
+.comentarios-section {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.comentarios-section h3 {
+  color: #f8fafc;
+  margin-bottom: 20px;
+  font-size: 1.4rem;
+}
+
+.comentario-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.comentario-input-wrapper textarea {
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 15px;
+  color: white;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 100px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.comentario-input-wrapper textarea:focus {
+  border-color: rgba(59, 130, 246, 0.5);
+  background: rgba(15, 23, 42, 0.8);
+}
+
+.btn-send {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: flex-end;
+  transition: all 0.3s ease;
+}
+
+.btn-send:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
 @media (max-width: 900px) {
   .detalle-content {
     flex-direction: column;
@@ -150,7 +250,15 @@
     justify-content: center;
   }
   
-  .btn-primary {
-    align-self: center;
+  .acciones-detalle {
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .btn-primary, .btn-action {
+    align-self: stretch;
+    justify-content: center;
+    flex: 1;
+    min-width: 200px;
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ObrasService, Obra } from '../../services/obras.service';
@@ -11,6 +11,10 @@ import { ObrasService, Obra } from '../../services/obras.service';
 })
 export class ObraDetalle implements OnInit {
   obra: Obra | undefined;
+  
+  // Usar el estado compartido del servicio
+  enLista = computed(() => this.obra ? this.obrasService.estaEnLista(this.obra.id) : false);
+  visto = computed(() => this.obra ? this.obrasService.estaVisto(this.obra.id) : false);
 
   constructor(
     private route: ActivatedRoute,
@@ -24,5 +28,23 @@ export class ObraDetalle implements OnInit {
         this.obra = this.obrasService.getObraById(id);
       }
     });
+  }
+
+  toggleLista() {
+    if (this.obra) {
+      this.obrasService.toggleEnLista(this.obra);
+    }
+  }
+
+  toggleVisto() {
+    if (this.obra) {
+      this.obrasService.toggleVisto(this.obra.id);
+    }
+  }
+
+  enviarComentario(texto: string) {
+    if (this.obra && texto.trim()) {
+      this.obrasService.agregarComentario(this.obra.id, texto.trim());
+    }
   }
 }

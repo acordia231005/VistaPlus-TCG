@@ -1,0 +1,70 @@
+<div class="profile-container">
+  <div class="profile-card glass">
+    <div class="profile-header">
+      <div class="profile-cover"></div>
+      <div class="profile-avatar-wrapper">
+        <div class="profile-avatar">
+          <span>{{ user()?.nombre?.charAt(0)?.toUpperCase() || 'U' }}</span>
+        </div>
+        <div class="status-badge"></div>
+      </div>
+      <div class="profile-main-info">
+        <h1>{{ user()?.nombre }}</h1>
+        <p class="profile-email">{{ user()?.email }}</p>
+      </div>
+    </div>
+
+    <div class="profile-content">
+      <div class="profile-stats">
+        <div class="stat-item">
+          <span class="stat-value">{{ vistos() }}</span>
+          <span class="stat-label">Títulos vistos</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">{{ miLista() }}</span>
+          <span class="stat-label">Mi Lista</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">{{ comentarios() }}</span>
+          <span class="stat-label">Comentarios</span>
+        </div>
+      </div>
+
+      <div class="profile-sections">
+        <div class="section-card glass">
+          <h3>Información de la Cuenta</h3>
+          <div class="info-grid">
+            <div class="info-item">
+              <label>Nombre de usuario</label>
+              <p>{{ user()?.nombre }}</p>
+            </div>
+            <div class="info-item">
+              <label>Correo electrónico</label>
+              <p>{{ user()?.email }}</p>
+            </div>
+            <div class="info-item">
+              <label>Miembro desde</label>
+              <p>Abril 2024</p>
+            </div>
+          </div>
+          <button class="btn-edit" (click)="editProfile()">Editar Perfil</button>
+        </div>
+
+        <div class="section-card glass">
+          <h3>Seguridad</h3>
+          <div class="info-grid">
+            <div class="info-item">
+              <label>Contraseña</label>
+              <p>••••••••••••</p>
+            </div>
+            <div class="info-item">
+              <label>Autenticación de dos pasos</label>
+              <p>Desactivada</p>
+            </div>
+          </div>
+          <button class="btn-secondary">Cambiar contraseña</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

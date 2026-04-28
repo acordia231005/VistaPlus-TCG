@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
 
 export interface Obra {
   id: number;
@@ -42,11 +42,53 @@ export class ObrasService {
     { id: 17, tipo: 'libro', titulo: 'Dune', descripcion: 'Un joven noble debe viajar al planeta desértico Arrakis para gobernar y proteger el recurso más valioso del universo.', imagen: 'https://picsum.photos/seed/dune/400/600', anio: 1965, director: 'Frank Herbert', genero: 'Ciencia Ficción' }
   ];
 
+  // Señales para el estado del usuario
+  private readonly miListaSignal = signal<Obra[]>([]);
+  private readonly vistosSignal = signal<number[]>([]); // IDs de obras vistas
+  private readonly comentariosSignal = signal<{obraId: number, texto: string}[]>([]);
+
+  readonly miLista = computed(() => this.miListaSignal());
+  readonly vistosCount = computed(() => this.vistosSignal().length);
+  readonly comentariosCount = computed(() => this.comentariosSignal().length);
+
   getObras(): Obra[] {
     return this.obras;
   }
 
   getObraById(id: number): Obra | undefined {
     return this.obras.find(o => o.id === id);
+  }
+
+  // Gestión de Mi Lista
+  toggleEnLista(obra: Obra) {
+    const listaActual = this.miListaSignal();
+    if (listaActual.some(o => o.id === obra.id)) {
+      this.miListaSignal.set(listaActual.filter(o => o.id !== obra.id));
+    } else {
+      this.miListaSignal.set([...listaActual, obra]);
+    }
+  }
+
+  estaEnLista(id: number): boolean {
+    return this.miListaSignal().some(o => o.id === id);
+  }
+
+  // Gestión de Vistos
+  toggleVisto(id: number) {
+    const vistos = this.vistosSignal();
+    if (vistos.includes(id)) {
+      this.vistosSignal.set(vistos.filter(vId => vId !== id));
+    } else {
+      this.vistosSignal.set([...vistos, id]);
+    }
+  }
+
+  estaVisto(id: number): boolean {
+    return this.vistosSignal().includes(id);
+  }
+
+  // Gestión de Comentarios
+  agregarComentario(obraId: number, texto: string) {
+    this.comentariosSignal.update(c => [...c, { obraId, texto }]);
   }
 }
