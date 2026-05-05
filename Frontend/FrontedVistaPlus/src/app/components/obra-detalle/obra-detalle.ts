@@ -21,11 +21,11 @@ export class ObraDetalle implements OnInit {
     private obrasService: ObrasService
   ) {}
 
-  ngOnInit() {
-    this.route.paramMap.subscribe(params => {
+  async ngOnInit() {
+    this.route.paramMap.subscribe(async params => {
       const id = Number(params.get('id'));
       if (id) {
-        this.obra = this.obrasService.getObraById(id);
+        this.obra = await this.obrasService.getObraById(id);
       }
     });
   }

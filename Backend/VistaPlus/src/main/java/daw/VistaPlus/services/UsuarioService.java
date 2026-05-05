@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import daw.VistaPlus.persistence.entities.Obra;
@@ -195,4 +196,13 @@ public class UsuarioService {
                     return nueva;
                 });
     }
+
+	public Usuario createAccount(String username, String password) {
+		Usuario usuario = new Usuario();
+		usuario.setUsername(username);
+		usuario.setPassword(new BCryptPasswordEncoder().encode(password));
+		usuario.setRol("USER");
+		return usuarioRepository.save(usuario);
+		
+	}
 }

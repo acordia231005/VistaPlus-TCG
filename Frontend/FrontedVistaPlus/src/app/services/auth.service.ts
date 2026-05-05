@@ -1,5 +1,7 @@
 import { Injectable, signal } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 
 export interface Usuario {
   id?: number;
@@ -13,6 +15,8 @@ export interface AuthResponse {
   usuario: Usuario;
 }
 
+const API_BASE = 'http://localhost:8080/api';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -24,7 +28,7 @@ export class AuthService {
   readonly isLoggedIn = signal(false);
   readonly currentUser = signal<Usuario | null>(null);
 
-  constructor(private router: Router) {
+  constructor(private http: HttpClient, private router: Router) {
     this.checkStoredSession();
   }
 
@@ -40,56 +44,47 @@ export class AuthService {
   }
 
   /**
-   * Login - Preparado para conectar con la API.
-   * Sustituir el contenido de este método por la llamada HTTP real.
+   * Login — POST http://localhost:8080/api/auth/login
+   * Espera body: { email, password }
+   * Responde con: { token, usuario }
    */
   async login(email: string, password: string): Promise<{ success: boolean; error?: string }> {
-    // TODO: Reemplazar con llamada HTTP a la API
-    // Ejemplo:
-    // return this.http.post<AuthResponse>('http://tu-api/auth/login', { email, password }).pipe(
-    //   tap(res => this.handleAuthSuccess(res)),
-    //   map(() => ({ success: true })),
-    //   catchError(err => of({ success: false, error: err.error?.message || 'Error al iniciar sesión' }))
-    // ).toPromise();
-
-    // Simulación temporal para desarrollo
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        // Simular login exitoso
-        const fakeResponse: AuthResponse = {
-          token: 'fake-jwt-token-' + Date.now(),
-          usuario: { id: 1, nombre: email.split('@')[0], email }
-        };
-        this.handleAuthSuccess(fakeResponse);
-        resolve({ success: true });
-      }, 800);
-    });
+    try {
+      const response = await firstValueFrom(
+        this.http.post<AuthResponse>(`${API_BASE}/auth/login`, { email, password })
+      );
+      this.handleAuthSuccess(response);
+      return { success: true };
+    } catch (err) {
+      const error = err as HttpErrorResponse;
+      const message =
+        error.error?.message ||
+        error.error?.error ||
+        'Credenciales incorrectas. Inténtalo de nuevo.';
+      return { success: false, error: message };
+    }
   }
 
   /**
-   * Register - Preparado para conectar con la API.
-   * Sustituir el contenido de este método por la llamada HTTP real.
+   * Register — POST http://localhost:8080/api/auth/register
+   * Espera body: { nombre, email, password }
+   * Responde con: { token, usuario }
    */
   async register(nombre: string, email: string, password: string): Promise<{ success: boolean; error?: string }> {
-    // TODO: Reemplazar con llamada HTTP a la API
-    // Ejemplo:
-    // return this.http.post<AuthResponse>('http://tu-api/auth/register', { nombre, email, password }).pipe(
-    //   tap(res => this.handleAuthSuccess(res)),
-    //   map(() => ({ success: true })),
-    //   catchError(err => of({ success: false, error: err.error?.message || 'Error al registrarse' }))
-    // ).toPromise();
-
-    // Simulación temporal para desarrollo
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const fakeResponse: AuthResponse = {
-          token: 'fake-jwt-token-' + Date.now(),
-          usuario: { id: 1, nombre, email }
-        };
-        this.handleAuthSuccess(fakeResponse);
-        resolve({ success: true });
-      }, 800);
-    });
+    try {
+      const response = await firstValueFrom(
+        this.http.post<AuthResponse>(`${API_BASE}/auth/register`, { nombre, email, password })
+      );
+      this.handleAuthSuccess(response);
+      return { success: true };
+    } catch (err) {
+      const error = err as HttpErrorResponse;
+      const message =
+        error.error?.message ||
+        error.error?.error ||
+        'Error al registrarse. El email puede que ya esté en uso.';
+      return { success: false, error: message };
+    }
   }
 
   private handleAuthSuccess(response: AuthResponse): void {
