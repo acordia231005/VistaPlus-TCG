@@ -1,26 +1,30 @@
 package daw.VistaPlus.services;
 
 import org.springframework.security.core.Authentication;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 
 import daw.VistaPlus.services.dto.LoginRequest;
 import daw.VistaPlus.services.dto.LoginResponse;
 import daw.VistaPlus.services.dto.RefreshDto;
 import daw.VistaPlus.web.config.JwtUtils;
 
+@Service
 public class AuthService {
 
-	@Autowired
-	private UsuarioService usuarioService;
+	private final UsuarioService usuarioService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtUtils jwtUtil;
 
-	@Autowired
-	private AuthenticationManager authenticationManager;
-
-	@Autowired
-	private JwtUtils jwtUtil;
+	public AuthService(UsuarioService usuarioService,
+            AuthenticationManager authenticationManager,
+            JwtUtils jwtUtil) {
+		this.usuarioService = usuarioService;
+		this.authenticationManager  = authenticationManager;
+		this.jwtUtil = jwtUtil;
+	}
 	
 	public String registrar(LoginRequest request) {
 		this.usuarioService.createAccount(request.getUsername(), request.getPassword());

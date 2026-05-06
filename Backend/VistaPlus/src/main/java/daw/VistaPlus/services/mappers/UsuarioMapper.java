@@ -13,8 +13,6 @@ public class UsuarioMapper {
         dto.setNacionalidad(usuario.getNacionalidad());
         dto.setFechaNac(usuario.getFechaNac());
         dto.setRol(usuario.getRol());
-        // No enviamos el password por seguridad en el DTO de salida si fuera necesario,
-        // pero para CRUD básico lo mantenemos si es un DTO de entrada/salida general.
         return dto;
     }
 
