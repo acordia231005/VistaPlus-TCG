@@ -4,12 +4,12 @@
       <div class="profile-cover"></div>
       <div class="profile-avatar-wrapper">
         <div class="profile-avatar">
-          <span>{{ user()?.nombre?.charAt(0)?.toUpperCase() || 'U' }}</span>
+          <span>{{ user()?.username?.charAt(0)?.toUpperCase() || 'U' }}</span>
         </div>
         <div class="status-badge"></div>
       </div>
       <div class="profile-main-info">
-        <h1>{{ user()?.nombre }}</h1>
+        <h1>{{ user()?.username }}</h1>
         <p class="profile-email">{{ user()?.email }}</p>
       </div>
     </div>
@@ -36,7 +36,7 @@
           <div class="info-grid">
             <div class="info-item">
               <label>Nombre de usuario</label>
-              <p>{{ user()?.nombre }}</p>
+              <p>{{ user()?.username }}</p>
             </div>
             <div class="info-item">
               <label>Correo electrónico</label>

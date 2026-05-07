@@ -187,6 +187,16 @@
   font-family: inherit;
   outline: none;
   transition: all 0.3s ease;
+  color-scheme: dark;
+}
+
+/* Fix para el fondo blanco de Autofill del navegador */
+.form-input:-webkit-autofill,
+.form-input:-webkit-autofill:hover,
+.form-input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #f1f5f9;
+  -webkit-box-shadow: 0 0 0px 1000px #1e293b inset;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 .form-input::placeholder {

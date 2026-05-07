@@ -8,7 +8,10 @@
   
   <div class="detalle-content">
     <div class="detalle-imagen">
-      <img [src]="obra.imagen" [alt]="obra.titulo">
+      <img *ngIf="obra.imagen" [src]="obra.imagen" [alt]="obra.titulo" class="obra-cover">
+      <div *ngIf="!obra.imagen" class="imagen-placeholder" [class]="'tipo-' + obra.tipo.toLowerCase()">
+        <div class="obra-inicial">{{ obra.titulo.charAt(0) }}</div>
+      </div>
     </div>
     
     <div class="detalle-info">
@@ -16,12 +19,12 @@
       <h1 class="titulo-detalle">{{obra.titulo}}</h1>
       
       <div class="meta-info">
-        <span *ngIf="obra.anio"><strong>Año:</strong> {{obra.anio}}</span>
-        <span *ngIf="obra.director"><strong>Director:</strong> {{obra.director}}</span>
-        <span *ngIf="obra.genero"><strong>Género:</strong> {{obra.genero}}</span>
+        <span *ngIf="obra.year"><strong>Año:</strong> {{obra.year | date:'yyyy'}}</span>
+        <span *ngIf="obra.autorUsername"><strong>Autor:</strong> {{obra.autorUsername}}</span>
+        <span *ngIf="obra.generoNombre"><strong>Género:</strong> {{obra.generoNombre}}</span>
       </div>
       
-      <p class="descripcion-detalle">{{obra.descripcion}}</p>
+      <p class="descripcion-detalle">{{obra.sinopsis}}</p>
       
       <div class="acciones-detalle">
         <button class="btn-action" [class.active]="enLista()" (click)="toggleLista()" [title]="enLista() ? 'Quitar de la lista' : 'Añadir a mi lista'">
@@ -41,13 +44,55 @@
         </button>
       </div>
 
-      <div class="comentarios-section">
-        <h3>Comentarios</h3>
-        <div class="comentario-input-wrapper glass">
-          <textarea placeholder="Escribe tu opinión sobre esta obra..." #commentText></textarea>
-          <button class="btn-send" (click)="enviarComentario(commentText.value); commentText.value = ''">
-            Publicar
+      <!-- Sistema de Puntuación -->
+      <div class="puntuacion-section" *ngIf="user()">
+        <h3>Tu Puntuación</h3>
+        <div class="stars-container">
+          <button 
+            *ngFor="let s of [1,2,3,4,5,6,7,8,9,10]" 
+            class="star-btn" 
+            [class.filled]="nuevaPuntuacion >= s"
+            (click)="guardarPuntuacion(s)">
+            ★
           </button>
+          <span class="puntuacion-numero" *ngIf="nuevaPuntuacion > 0">{{nuevaPuntuacion}}/10</span>
+        </div>
+      </div>
+
+      <div class="comentarios-section">
+        <h3>Opiniones de la comunidad</h3>
+        
+        <!-- Formulario para nueva opinión -->
+        <div class="comentario-input-wrapper glass" *ngIf="user()">
+          <textarea 
+            [(ngModel)]="nuevoComentario" 
+            placeholder="Escribe tu opinión sobre esta obra..." 
+            rows="3"></textarea>
+          <div class="form-footer">
+            <span class="hint">Tu comentario se guardará junto con tu puntuación.</span>
+            <button 
+              class="btn-send" 
+              (click)="enviarOpinion()" 
+              [disabled]="enviando() || !nuevoComentario.trim()">
+              {{ enviando() ? 'Publicando...' : 'Publicar' }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Lista de opiniones -->
+        <div class="opiniones-lista">
+          <div *ngIf="opiniones().length === 0" class="no-opiniones">
+            Aún no hay opiniones. ¡Sé el primero en compartir la tuya!
+          </div>
+          
+          <div *ngFor="let op of opiniones()" class="opinion-card glass">
+            <div class="opinion-header">
+              <span class="user-name">{{ op.usuarioUsername || 'Usuario ' + op.idUsuario }}</span>
+              <span class="rating-badge">{{ op.puntuacion }}/10</span>
+            </div>
+            <p class="opinion-text">{{ op.comentario }}</p>
+            <span class="opinion-date">{{ op.fecha | date:'dd/MM/yyyy' }}</span>
+          </div>
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd, RouterLink } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -11,11 +11,10 @@ import { ObrasService, Obra } from '../../services/obras.service';
   styleUrl: './main.css',
 })
 export class Main implements OnInit {
-  obras: Obra[] = [];
   obrasFiltradas: Obra[] = [];
 
   constructor(private router: Router, private obrasService: ObrasService) {
-    this.obras = this.obrasService.getObras();
+    // Cuando cambia la ruta refiltrar
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
@@ -24,28 +23,39 @@ export class Main implements OnInit {
   }
 
   ngOnInit() {
-    this.filtrarObras();
+    // Si las obras ya están cargadas filtramos; si no esperamos a que carguen
+    if (this.obrasService.obras().length > 0) {
+      this.filtrarObras();
+    } else {
+      this.obrasService.cargarObras().then(() => this.filtrarObras());
+    }
   }
+
+  get cargando() { return this.obrasService.cargando(); }
+  get error()    { return this.obrasService.error(); }
 
   filtrarObras() {
     const urlTree = this.router.parseUrl(this.router.url);
-    const path = urlTree.root.children['primary'] ? urlTree.root.children['primary'].segments.map(s => s.path).join('/') : '';
+    const path = urlTree.root.children['primary']
+      ? urlTree.root.children['primary'].segments.map(s => s.path).join('/')
+      : '';
     const q = urlTree.queryParams['q']?.toLowerCase() || '';
 
-    let filtradas = this.obras;
+    // El backend devuelve tipos en MAYÚSCULAS: PELICULA, SERIE, LIBRO
+    let filtradas = this.obrasService.obras();
 
     if (path.includes('peliculas')) {
-      filtradas = filtradas.filter(o => o.tipo === 'pelicula');
+      filtradas = filtradas.filter(o => o.tipo === 'PELICULA');
     } else if (path.includes('series')) {
-      filtradas = filtradas.filter(o => o.tipo === 'serie');
+      filtradas = filtradas.filter(o => o.tipo === 'SERIE');
     } else if (path.includes('libros')) {
-      filtradas = filtradas.filter(o => o.tipo === 'libro');
+      filtradas = filtradas.filter(o => o.tipo === 'LIBRO');
     }
 
     if (q) {
-      filtradas = filtradas.filter(o => 
-        o.titulo.toLowerCase().includes(q) || 
-        o.descripcion.toLowerCase().includes(q)
+      filtradas = filtradas.filter(o =>
+        o.titulo.toLowerCase().includes(q) ||
+        (o.sinopsis?.toLowerCase().includes(q) ?? false)
       );
     }
 

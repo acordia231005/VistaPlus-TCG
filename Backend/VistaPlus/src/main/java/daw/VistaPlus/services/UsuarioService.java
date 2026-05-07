@@ -82,12 +82,12 @@ public class UsuarioService {
         this.usuarioRepository.deleteById(id);
     }
 
-    public Usuario findByUsername(String username) {
-        Usuario usuario = (Usuario) this.usuarioRepository.findByUsername(username);
+    public UsuarioDTO findByUsername(String username) {
+        Usuario usuario = this.usuarioRepository.findByUsername(username);
         if (usuario == null) {
             throw new UsuarioNotFoundException("El usuario " + username + " no existe.");
         }
-        return usuario;
+        return UsuarioMapper.toDTO(usuario);
     }
 
     // ─────────────────────────────────────────────

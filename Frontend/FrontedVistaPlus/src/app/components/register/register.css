@@ -61,13 +61,13 @@
 /* ───────── Auth Card ───────── */
 .auth-card {
   width: 100%;
-  max-width: 440px;
+  max-width: 520px;
   background: rgba(15, 23, 42, 0.6);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 24px;
-  padding: 2.5rem 2.5rem;
+  padding: 2rem 2.5rem;
   position: relative;
   z-index: 1;
   box-shadow:
@@ -91,19 +91,21 @@
 /* ───────── Header ───────── */
 .auth-header {
   text-align: center;
-  margin-bottom: 1.75rem;
+  margin-bottom: 1rem;
 }
 
 .auth-logo {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 64px;
-  height: 64px;
+  width: 52px;
+  height: 52px;
   background: rgba(139, 92, 246, 0.1);
   border: 1px solid rgba(139, 92, 246, 0.2);
-  border-radius: 16px;
-  margin-bottom: 1.25rem;
+  border-radius: 14px;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.15);
+  color: #8b5cf6;
 }
 
 .auth-title {
@@ -145,13 +147,26 @@
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 1.1rem;
+  gap: 0.85rem;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  flex: 1;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+@media (max-width: 400px) {
+  .form-row {
+    flex-direction: column;
+    gap: 1.1rem;
+  }
 }
 
 .form-label {
@@ -178,7 +193,7 @@
 
 .form-input {
   width: 100%;
-  padding: 0.875rem 1rem 0.875rem 2.75rem;
+  padding: 0.7rem 1rem 0.7rem 2.75rem;
   background: rgba(30, 41, 59, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
@@ -187,6 +202,7 @@
   font-family: inherit;
   outline: none;
   transition: all 0.3s ease;
+  color-scheme: dark;
 }
 
 .form-input::placeholder {
@@ -271,11 +287,74 @@
   color: #ef4444;
 }
 
+/* ───────── Role Selector ───────── */
+.role-selector {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.role-option {
+  flex: 1;
+  cursor: pointer;
+  position: relative;
+}
+
+.hidden-radio {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.role-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px;
+  background: rgba(30, 41, 59, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  color: #94a3b8;
+  transition: all 0.3s ease;
+}
+
+.role-option:hover .role-content {
+  background: rgba(30, 41, 59, 0.6);
+  border-color: rgba(139, 92, 246, 0.3);
+  color: #e2e8f0;
+}
+
+.role-option.selected .role-content {
+  background: rgba(139, 92, 246, 0.1);
+  border-color: #8b5cf6;
+  color: #8b5cf6;
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.1);
+}
+
+.role-content span {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.form-hint {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-top: 6px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* ───────── Submit Button ───────── */
 .auth-submit {
   width: 100%;
-  padding: 0.875rem;
-  margin-top: 0.5rem;
+  padding: 0.8rem;
+  margin-top: 0.2rem;
   background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #3b82f6 100%);
   background-size: 200% 200%;
   border: none;

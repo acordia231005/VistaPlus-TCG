@@ -12,11 +12,14 @@ public class ObraMapper {
         dto.setTitulo(obra.getTitulo());
         dto.setSinopsis(obra.getSinopsis());
         dto.setYear(obra.getYear());
+        dto.setImagen(obra.getImagen());
         if (obra.getUsuario() != null) {
             dto.setIdUsuario(obra.getUsuario().getId());
+            dto.setAutorUsername(obra.getUsuario().getUsername());
         }
         if (obra.getGenero() != null) {
             dto.setIdGenero(obra.getGenero().getId());
+            dto.setGeneroNombre(obra.getGenero().getNombre());
         }
         return dto;
     }
@@ -28,6 +31,7 @@ public class ObraMapper {
         obra.setTitulo(dto.getTitulo());
         obra.setSinopsis(dto.getSinopsis());
         obra.setYear(dto.getYear());
+        obra.setImagen(dto.getImagen());
         return obra;
     }
 }

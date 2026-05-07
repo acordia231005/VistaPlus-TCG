@@ -14,6 +14,7 @@ public class OpinionMapper {
         dto.setFecha(opinion.getFecha());
         if (opinion.getUsuario() != null) {
             dto.setUsuarioId(opinion.getUsuario().getId());
+            dto.setUsuarioUsername(opinion.getUsuario().getUsername());
         }
         if (opinion.getObra() != null) {
             dto.setObraId(opinion.getObra().getId());

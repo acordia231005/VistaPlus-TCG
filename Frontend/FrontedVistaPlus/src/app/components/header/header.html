@@ -21,10 +21,21 @@
         </button>
       </div>
 
+      <!-- Botón de creación rápido (Solo Autores/Admin) -->
+      @if (canCreate()) {
+        <a routerLink="/crear-obra" class="create-quick-btn" title="Publicar nueva obra">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          <span class="btn-text">Publicar</span>
+        </a>
+      }
+
       <!-- User account icon -->
       <div class="user-menu-container">
         <button class="user-avatar" id="user-avatar-btn" (click)="toggleMenu()" aria-label="Menú de usuario">
-          <span class="avatar-initial">{{ authService.currentUser()?.nombre?.charAt(0)?.toUpperCase() || 'U' }}</span>
+          <span class="avatar-initial">{{ authService.currentUser()?.username?.charAt(0)?.toUpperCase() || 'U' }}</span>
           <span class="avatar-status-dot"></span>
         </button>
 
@@ -33,10 +44,10 @@
             <!-- User info header -->
             <div class="dropdown-header">
               <div class="dropdown-avatar-lg">
-                <span>{{ authService.currentUser()?.nombre?.charAt(0)?.toUpperCase() || 'U' }}</span>
+                <span>{{ authService.currentUser()?.username?.charAt(0)?.toUpperCase() || 'U' }}</span>
               </div>
               <div class="dropdown-user-info">
-                <span class="dropdown-name">{{ authService.currentUser()?.nombre || 'Usuario' }}</span>
+                <span class="dropdown-name">{{ authService.currentUser()?.username || 'Usuario' }}</span>
                 <span class="dropdown-email">{{ authService.currentUser()?.email || '' }}</span>
               </div>
             </div>
@@ -45,6 +56,20 @@
 
             <!-- Menu items -->
             <div class="dropdown-section">
+              <!-- Crear Obra (Solo para Autores y Admin) -->
+              <a class="dropdown-item" id="create-btn" routerLink="/crear-obra" (click)="closeMenu()" *ngIf="canCreate()">
+                <div class="dropdown-item-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                </div>
+                <div class="dropdown-item-text">
+                  <span class="dropdown-item-label">Crear Obra</span>
+                  <span class="dropdown-item-desc">Publicar contenido nuevo</span>
+                </div>
+              </a>
+
               <!-- Mi Perfil -->
               <a class="dropdown-item" id="profile-btn" routerLink="/perfil" (click)="closeMenu()">
                 <div class="dropdown-item-icon">

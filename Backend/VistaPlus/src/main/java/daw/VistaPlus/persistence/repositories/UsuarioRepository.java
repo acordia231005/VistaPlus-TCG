@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import daw.VistaPlus.persistence.entities.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer>{
-	List<Usuario> findByUsername(String username);
+	Usuario findByUsername(String username);
 }

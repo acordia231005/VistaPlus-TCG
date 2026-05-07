@@ -11,22 +11,22 @@ INSERT INTO genero (nombre) VALUES
 
 -- USUARIOS (2 USER, 2 AUTOR, 1 ADMIN)
 INSERT INTO usuario (id, username, nacionalidad, email, password, fecha_nac, rol) VALUES 
-(1, 'hayao_miyazaki', 'Japonesa', 'miyazaki@ghibli.jp', 'pass1234', '1941-01-05', 'AUTOR'),
-(2, 'akira_toriyama', 'Japonesa', 'toriyama@dragonball.jp', 'pass1234', '1955-04-05', 'AUTOR'),
-(3, 'carlos_user', 'Española', 'carlos@mail.com', 'pass1234', '1995-03-15', 'USER'),
-(4, 'cristina_user', 'Española', 'cristina@mail.com', 'pass1234', '1997-12-24', 'USER'),
-(5, 'admin', 'Española', 'admin@mail.com', 'admin123', '1990-01-01', 'ADMIN');
+(1, 'hayao_miyazaki', 'Japonesa', 'miyazaki@ghibli.jp', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.TVuHOnu', '1941-01-05', 'AUTOR'),
+(2, 'akira_toriyama', 'Japonesa', 'toriyama@dragonball.jp', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.TVuHOnu', '1955-04-05', 'AUTOR'),
+(3, 'carlos_user', 'Española', 'carlos@mail.com', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.TVuHOnu', '1995-03-15', 'USER'),
+(4, 'cristina_user', 'Española', 'cristina@mail.com', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.TVuHOnu', '1997-12-24', 'USER'),
+(5, 'admin', 'Española', 'admin@mail.com', '$2a$10$7Z8nVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.TVuHOnu', '1990-01-01', 'ADMIN');
 
 -- OBRAS
-INSERT INTO obra (id, tipo, titulo, sinopsis, year, id_genero, id_usuario) VALUES 
-(1, 'PELICULA', 'El Viaje de Chihiro', 'Una niña atrapada en el mundo espiritual.', '2001-07-20', 5, 1),
-(2, 'PELICULA', 'El Castillo Ambulante', 'Un castillo mágico y una maldición.', '2004-11-20', 5, 1),
+INSERT INTO obra (id, tipo, titulo, sinopsis, year, imagen, id_genero, id_usuario) VALUES 
+(1, 'PELICULA', 'El Viaje de Chihiro', 'Una niña atrapada en el mundo espiritual.', '2001-07-20', 'https://m.media-amazon.com/images/I/91pLpS6vKUL._AC_SL1500_.jpg', 5, 1),
+(2, 'PELICULA', 'El Castillo Ambulante', 'Un castillo mágico y una maldición.', '2004-11-20', 'https://m.media-amazon.com/images/M/MV5BNmM4YTFmMmItMGE3Yy00MmRkLTlmZGEtMzZlOTQzYjk1NzE2XkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg', 5, 1),
 
-(3, 'SERIE', 'Dragon Ball Z', 'Guerreros luchan por salvar la Tierra.', '1989-04-26', 1, 2),
-(4, 'SERIE', 'Dr. Slump', 'Comedia absurda con robots y ciencia.', '1981-04-08', 3, 2),
+(3, 'SERIE', 'Dragon Ball Z', 'Guerreros luchan por salvar la Tierra.', '1989-04-26', 'https://m.media-amazon.com/images/M/MV5BMGMyOThiMGUtYmFmZi00YWM0LWJiM2QtZGMwMmY1MTM2MGJiXkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_.jpg', 1, 2),
+(4, 'SERIE', 'Dr. Slump', 'Comedia absurda con robots y ciencia.', '1981-04-08', 'https://m.media-amazon.com/images/M/MV5BMzRjMzZkMDgtYTM0Ny00YmU3LWEzNDktODdhYjRhNjUxYTcyXkEyXkFqcGdeQXVyNjc3MjQzNTI@._V1_.jpg', 3, 2),
 
-(5, 'LIBRO', 'Manga Arte', 'Guía sobre cómo dibujar manga.', '2000-01-01', 17, 1),
-(6, 'LIBRO', 'Dragon Ball Vol.1', 'Inicio de la aventura de Goku.', '1984-12-03', 23, 2);
+(5, 'LIBRO', 'Manga Arte', 'Guía sobre cómo dibujar manga.', '2000-01-01', 'https://m.media-amazon.com/images/I/51p5mX1XQFL._SX384_BO1,204,203,200_.jpg', 17, 1),
+(6, 'LIBRO', 'Dragon Ball Vol.1', 'Inicio de la aventura de Goku.', '1984-12-03', 'https://m.media-amazon.com/images/I/815uVvT6n9L.jpg', 23, 2);
 
 -- OPINIONES (2 por cada obra)
 INSERT INTO opinion (id_usuario, id_obra, comentario, puntuacion, marcar, fecha) VALUES 

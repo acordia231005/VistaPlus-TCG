@@ -1,13 +1,57 @@
 <main class="app-main">
   <section class="main-content">
-    @for (obra of obrasFiltradas; track obra.id) {
-      <div class="obra" [routerLink]="['/obra', obra.id]" style="cursor: pointer;">
-        <img class="imagen" [src]="obra.imagen" [alt]="obra.titulo">
-        <div class="obra-info">
-          <h1 class="titulo">{{obra.titulo}}</h1>
-          <p class="descripcion">{{obra.descripcion}}</p>
-        </div>
+
+    <!-- Estado: cargando -->
+    @if (cargando) {
+      <div class="estado-carga">
+        <div class="spinner-ring"></div>
+        <p>Cargando obras...</p>
       </div>
     }
+
+    <!-- Estado: error -->
+    @if (error) {
+      <div class="estado-error">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <p>{{ error }}</p>
+        <button class="btn-retry" (click)="ngOnInit()">Reintentar</button>
+      </div>
+    }
+
+    <!-- Grid de obras -->
+    @if (!cargando && !error) {
+      @for (obra of obrasFiltradas; track obra.id) {
+        <div class="obra" [routerLink]="['/obra', obra.id]" style="cursor: pointer;">
+          <!-- Imagen real o placeholder -->
+          <div class="imagen-placeholder" [class]="'tipo-' + obra.tipo.toLowerCase()">
+            <img *ngIf="obra.imagen" [src]="obra.imagen" [alt]="obra.titulo" class="obra-cover">
+            <span class="tipo-badge" *ngIf="!obra.imagen">{{ obra.tipo }}</span>
+            <div class="obra-inicial" *ngIf="!obra.imagen">{{ obra.titulo.charAt(0) }}</div>
+          </div>
+          <div class="obra-info">
+            <h2 class="titulo">{{ obra.titulo }}</h2>
+            <p class="descripcion">{{ obra.sinopsis }}</p>
+            <div class="obra-meta">
+              @if (obra.generoNombre) {
+                <span class="meta-tag">{{ obra.generoNombre }}</span>
+              }
+              @if (obra.autorUsername) {
+                <span class="meta-autor">{{ obra.autorUsername }}</span>
+              }
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- Sin resultados -->
+      @if (obrasFiltradas.length === 0) {
+        <div class="estado-vacio">
+          <p>No hay obras que mostrar.</p>
+        </div>
+      }
+    }
+
   </section>
 </main>

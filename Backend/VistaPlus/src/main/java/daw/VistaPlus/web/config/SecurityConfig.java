@@ -38,10 +38,9 @@ public class SecurityConfig {
 			.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 			.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			.authorizeHttpRequests(auth -> auth
-				.requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-				.requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
-				.requestMatchers(HttpMethod.GET,"/tareas").hasAnyRole("admin")
-				.requestMatchers(HttpMethod.GET,"/tareas/*").hasAnyRole("admin", "user")
+				.requestMatchers("/auth/**").permitAll()
+				.requestMatchers(HttpMethod.GET, "/usuario/**").permitAll()
+				.requestMatchers(HttpMethod.GET, "/obra/**").permitAll()
 				.anyRequest().authenticated()
 				)
 			.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
@@ -59,9 +58,15 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        List<String> allowedOrigins = Arrays.stream(frontendUrls.split(","))
+        List<String> allowedOrigins = new java.util.ArrayList<>(Arrays.stream(frontendUrls.split(","))
                 							.map(String::trim)
-                							.toList();
+                							.toList());
+        if (!allowedOrigins.contains("http://127.0.0.1:4200")) {
+            allowedOrigins.add("http://127.0.0.1:4200");
+        }
+        if (!allowedOrigins.contains("http://localhost:4200")) {
+            allowedOrigins.add("http://localhost:4200");
+        }
         configuration.setAllowedOrigins(allowedOrigins);
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept"));

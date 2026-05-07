@@ -18,12 +18,15 @@ import { ObrasService } from '../../services/obras.service';
       <div class="list-grid" *ngIf="items().length > 0">
         @for (obra of items(); track obra.id) {
           <div class="card glass" [routerLink]="['/obra', obra.id]">
-            <div class="card-image">
-              <img [src]="obra.imagen" [alt]="obra.titulo">
-              <div class="card-overlay">
-                <span class="badge">{{ obra.tipo | uppercase }}</span>
-              </div>
+          <div class="card-image">
+            <img *ngIf="obra.imagen" [src]="obra.imagen" [alt]="obra.titulo" class="obra-cover">
+            <div *ngIf="!obra.imagen" class="imagen-placeholder" [class]="'tipo-' + obra.tipo.toLowerCase()">
+              <div class="obra-inicial">{{ obra.titulo.charAt(0) }}</div>
             </div>
+            <div class="card-overlay">
+              <span class="badge">{{ obra.tipo | uppercase }}</span>
+            </div>
+          </div>
             <div class="card-content">
               <h3>{{ obra.titulo }}</h3>
             </div>
@@ -92,15 +95,26 @@ import { ObrasService } from '../../services/obras.service';
       overflow: hidden;
     }
 
-    .card-image img {
+    .imagen-placeholder {
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
     }
 
-    .card:hover .card-image img {
-      transform: scale(1.1);
+    .tipo-pelicula { background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); }
+    .tipo-serie    { background: linear-gradient(135deg, #064e3b 0%, #065f46 100%); }
+    .tipo-libro    { background: linear-gradient(135deg, #3b1818 0%, #7f1d1d 100%); }
+
+    .obra-inicial {
+      font-size: 5rem;
+      font-weight: 800;
+      color: rgba(255,255,255,0.15);
+      user-select: none;
+      line-height: 1;
     }
 
     .card-overlay {
@@ -132,6 +146,17 @@ import { ObrasService } from '../../services/obras.service';
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    .obra-cover {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .card:hover .obra-cover {
+      transform: scale(1.1);
     }
 
     .empty-state {

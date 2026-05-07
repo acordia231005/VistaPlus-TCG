@@ -12,5 +12,8 @@ public class ObraDTO {
     private String sinopsis;
     private LocalDateTime year;
     private int idGenero;
+    private String generoNombre;
     private int idUsuario;
+    private String autorUsername;
+    private String imagen;
 }

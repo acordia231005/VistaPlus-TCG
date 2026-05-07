@@ -10,7 +10,7 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './login.css',
 })
 export class Login {
-  email = '';
+  username = '';
   password = '';
   loading = signal(false);
   error = signal('');
@@ -25,7 +25,7 @@ export class Login {
   async onSubmit(): Promise<void> {
     this.error.set('');
 
-    if (!this.email.trim() || !this.password.trim()) {
+    if (!this.username.trim() || !this.password.trim()) {
       this.error.set('Por favor, completa todos los campos.');
       return;
     }
@@ -33,7 +33,7 @@ export class Login {
     this.loading.set(true);
 
     try {
-      const result = await this.authService.login(this.email, this.password);
+      const result = await this.authService.login(this.username, this.password);
       if (result.success) {
         this.router.navigate(['/']);
       } else {

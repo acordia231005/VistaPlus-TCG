@@ -131,6 +131,51 @@
   color: #3b82f6;
 }
 
+/* ========== Quick Create Button ========== */
+.create-quick-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+  border-radius: 12px;
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+}
+
+.create-quick-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
+  background: linear-gradient(135deg, #a78bfa 0%, #818cf8 100%);
+}
+
+.create-quick-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.create-quick-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.create-quick-btn:hover svg {
+  transform: rotate(90deg);
+}
+
+@media (max-width: 600px) {
+  .create-quick-btn .btn-text {
+    display: none;
+  }
+  .create-quick-btn {
+    padding: 8px;
+    border-radius: 50%;
+  }
+}
+
 /* ========== User Avatar & Dropdown ========== */
 
 .user-menu-container {

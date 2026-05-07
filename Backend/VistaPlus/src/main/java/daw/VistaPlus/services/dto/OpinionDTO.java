@@ -15,5 +15,6 @@ public class OpinionDTO {
     private boolean marcar;
     private LocalDateTime fecha;
     private int usuarioId;
+    private String usuarioUsername;
     private int obraId;
 }

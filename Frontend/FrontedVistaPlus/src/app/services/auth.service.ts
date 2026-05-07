@@ -3,19 +3,22 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 
-export interface Usuario {
-  id?: number;
-  nombre: string;
+// Contrato real del backend: POST /auth/login → { access, refresh }
+export interface LoginResponse {
+  access: string;
+  refresh: string;
+}
+
+const API_BASE = 'http://localhost:8085';
+
+export interface User {
+  id: number;
+  username: string;
   email: string;
-  password?: string;
+  nacionalidad?: string;
+  fechaNac?: string;
+  rol?: string;
 }
-
-export interface AuthResponse {
-  token: string;
-  usuario: Usuario;
-}
-
-const API_BASE = 'http://localhost:8080/api';
 
 @Injectable({
   providedIn: 'root'
@@ -23,37 +26,54 @@ const API_BASE = 'http://localhost:8080/api';
 export class AuthService {
 
   private readonly TOKEN_KEY = 'vistaplus_token';
-  private readonly USER_KEY = 'vistaplus_user';
+  private readonly REFRESH_KEY = 'vistaplus_refresh';
+  private readonly USERNAME_KEY = 'vistaplus_username';
 
   readonly isLoggedIn = signal(false);
-  readonly currentUser = signal<Usuario | null>(null);
+  readonly currentUsername = signal<string | null>(null);
+  readonly currentUser = signal<User | null>(null);
 
   constructor(private http: HttpClient, private router: Router) {
     this.checkStoredSession();
   }
 
-  private checkStoredSession(): void {
+  private async checkStoredSession(): Promise<void> {
     if (typeof window !== 'undefined') {
       const token = localStorage.getItem(this.TOKEN_KEY);
-      const userJson = localStorage.getItem(this.USER_KEY);
-      if (token && userJson) {
+      const username = localStorage.getItem(this.USERNAME_KEY);
+      if (token) {
         this.isLoggedIn.set(true);
-        this.currentUser.set(JSON.parse(userJson));
+        if (username) {
+          this.currentUsername.set(username);
+          this.fetchUserProfile(username);
+        }
       }
     }
   }
 
+  async fetchUserProfile(username: string): Promise<void> {
+    try {
+      const user = await firstValueFrom(
+        this.http.get<User>(`${API_BASE}/usuario/username/${username}`)
+      );
+      console.log('Perfil de usuario recuperado:', user);
+      this.currentUser.set(user);
+    } catch (err) {
+      console.error('Error fetching user profile', err);
+    }
+  }
+
   /**
-   * Login — POST http://localhost:8080/api/auth/login
-   * Espera body: { email, password }
-   * Responde con: { token, usuario }
+   * Login — POST http://localhost:8085/auth/login
+   * Body: { username, password }
+   * Responde con: { access, refresh }
    */
-  async login(email: string, password: string): Promise<{ success: boolean; error?: string }> {
+  async login(username: string, password: string): Promise<{ success: boolean; error?: string }> {
     try {
       const response = await firstValueFrom(
-        this.http.post<AuthResponse>(`${API_BASE}/auth/login`, { email, password })
+        this.http.post<LoginResponse>(`${API_BASE}/auth/login`, { username, password })
       );
-      this.handleAuthSuccess(response);
+      this.handleAuthSuccess(response, username);
       return { success: true };
     } catch (err) {
       const error = err as HttpErrorResponse;
@@ -66,42 +86,60 @@ export class AuthService {
   }
 
   /**
-   * Register — POST http://localhost:8080/api/auth/register
-   * Espera body: { nombre, email, password }
-   * Responde con: { token, usuario }
+   * Register — POST http://localhost:8085/auth/register
+   * Body: { username, email, password, rol, nacionalidad, fechaNac }
+   * Responde con token en header Authorization
    */
-  async register(nombre: string, email: string, password: string): Promise<{ success: boolean; error?: string }> {
+  async register(username: string, email: string, password: string, rol: string = 'USER', nacionalidad: string = '', fechaNac: string = ''): Promise<{ success: boolean; error?: string }> {
     try {
       const response = await firstValueFrom(
-        this.http.post<AuthResponse>(`${API_BASE}/auth/register`, { nombre, email, password })
+        this.http.post<LoginResponse>(`${API_BASE}/auth/register`, { username, email, password, rol, nacionalidad, fechaNac }, { observe: 'response' })
       );
-      this.handleAuthSuccess(response);
+      // El register puede devolver el token en el header o en el body
+      const token = response.headers.get('Authorization')?.replace('Bearer ', '')
+                    || response.body?.access;
+      if (token) {
+        localStorage.setItem(this.TOKEN_KEY, token);
+        localStorage.setItem(this.USERNAME_KEY, username);
+        this.isLoggedIn.set(true);
+        this.currentUsername.set(username);
+        this.fetchUserProfile(username);
+      }
       return { success: true };
     } catch (err) {
-      const error = err as HttpErrorResponse;
-      const message =
-        error.error?.message ||
-        error.error?.error ||
-        'Error al registrarse. El email puede que ya esté en uso.';
-      return { success: false, error: message };
+      const errorResponse = err as HttpErrorResponse;
+      console.error('Error en registro:', errorResponse);
+      
+      let mensaje = 'Error al registrarse. El usuario puede que ya exista.';
+      if (typeof errorResponse.error === 'string') {
+        mensaje = errorResponse.error;
+      } else if (errorResponse.error?.message) {
+        mensaje = errorResponse.error.message;
+      }
+      
+      return { success: false, error: mensaje };
     }
   }
 
-  private handleAuthSuccess(response: AuthResponse): void {
+  private handleAuthSuccess(response: LoginResponse, username: string): void {
     if (typeof window !== 'undefined') {
-      localStorage.setItem(this.TOKEN_KEY, response.token);
-      localStorage.setItem(this.USER_KEY, JSON.stringify(response.usuario));
+      localStorage.setItem(this.TOKEN_KEY, response.access);
+      localStorage.setItem(this.REFRESH_KEY, response.refresh);
+      localStorage.setItem(this.USERNAME_KEY, username);
     }
     this.isLoggedIn.set(true);
-    this.currentUser.set(response.usuario);
+    this.currentUsername.set(username);
+    this.fetchUserProfile(username);
   }
 
   logout(): void {
     if (typeof window !== 'undefined') {
       localStorage.removeItem(this.TOKEN_KEY);
-      localStorage.removeItem(this.USER_KEY);
+      localStorage.removeItem(this.REFRESH_KEY);
+      localStorage.removeItem(this.USERNAME_KEY);
     }
     this.isLoggedIn.set(false);
+    this.currentUsername.set(null);
     this.currentUser.set(null);
     this.router.navigate(['/login']);
   }

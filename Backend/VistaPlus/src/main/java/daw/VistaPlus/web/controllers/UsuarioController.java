@@ -50,6 +50,19 @@ public class UsuarioController {
         }
     }
 
+    // GET /usuario/username/{username}
+    @GetMapping("/username/{username}")
+    public ResponseEntity<?> findByUsername(@PathVariable String username) {
+        try {
+            return ResponseEntity.ok(this.usuarioService.findByUsername(username));
+        } catch (UsuarioNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al obtener el usuario: " + e.getMessage());
+        }
+    }
+
     // POST /usuario
     @PostMapping
     public ResponseEntity<?> create(@RequestBody UsuarioDTO dto) {

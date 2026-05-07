@@ -72,7 +72,7 @@ public class JwtUtils {
             .withClaim("type", "refresh")
             .withIssuedAt(new Date())
             .withIssuer(jwtConfig.getIssuer())
-            .withExpiresAt(new Date(System.currentTimeMillis() + jwtConfig.getAccessTokenExpires()))
+            .withExpiresAt(new Date(System.currentTimeMillis() + jwtConfig.getRefreshTokenExpires()))
             .sign(Algorithm.HMAC256(jwtConfig.getSecret()));
     }
 }

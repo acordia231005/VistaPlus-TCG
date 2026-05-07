@@ -1,4 +1,4 @@
-import { Component, signal, HostListener } from '@angular/core';
+import { Component, signal, HostListener, computed } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
@@ -10,6 +10,18 @@ import { AuthService } from '../../services/auth.service';
 })
 export class Header {
   menuOpen = signal(false);
+
+  // Solo ADMIN y AUTOR pueden crear obras
+  canCreate = computed(() => {
+    const user = this.authService.currentUser();
+    if (!user) return false;
+    
+    const rol = user.rol?.toUpperCase() || '';
+    // Log para depuración (opcional, se puede quitar después)
+    console.log('Verificando rol para creación:', rol);
+    
+    return rol === 'ADMIN' || rol === 'AUTOR' || rol === 'ROLE_ADMIN' || rol === 'ROLE_AUTOR';
+  });
 
   constructor(private router: Router, public authService: AuthService) {}
 

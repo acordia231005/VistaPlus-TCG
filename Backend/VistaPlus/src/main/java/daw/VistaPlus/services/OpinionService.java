@@ -42,6 +42,12 @@ public class OpinionService {
 		return OpinionMapper.toDTO(opinion);
 	}
 
+	public List<OpinionDTO> findByObraId(int obraId) {
+		return this.opinionRepository.findByIdObra(obraId).stream()
+				.map(OpinionMapper::toDTO)
+				.collect(Collectors.toList());
+	}
+
 	public OpinionDTO create(OpinionDTO dto) {
 		Opinion opinion = OpinionMapper.toEntity(dto);
 

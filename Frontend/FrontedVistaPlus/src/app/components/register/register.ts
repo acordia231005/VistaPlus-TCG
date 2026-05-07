@@ -1,11 +1,12 @@
 import { Component, signal } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
-  imports: [RouterLink, FormsModule],
+  imports: [RouterLink, FormsModule, CommonModule],
   templateUrl: './register.html',
   styleUrl: './register.css',
 })
@@ -14,6 +15,9 @@ export class Register {
   email = '';
   password = '';
   confirmPassword = '';
+  nacionalidad = '';
+  fechaNac = '';
+  rol = 'USER';
   loading = signal(false);
   error = signal('');
   showPassword = signal(false);
@@ -70,9 +74,10 @@ export class Register {
     }
 
     this.loading.set(true);
+    console.log('Intentando registro con rol:', this.rol);
 
     try {
-      const result = await this.authService.register(this.nombre, this.email, this.password);
+      const result = await this.authService.register(this.nombre, this.email, this.password, this.rol, this.nacionalidad, this.fechaNac);
       if (result.success) {
         this.router.navigate(['/']);
       } else {

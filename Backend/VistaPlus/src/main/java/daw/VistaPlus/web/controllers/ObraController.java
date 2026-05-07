@@ -7,7 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import daw.VistaPlus.services.ObraService;
+import daw.VistaPlus.services.OpinionService;
 import daw.VistaPlus.services.dto.ObraDTO;
+import daw.VistaPlus.services.dto.OpinionDTO;
 import daw.VistaPlus.services.exceptions.ObraNotFoundException;
 
 @RestController
@@ -16,6 +18,9 @@ public class ObraController {
 
 	@Autowired
 	private ObraService obraService;
+
+	@Autowired
+	private OpinionService opinionService;
 
 	@GetMapping
 	public ResponseEntity<List<ObraDTO>> findAll() {
@@ -29,6 +34,11 @@ public class ObraController {
 		} catch (ObraNotFoundException ex) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
 		}
+	}
+
+	@GetMapping("/{id}/opiniones")
+	public ResponseEntity<List<OpinionDTO>> findOpiniones(@PathVariable int id) {
+		return ResponseEntity.ok(this.opinionService.findByObraId(id));
 	}
 
 	@PostMapping

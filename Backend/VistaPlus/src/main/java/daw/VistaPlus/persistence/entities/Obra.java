@@ -41,11 +41,16 @@ public class Obra {
 
 	private LocalDateTime year;
 	
+	@Column(columnDefinition = "varchar(255)")
+	private String imagen;
+	
 	@Column(name = "id_genero")
 	private int idGenero;
 	
 	@Column(name = "id_usuario")
 	private int idUsuario;
+
+	private String autorUsername;
 
 	@ManyToOne
 	@JoinColumn(name = "id_usuario", referencedColumnName = "id", insertable = false, updatable = false)

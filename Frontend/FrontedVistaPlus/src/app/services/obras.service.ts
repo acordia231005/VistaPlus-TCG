@@ -4,16 +4,30 @@ import { firstValueFrom } from 'rxjs';
 
 export interface Obra {
   id: number;
-  tipo: 'pelicula' | 'serie' | 'libro';
+  tipo: 'PELICULA' | 'SERIE' | 'LIBRO';
   titulo: string;
-  descripcion: string;
-  imagen: string;
-  anio?: number;
-  director?: string;
-  genero?: string;
+  sinopsis: string;
+  year: string;           // ISO String from LocalDateTime
+  idGenero: number;
+  generoNombre: string;
+  idUsuario: number;
+  autorUsername: string;
+  // Campos opcionales para la UI si el backend no los trae
+  imagen?: string;
 }
 
-const API_BASE = 'http://localhost:8080/api';
+export interface Opinion {
+  id?: number;
+  idUsuario: number;
+  idObra: number;
+  comentario: string;
+  puntuacion: number;
+  marcar: boolean;
+  fecha?: string;
+  usuarioUsername?: string; // Para mostrar quién comentó
+}
+
+const API_BASE = 'http://localhost:8085';
 
 @Injectable({
   providedIn: 'root'
@@ -44,14 +58,14 @@ export class ObrasService {
 
   /**
    * Carga todas las obras desde el backend.
-   * GET http://localhost:8080/api/obras
+   * GET http://localhost:8085/obra
    */
   async cargarObras(): Promise<void> {
     this.cargandoSignal.set(true);
     this.errorSignal.set(null);
     try {
       const obras = await firstValueFrom(
-        this.http.get<Obra[]>(`${API_BASE}/obras`)
+        this.http.get<Obra[]>(`${API_BASE}/obra`)
       );
       this.obrasSignal.set(obras);
     } catch {
@@ -62,22 +76,10 @@ export class ObrasService {
   }
 
   /**
-   * Obtiene las obras filtradas por tipo.
-   * GET http://localhost:8080/api/obras?tipo=pelicula
+   * Filtra obras por tipo en el estado local (el backend las devuelve todas).
    */
-  async cargarPorTipo(tipo: 'pelicula' | 'serie' | 'libro'): Promise<void> {
-    this.cargandoSignal.set(true);
-    this.errorSignal.set(null);
-    try {
-      const obras = await firstValueFrom(
-        this.http.get<Obra[]>(`${API_BASE}/obras`, { params: { tipo } })
-      );
-      this.obrasSignal.set(obras);
-    } catch {
-      this.errorSignal.set('No se pudieron cargar las obras.');
-    } finally {
-      this.cargandoSignal.set(false);
-    }
+  getObrasPorTipo(tipo: 'PELICULA' | 'SERIE' | 'LIBRO'): Obra[] {
+    return this.obrasSignal().filter(o => o.tipo === tipo);
   }
 
   /**
@@ -89,7 +91,7 @@ export class ObrasService {
 
   /**
    * Busca una obra por ID en el estado local. Si no está, la pide al backend.
-   * GET http://localhost:8080/api/obras/:id
+   * GET http://localhost:8085/obra/:id
    */
   async getObraById(id: number): Promise<Obra | undefined> {
     const local = this.obrasSignal().find(o => o.id === id);
@@ -97,7 +99,7 @@ export class ObrasService {
 
     try {
       return await firstValueFrom(
-        this.http.get<Obra>(`${API_BASE}/obras/${id}`)
+        this.http.get<Obra>(`${API_BASE}/obra/${id}`)
       );
     } catch {
       return undefined;
@@ -138,5 +140,39 @@ export class ObrasService {
 
   agregarComentario(obraId: number, texto: string) {
     this.comentariosSignal.update(c => [...c, { obraId, texto }]);
+  }
+
+  // ─── Backend Opinions ─────────────────────────────────────────────────────
+
+  async getOpinionesDeObra(idObra: number): Promise<Opinion[]> {
+    try {
+      return await firstValueFrom(
+        this.http.get<Opinion[]>(`${API_BASE}/obra/${idObra}/opiniones`)
+      );
+    } catch {
+      return [];
+    }
+  }
+
+  async puntuarObra(usuarioId: number, obraId: number, puntuacion: number): Promise<void> {
+    try {
+      await firstValueFrom(
+        this.http.post(`${API_BASE}/usuario/${usuarioId}/obras/${obraId}/puntuacion`, puntuacion)
+      );
+    } catch (err) {
+      console.error('Error al puntuar', err);
+      throw err;
+    }
+  }
+
+  async comentarObra(usuarioId: number, obraId: number, comentario: string): Promise<void> {
+    try {
+      await firstValueFrom(
+        this.http.post(`${API_BASE}/usuario/${usuarioId}/obras/${obraId}/comentario`, comentario)
+      );
+    } catch (err) {
+      console.error('Error al comentar', err);
+      throw err;
+    }
   }
 }
