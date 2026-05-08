@@ -38,7 +38,8 @@ public class SecurityConfig {
 			.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 			.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			.authorizeHttpRequests(auth -> auth
-				.requestMatchers("/auth/**").permitAll()
+				.requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+				.requestMatchers(HttpMethod.GET, "/obra").hasAnyRole("ADMIN", "AUTOR", "USER")
 				.requestMatchers(HttpMethod.GET, "/usuario/**").permitAll()
 				.requestMatchers(HttpMethod.GET, "/obra/**").permitAll()
 				.anyRequest().authenticated()
@@ -63,9 +64,6 @@ public class SecurityConfig {
                 							.toList());
         if (!allowedOrigins.contains("http://127.0.0.1:4200")) {
             allowedOrigins.add("http://127.0.0.1:4200");
-        }
-        if (!allowedOrigins.contains("http://localhost:4200")) {
-            allowedOrigins.add("http://localhost:4200");
         }
         configuration.setAllowedOrigins(allowedOrigins);
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));

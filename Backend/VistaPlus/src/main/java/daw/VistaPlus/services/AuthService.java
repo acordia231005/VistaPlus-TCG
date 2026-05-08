@@ -1,20 +1,20 @@
 package daw.VistaPlus.services;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.transaction.annotation.Transactional;
 
 import daw.VistaPlus.persistence.entities.Usuario;
 import daw.VistaPlus.persistence.repositories.UsuarioRepository;
-
 import daw.VistaPlus.services.dto.LoginRequest;
 import daw.VistaPlus.services.dto.LoginResponse;
 import daw.VistaPlus.services.dto.RefreshDto;
+import daw.VistaPlus.services.dto.RegisterRequest;
 import daw.VistaPlus.web.config.JwtUtils;
 
 @Service
@@ -47,10 +47,9 @@ public class AuthService {
 		
 		if (fechaNac != null && !fechaNac.isEmpty()) {
 			try {
-				// El input date de HTML suele venir como yyyy-MM-dd
 				usuario.setFechaNac(java.time.LocalDate.parse(fechaNac).atStartOfDay());
 			} catch (Exception e) {
-				// fallback o ignorar
+				
 			}
 		}
 
@@ -64,7 +63,7 @@ public class AuthService {
 	}
 
 	@Transactional
-	public String registrar(LoginRequest request) {
+	public String registrar(RegisterRequest request) {
 		// Verificamos si el usuario ya existe para dar un error claro
 		if (usuarioRepository.findByUsername(request.getUsername()) != null) {
 			throw new RuntimeException("El nombre de usuario '" + request.getUsername() + "' ya está en uso.");

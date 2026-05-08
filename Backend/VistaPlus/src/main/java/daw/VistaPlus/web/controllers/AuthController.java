@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import daw.VistaPlus.services.AuthService;
 import daw.VistaPlus.services.dto.LoginRequest;
 import daw.VistaPlus.services.dto.RefreshDto;
+import daw.VistaPlus.services.dto.RegisterRequest;
 
 @RestController
 @RequestMapping("/auth")
@@ -25,7 +26,7 @@ public class AuthController {
 	}
 
 	@PostMapping("/register")
-	public ResponseEntity<?> register(@RequestBody LoginRequest request) {
+	public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
 		return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, this.authService.registrar(request)).build();
 	}
 
