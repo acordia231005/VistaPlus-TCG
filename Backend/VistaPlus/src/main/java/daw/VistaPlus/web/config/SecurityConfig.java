@@ -41,23 +41,25 @@ public class SecurityConfig {
 						//auth
 						.requestMatchers("/auth/**").permitAll()
 						//obra
-						.requestMatchers(HttpMethod.GET, "/obra/**").permitAll()
-						.requestMatchers(HttpMethod.POST, "/obra/**").hasAnyRole("ADMIN", "AUTOR")
-						.requestMatchers(HttpMethod.PUT, "/obra/**").hasAnyRole("ADMIN", "AUTOR")
-						.requestMatchers(HttpMethod.DELETE, "/obra/**").hasAnyRole("ADMIN", "AUTOR")
+						.requestMatchers(HttpMethod.GET, "/obra").permitAll()
+						.requestMatchers(HttpMethod.POST, "/obra").hasAnyAuthority("ADMIN", "AUTOR")
+						.requestMatchers(HttpMethod.PUT, "/obra").hasAnyAuthority("ADMIN", "AUTOR")
+						.requestMatchers(HttpMethod.DELETE, "/obra").hasAnyRole("ADMIN", "AUTOR")
 						
 						//genero
-						.requestMatchers(HttpMethod.GET, "/genero/**").hasRole("ADMIN")
-						.requestMatchers(HttpMethod.POST, "/genero/**").hasRole("ADMIN")
-						.requestMatchers(HttpMethod.PUT, "/genero/**").hasRole("ADMIN")
-						.requestMatchers(HttpMethod.DELETE, "/genero/**").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.GET, "/genero").hasAnyAuthority("ADMIN", "AUTOR")
+						.requestMatchers(HttpMethod.POST, "/genero").hasAnyAuthority("ADMIN", "AUTOR")
+						.requestMatchers(HttpMethod.PUT, "/genero").hasAnyAuthority("ADMIN", "AUTOR")
+						.requestMatchers(HttpMethod.DELETE, "/genero").hasAnyRole("ADMIN", "AUTOR")
 						
 						//opinion
-						.requestMatchers(HttpMethod.GET, "/opinion/**").permitAll()
+						.requestMatchers(HttpMethod.GET, "/opinion").permitAll()
 						
 						//usuario
 						.requestMatchers(HttpMethod.POST, "/usuario").permitAll()
-						.requestMatchers(HttpMethod.GET, "/usuario").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.GET, "/usuario").hasAnyRole("ADMIN")
+						
+						
 						.anyRequest().authenticated())
 				.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 

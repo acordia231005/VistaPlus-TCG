@@ -30,7 +30,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             return User.builder()
                     .username(usuario.getUsername())
                     .password(usuario.getPassword())
-                    .roles(usuario.getRol())
+                    .authorities(usuario.getRol())
                     .build();
         } catch (UsuarioNotFoundException e) {
             throw new UsernameNotFoundException(e.getMessage());

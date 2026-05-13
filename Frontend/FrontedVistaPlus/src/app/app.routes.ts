@@ -5,6 +5,7 @@ import { Login } from './components/login/login';
 import { Register } from './components/register/register';
 import { Profile } from './components/profile/profile';
 import { Lista } from './components/lista/lista';
+import { CrearObra } from './components/crear-obra/crear-obra';
 import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -20,6 +21,7 @@ export const routes: Routes = [
   { path: 'obra/:id', component: ObraDetalle, canActivate: [authGuard] },
   { path: 'perfil', component: Profile, canActivate: [authGuard] },
   { path: 'lista', component: Lista, canActivate: [authGuard] },
+  { path: 'crear-obra', component: CrearObra, canActivate: [authGuard] },
 
   // Cualquier ruta no encontrada redirige a login
   { path: '**', redirectTo: 'login' },

@@ -49,7 +49,7 @@ export class ObraDetalle implements OnInit {
       this.opiniones.set(ops);
       
       // Si el usuario ya tiene puntuación, mostrarla
-      const miOp = ops.find(o => o.idUsuario === this.user()?.id);
+      const miOp = ops.find(o => o.id_usuario === this.user()?.id);
       if (miOp) {
         this.nuevaPuntuacion = miOp.puntuacion;
         this.nuevoComentario = miOp.comentario;

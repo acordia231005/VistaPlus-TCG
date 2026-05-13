@@ -7,24 +7,28 @@ export interface Obra {
   tipo: 'PELICULA' | 'SERIE' | 'LIBRO';
   titulo: string;
   sinopsis: string;
-  year: string;           // ISO String from LocalDateTime
-  idGenero: number;
-  generoNombre: string;
-  idUsuario: number;
-  autorUsername: string;
-  // Campos opcionales para la UI si el backend no los trae
-  imagen?: string;
+  year: string;           // Formato: YYYY-MM-DD HH:mm:ss.SSSSSS
+  id_genero: number;
+  genero_nombre: string;
+  id_usuario: number;
+  autor_username: string;
+  imagen?: string | null;
 }
 
 export interface Opinion {
   id?: number;
-  idUsuario: number;
-  idObra: number;
+  id_usuario: number;
+  id_obra: number;
   comentario: string;
   puntuacion: number;
   marcar: boolean;
   fecha?: string;
-  usuarioUsername?: string; // Para mostrar quién comentó
+  usuario_username?: string;
+}
+
+export interface Genero {
+  id: number;
+  nombre: string;
 }
 
 const API_BASE = 'http://localhost:8085';
@@ -144,20 +148,20 @@ export class ObrasService {
 
   // ─── Backend Opinions ─────────────────────────────────────────────────────
 
-  async getOpinionesDeObra(idObra: number): Promise<Opinion[]> {
+  async getOpinionesDeObra(id_obra: number): Promise<Opinion[]> {
     try {
       return await firstValueFrom(
-        this.http.get<Opinion[]>(`${API_BASE}/obra/${idObra}/opiniones`)
+        this.http.get<Opinion[]>(`${API_BASE}/obra/${id_obra}/opiniones`)
       );
     } catch {
       return [];
     }
   }
 
-  async puntuarObra(usuarioId: number, obraId: number, puntuacion: number): Promise<void> {
+  async puntuarObra(usuario_id: number, obra_id: number, puntuacion: number): Promise<void> {
     try {
       await firstValueFrom(
-        this.http.post(`${API_BASE}/usuario/${usuarioId}/obras/${obraId}/puntuacion`, puntuacion)
+        this.http.post(`${API_BASE}/usuario/${usuario_id}/obras/${obra_id}/puntuacion`, puntuacion)
       );
     } catch (err) {
       console.error('Error al puntuar', err);
@@ -165,14 +169,55 @@ export class ObrasService {
     }
   }
 
-  async comentarObra(usuarioId: number, obraId: number, comentario: string): Promise<void> {
+  async comentarObra(usuario_id: number, obra_id: number, comentario: string): Promise<void> {
     try {
       await firstValueFrom(
-        this.http.post(`${API_BASE}/usuario/${usuarioId}/obras/${obraId}/comentario`, comentario)
+        this.http.post(`${API_BASE}/usuario/${usuario_id}/obras/${obra_id}/comentario`, comentario)
       );
     } catch (err) {
       console.error('Error al comentar', err);
       throw err;
+    }
+  }
+
+  /**
+   * Crea una nueva obra en el backend.
+   * POST http://localhost:8085/obra
+   */
+  async crearObra(obra: Partial<Obra>): Promise<Obra> {
+    try {
+      const response = await firstValueFrom(
+        this.http.post<Obra>(`${API_BASE}/obra`, obra)
+      );
+      // Recargamos las obras para que aparezca la nueva
+      await this.cargarObras();
+      return response;
+    } catch (err) {
+      console.error('Error al crear obra', err);
+      throw err;
+    }
+  }
+
+  /**
+   * Obtiene la lista de géneros.
+   * GET http://localhost:8085/genero
+   */
+  async getGeneros(): Promise<Genero[]> {
+    try {
+      return await firstValueFrom(
+        this.http.get<Genero[]>(`${API_BASE}/genero`)
+      );
+    } catch {
+      // Mock de seguridad si falla la red
+      return [
+        { id: 1, nombre: 'Acción' },
+        { id: 2, nombre: 'Comedia' },
+        { id: 3, nombre: 'Drama' },
+        { id: 4, nombre: 'Terror' },
+        { id: 5, nombre: 'Ciencia Ficción' },
+        { id: 6, nombre: 'Fantasía' },
+        { id: 7, nombre: 'Documental' }
+      ];
     }
   }
 }

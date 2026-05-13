@@ -1,0 +1,96 @@
+<div class="crear-obra-container">
+  <div class="form-card glass">
+    <header class="form-header">
+      <h1>Publicar Obra</h1>
+      <p>Comparte tu creación con la comunidad de VistaPlus</p>
+    </header>
+
+    <form (submit)="onSubmit($event)" class="create-form">
+      <!-- Título -->
+      <div class="form-group full-width">
+        <label for="titulo">Título de la Obra</label>
+        <input 
+          type="text" 
+          id="titulo" 
+          name="titulo" 
+          [(ngModel)]="obra.titulo" 
+          placeholder="Ej: El Misterio de la Luna" 
+          required>
+      </div>
+
+      <!-- Tipo -->
+      <div class="form-group">
+        <label for="tipo">Tipo</label>
+        <select id="tipo" name="tipo" [(ngModel)]="obra.tipo" required>
+          <option value="PELICULA">Película</option>
+          <option value="SERIE">Serie</option>
+          <option value="LIBRO">Libro</option>
+        </select>
+      </div>
+
+      <!-- Género -->
+      <div class="form-group">
+        <label for="genero">Género</label>
+        <select id="genero" name="id_genero" [(ngModel)]="obra.id_genero" required>
+          <option *ngFor="let g of generos" [value]="g.id">{{ g.nombre }}</option>
+        </select>
+      </div>
+
+      <!-- Año -->
+      <div class="form-group">
+        <label for="year">Año de Lanzamiento</label>
+        <input 
+          type="number" 
+          id="year" 
+          name="year" 
+          [(ngModel)]="yearInput" 
+          placeholder="2024" 
+          min="1900" 
+          max="2030" 
+          required>
+      </div>
+
+      <!-- Imagen URL (Opcional) -->
+      <div class="form-group">
+        <label for="imagen">URL de la Imagen (Opcional)</label>
+        <input 
+          type="url" 
+          id="imagen" 
+          name="imagen" 
+          [(ngModel)]="obra.imagen" 
+          placeholder="https://ejemplo.com/poster.jpg">
+      </div>
+
+      <!-- Sinopsis -->
+      <div class="form-group full-width">
+        <label for="sinopsis">Sinopsis</label>
+        <textarea 
+          id="sinopsis" 
+          name="sinopsis" 
+          [(ngModel)]="obra.sinopsis" 
+          placeholder="Escribe una breve descripción de tu obra..." 
+          required></textarea>
+      </div>
+
+      @if (errorMsg) {
+        <div class="error-message">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+          {{ errorMsg }}
+        </div>
+      }
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="onCancel()">Cancelar</button>
+        <button type="submit" class="btn-submit" [disabled]="submitting">
+          @if (submitting) {
+            <span class="loader"></span>
+            Enviando...
+          } @else {
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"></path><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            Publicar Obra
+          }
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

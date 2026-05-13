@@ -34,11 +34,11 @@
             <h2 class="titulo">{{ obra.titulo }}</h2>
             <p class="descripcion">{{ obra.sinopsis }}</p>
             <div class="obra-meta">
-              @if (obra.generoNombre) {
-                <span class="meta-tag">{{ obra.generoNombre }}</span>
+              @if (obra.genero_nombre) {
+                <span class="meta-tag">{{ obra.genero_nombre }}</span>
               }
-              @if (obra.autorUsername) {
-                <span class="meta-autor">{{ obra.autorUsername }}</span>
+              @if (obra.autor_username) {
+                <span class="meta-autor">{{ obra.autor_username }}</span>
               }
             </div>
           </div>

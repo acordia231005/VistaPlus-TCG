@@ -20,8 +20,8 @@
       
       <div class="meta-info">
         <span *ngIf="obra.year"><strong>Año:</strong> {{obra.year | date:'yyyy'}}</span>
-        <span *ngIf="obra.autorUsername"><strong>Autor:</strong> {{obra.autorUsername}}</span>
-        <span *ngIf="obra.generoNombre"><strong>Género:</strong> {{obra.generoNombre}}</span>
+        <span *ngIf="obra.autor_username"><strong>Autor:</strong> {{obra.autor_username}}</span>
+        <span *ngIf="obra.genero_nombre"><strong>Género:</strong> {{obra.genero_nombre}}</span>
       </div>
       
       <p class="descripcion-detalle">{{obra.sinopsis}}</p>
@@ -87,7 +87,7 @@
           
           <div *ngFor="let op of opiniones()" class="opinion-card glass">
             <div class="opinion-header">
-              <span class="user-name">{{ op.usuarioUsername || 'Usuario ' + op.idUsuario }}</span>
+              <span class="user-name">{{ op.usuario_username || 'Usuario ' + op.id_usuario }}</span>
               <span class="rating-badge">{{ op.puntuacion }}/10</span>
             </div>
             <p class="opinion-text">{{ op.comentario }}</p>
