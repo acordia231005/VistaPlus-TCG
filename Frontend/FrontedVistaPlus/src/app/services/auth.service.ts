@@ -9,7 +9,7 @@ export interface LoginResponse {
   refresh: string;
 }
 
-const API_BASE = 'http://localhost:8085';
+const API_BASE = 'http://localhost:8080';
 
 export interface User {
   id: number;
@@ -64,7 +64,7 @@ export class AuthService {
   }
 
   /**
-   * Login — POST http://localhost:8085/auth/login
+   * Login — POST http://localhost:8080/auth/login
    * Body: { username, password }
    * Responde con: { access, refresh }
    */
@@ -86,7 +86,7 @@ export class AuthService {
   }
 
   /**
-   * Register — POST http://localhost:8085/auth/register
+   * Register — POST http://localhost:8080/auth/register
    * Body: { username, email, password, rol, nacionalidad, fechaNac }
    * Responde con token en header Authorization
    */

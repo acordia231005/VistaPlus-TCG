@@ -35,7 +35,7 @@ export interface Genero {
   nombre: string;
 }
 
-const API_BASE = 'http://localhost:8085';
+const API_BASE = 'http://localhost:8080';
 
 @Injectable({
   providedIn: 'root'
@@ -66,7 +66,7 @@ export class ObrasService {
 
   /**
    * Carga todas las obras desde el backend.
-   * GET http://localhost:8085/obra
+   * GET http://localhost:8080/obra
    */
   async cargarObras(): Promise<void> {
     this.cargandoSignal.set(true);
@@ -99,7 +99,7 @@ export class ObrasService {
 
   /**
    * Busca una obra por ID en el estado local. Si no está, la pide al backend.
-   * GET http://localhost:8085/obra/:id
+   * GET http://localhost:8080/obra/:id
    */
   async getObraById(id: number): Promise<Obra | undefined> {
     const local = this.obrasSignal().find(o => o.id === id);
@@ -188,7 +188,7 @@ export class ObrasService {
 
   /**
    * Crea una nueva obra en el backend.
-   * POST http://localhost:8085/obra
+   * POST http://localhost:8080/obra
    */
   async crearObra(obra: Partial<Obra>): Promise<Obra> {
     try {
@@ -206,7 +206,7 @@ export class ObrasService {
 
   /**
    * Obtiene la lista de géneros.
-   * GET http://localhost:8085/genero
+   * GET http://localhost:8080/genero
    */
   async getGeneros(): Promise<Genero[]> {
     try {
@@ -228,7 +228,7 @@ export class ObrasService {
 
   /**
    * Actualiza una obra existente.
-   * PUT http://localhost:8085/obra/:id
+   * PUT http://localhost:8080/obra/:id
    */
   async actualizarObra(id: number, obra: Partial<Obra>): Promise<Obra> {
     try {
@@ -245,7 +245,7 @@ export class ObrasService {
 
   /**
    * Elimina una obra por su ID.
-   * DELETE http://localhost:8085/obra/:id
+   * DELETE http://localhost:8080/obra/:id
    */
   async eliminarObra(id: number): Promise<void> {
     try {
