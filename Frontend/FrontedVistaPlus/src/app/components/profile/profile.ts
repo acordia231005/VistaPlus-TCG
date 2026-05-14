@@ -16,7 +16,7 @@ export class Profile {
   
   user = this.authService.currentUser;
 
-  // Calculamos las estadísticas directamente como señales para asegurar reactividad
+  // Estadísticas originales sin lógica de privacidad
   vistos = computed(() => this.obrasService.vistosCount());
   miLista = computed(() => this.obrasService.miLista().length);
   comentarios = computed(() => this.obrasService.comentariosCount());

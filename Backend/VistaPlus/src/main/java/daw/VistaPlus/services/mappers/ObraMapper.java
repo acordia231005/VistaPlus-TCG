@@ -32,6 +32,8 @@ public class ObraMapper {
         obra.setSinopsis(dto.getSinopsis());
         obra.setYear(dto.getYear());
         obra.setImagen(dto.getImagen());
+        obra.setIdGenero(dto.getIdGenero());
+        obra.setIdUsuario(dto.getIdUsuario());
         return obra;
     }
 }

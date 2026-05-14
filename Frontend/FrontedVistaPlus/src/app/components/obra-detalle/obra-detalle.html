@@ -15,8 +15,21 @@
     </div>
     
     <div class="detalle-info">
-      <span class="badge">{{obra.tipo | uppercase}}</span>
-      <h1 class="titulo-detalle">{{obra.titulo}}</h1>
+      <div class="header-titulos-wrapper">
+        <div class="titulos-text">
+          <span class="badge">{{obra.tipo | uppercase}}</span>
+          <h1 class="titulo-detalle">{{obra.titulo}}</h1>
+        </div>
+        
+        <!-- Puntuación Global Destacada -->
+        <div class="puntuacion-global-premium" *ngIf="mediaGlobal() !== '-'">
+          <svg class="star-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#fbbf24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <div class="nota-container">
+            <span class="nota">{{ mediaGlobal() }}</span>
+            <span class="max-nota">/10</span>
+          </div>
+        </div>
+      </div>
       
       <div class="meta-info">
         <span *ngIf="obra.year"><strong>Año:</strong> {{obra.year | date:'yyyy'}}</span>
@@ -87,7 +100,7 @@
           
           <div *ngFor="let op of opiniones()" class="opinion-card glass">
             <div class="opinion-header">
-              <span class="user-name">{{ op.usuario_username || 'Usuario ' + op.id_usuario }}</span>
+              <span class="user-name">{{ op.usuarioUsername || 'Usuario ' + op.usuarioId }}</span>
               <span class="rating-badge">{{ op.puntuacion }}/10</span>
             </div>
             <p class="opinion-text">{{ op.comentario }}</p>

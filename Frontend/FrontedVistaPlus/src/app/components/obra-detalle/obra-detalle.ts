@@ -20,6 +20,7 @@ export class ObraDetalle implements OnInit {
 
   // Opiniones del backend
   opiniones = signal<Opinion[]>([]);
+  mediaGlobal = signal<string>('-');
   nuevaPuntuacion = 0;
   nuevoComentario = '';
   enviando = signal<boolean>(false);
@@ -48,8 +49,15 @@ export class ObraDetalle implements OnInit {
       const ops = await this.obrasService.getOpinionesDeObra(this.obra.id);
       this.opiniones.set(ops);
       
+      if (ops && ops.length > 0) {
+        const sum = ops.reduce((acc, op) => acc + (op.puntuacion || 0), 0);
+        this.mediaGlobal.set((sum / ops.length).toFixed(1));
+      } else {
+        this.mediaGlobal.set('-');
+      }
+      
       // Si el usuario ya tiene puntuación, mostrarla
-      const miOp = ops.find(o => o.id_usuario === this.user()?.id);
+      const miOp = ops.find(o => o.usuarioId === this.user()?.id);
       if (miOp) {
         this.nuevaPuntuacion = miOp.puntuacion;
         this.nuevoComentario = miOp.comentario;

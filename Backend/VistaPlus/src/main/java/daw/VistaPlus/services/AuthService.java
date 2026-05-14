@@ -76,7 +76,7 @@ public class AuthService {
 		UserDetails userDetails = User.builder()
 				.username(usuario.getUsername())
 				.password(usuario.getPassword())
-				.roles(usuario.getRol())
+				.authorities(usuario.getRol())
 				.build();
 				
 		return jwtUtil.generateAccessToken(userDetails);

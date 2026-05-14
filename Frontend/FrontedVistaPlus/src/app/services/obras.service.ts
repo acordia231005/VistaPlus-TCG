@@ -17,13 +17,13 @@ export interface Obra {
 
 export interface Opinion {
   id?: number;
-  id_usuario: number;
-  id_obra: number;
+  usuarioId: number;
+  obraId: number;
   comentario: string;
   puntuacion: number;
   marcar: boolean;
   fecha?: string;
-  usuario_username?: string;
+  usuarioUsername?: string;
 }
 
 export interface Genero {
@@ -174,6 +174,8 @@ export class ObrasService {
       await firstValueFrom(
         this.http.post(`${API_BASE}/usuario/${usuario_id}/obras/${obra_id}/comentario`, comentario)
       );
+      // Actualizamos el contador local para que el perfil se refresque
+      this.comentariosSignal.update(c => [...c, { obraId: obra_id, texto: comentario }]);
     } catch (err) {
       console.error('Error al comentar', err);
       throw err;

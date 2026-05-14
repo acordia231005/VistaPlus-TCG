@@ -1,14 +1,18 @@
-import { Component, signal, HostListener, computed } from '@angular/core';
+import { Component, signal, HostListener, computed, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-header',
+  standalone: true,
   imports: [RouterLink, RouterLinkActive],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
 export class Header {
+  authService = inject(AuthService);
+  private router = inject(Router);
+
   menuOpen = signal(false);
   mobileMenuOpen = signal(false);
 
@@ -20,8 +24,6 @@ export class Header {
     const rol = user.rol?.toUpperCase() || '';
     return rol === 'ADMIN' || rol === 'AUTOR' || rol === 'ROLE_ADMIN' || rol === 'ROLE_AUTOR';
   });
-
-  constructor(private router: Router, public authService: AuthService) {}
 
   buscar(term: string) {
     if (term.trim()) {
@@ -54,7 +56,6 @@ export class Header {
     this.authService.logout();
   }
 
-  /** Cierra los menús si se hace clic fuera */
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event): void {
     const target = event.target as HTMLElement;

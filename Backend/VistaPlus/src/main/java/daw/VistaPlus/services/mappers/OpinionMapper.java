@@ -12,12 +12,14 @@ public class OpinionMapper {
         dto.setPuntuacion(opinion.getPuntuacion());
         dto.setMarcar(opinion.isMarcar());
         dto.setFecha(opinion.getFecha());
+        
+        // Priorizar el ID de la columna directa si el objeto relación no está cargado
+        dto.setUsuarioId(opinion.getIdUsuario());
+        dto.setObraId(opinion.getIdObra());
+        
         if (opinion.getUsuario() != null) {
             dto.setUsuarioId(opinion.getUsuario().getId());
             dto.setUsuarioUsername(opinion.getUsuario().getUsername());
-        }
-        if (opinion.getObra() != null) {
-            dto.setObraId(opinion.getObra().getId());
         }
         return dto;
     }
@@ -29,7 +31,8 @@ public class OpinionMapper {
         opinion.setPuntuacion(dto.getPuntuacion());
         opinion.setMarcar(dto.isMarcar());
         opinion.setFecha(dto.getFecha());
-        // Las relaciones se manejan en el servicio
+        opinion.setIdUsuario(dto.getUsuarioId());
+        opinion.setIdObra(dto.getObraId());
         return opinion;
     }
 }

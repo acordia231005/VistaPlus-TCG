@@ -61,20 +61,18 @@ export class CrearObra implements OnInit {
     }
 
     try {
-      // Formato compatible con LocalDateTime/Timestamp en SQL
-      const month = "01";
-      const day = "01";
-      const yearFormatted = `${this.yearInput}-${month}-${day} 00:00:00`;
+      // Formato ISO-8601 compatible con Java LocalDateTime
+      const yearFormatted = `${this.yearInput}-01-01T00:00:00`;
 
-      // Preparar objeto para el backend con snake_case
+      // Preparar objeto para el backend con camelCase (Java DTO)
       const data = {
         titulo: this.obra.titulo,
         tipo: this.obra.tipo,
         sinopsis: this.obra.sinopsis,
-        id_genero: Number(this.obra.id_genero), // Asegurar que sea número
+        idGenero: Number(this.obra.id_genero),
         imagen: this.obra.imagen || null,
         year: yearFormatted,
-        id_usuario: user.id
+        idUsuario: user.id
       };
 
       await this.obrasService.crearObra(data);

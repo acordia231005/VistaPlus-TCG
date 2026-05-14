@@ -12,6 +12,7 @@ import { ObrasService, Obra } from '../../services/obras.service';
 })
 export class Main implements OnInit {
   obrasFiltradas: Obra[] = [];
+  medias: { [obraId: number]: string } = {};
 
   constructor(private router: Router, private obrasService: ObrasService) {
     // Cuando cambia la ruta refiltrar
@@ -60,5 +61,24 @@ export class Main implements OnInit {
     }
 
     this.obrasFiltradas = filtradas;
+    this.calcularMedias();
+  }
+
+  async calcularMedias() {
+    for (const obra of this.obrasFiltradas) {
+      if (this.medias[obra.id] === undefined) {
+        try {
+          const opiniones = await this.obrasService.getOpinionesDeObra(obra.id);
+          if (opiniones && opiniones.length > 0) {
+            const sum = opiniones.reduce((acc, op) => acc + (op.puntuacion || 0), 0);
+            this.medias[obra.id] = (sum / opiniones.length).toFixed(1);
+          } else {
+            this.medias[obra.id] = '-';
+          }
+        } catch {
+          this.medias[obra.id] = '-';
+        }
+      }
+    }
   }
 }
