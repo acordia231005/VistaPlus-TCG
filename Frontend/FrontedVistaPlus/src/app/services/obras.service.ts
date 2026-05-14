@@ -12,6 +12,10 @@ export interface Obra {
   genero_nombre: string;
   id_usuario: number;
   autor_username: string;
+  idUsuario?: number;       // Fallback para camelCase del backend
+  autorUsername?: string;   // Fallback para camelCase del backend
+  idGenero?: number;        // Fallback para camelCase del backend
+  generoNombre?: string;    // Fallback para camelCase del backend
   imagen?: string | null;
 }
 
@@ -218,8 +222,40 @@ export class ObrasService {
         { id: 4, nombre: 'Terror' },
         { id: 5, nombre: 'Ciencia Ficción' },
         { id: 6, nombre: 'Fantasía' },
-        { id: 7, nombre: 'Documental' }
       ];
+    }
+  }
+
+  /**
+   * Actualiza una obra existente.
+   * PUT http://localhost:8085/obra/:id
+   */
+  async actualizarObra(id: number, obra: Partial<Obra>): Promise<Obra> {
+    try {
+      const response = await firstValueFrom(
+        this.http.put<Obra>(`${API_BASE}/obra/${id}`, obra)
+      );
+      await this.cargarObras(); // Refresh local list
+      return response;
+    } catch (err) {
+      console.error('Error al actualizar obra:', err);
+      throw err;
+    }
+  }
+
+  /**
+   * Elimina una obra por su ID.
+   * DELETE http://localhost:8085/obra/:id
+   */
+  async eliminarObra(id: number): Promise<void> {
+    try {
+      await firstValueFrom(
+        this.http.delete(`${API_BASE}/obra/${id}`)
+      );
+      await this.cargarObras(); // Refresh local list
+    } catch (err) {
+      console.error('Error al eliminar obra', err);
+      throw err;
     }
   }
 }

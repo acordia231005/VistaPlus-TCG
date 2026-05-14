@@ -1,6 +1,6 @@
 import { Component, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ObrasService, Obra, Opinion } from '../../services/obras.service';
 import { AuthService } from '../../services/auth.service';
@@ -24,12 +24,14 @@ export class ObraDetalle implements OnInit {
   nuevaPuntuacion = 0;
   nuevoComentario = '';
   enviando = signal<boolean>(false);
+  eliminando = signal<boolean>(false);
 
   // Usuario actual
   user = computed(() => this.authService.currentUser());
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private obrasService: ObrasService,
     private authService: AuthService
   ) {}
@@ -114,6 +116,35 @@ export class ObraDetalle implements OnInit {
   enviarComentario(texto: string) {
     if (this.obra && texto.trim()) {
       this.obrasService.agregarComentario(this.obra.id, texto.trim());
+    }
+  }
+
+  esAutorOrAdmin(): boolean {
+    const currentUser = this.user();
+    if (!currentUser || !this.obra) return false;
+    
+    const rol = currentUser.rol?.toUpperCase() || '';
+    if (rol === 'ADMIN' || rol === 'ROLE_ADMIN') return true;
+    
+    // Si es autor, solo puede editar/borrar sus propias obras
+    const obraUserId = this.obra.id_usuario || this.obra.idUsuario;
+    return currentUser.id === obraUserId;
+  }
+
+  async eliminarObra() {
+    if (!this.obra) return;
+    
+    if (confirm('¿Estás seguro de que quieres eliminar esta obra? Esta acción no se puede deshacer.')) {
+      this.eliminando.set(true);
+      try {
+        await this.obrasService.eliminarObra(this.obra.id);
+        this.router.navigate(['/']);
+      } catch (err) {
+        console.error('Error al eliminar:', err);
+        alert('Hubo un error al eliminar la obra.');
+      } finally {
+        this.eliminando.set(false);
+      }
     }
   }
 }

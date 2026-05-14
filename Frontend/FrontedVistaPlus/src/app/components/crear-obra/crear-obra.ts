@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ObrasService, Obra, Genero } from '../../services/obras.service';
 import { AuthService } from '../../services/auth.service';
 
@@ -29,7 +29,8 @@ export class CrearObra implements OnInit {
   constructor(
     private obrasService: ObrasService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   async ngOnInit() {
@@ -46,6 +47,34 @@ export class CrearObra implements OnInit {
     if (this.generos.length > 0) {
       this.obra.id_genero = this.generos[0].id;
     }
+
+    // Comprobar si estamos en modo edición
+    this.route.paramMap.subscribe(async params => {
+      const id = Number(params.get('id'));
+      if (id) {
+        const obraToEdit = await this.obrasService.getObraById(id);
+        if (obraToEdit) {
+          // Verificar si es el autor o admin (como medida extra de seguridad)
+          const obraUserId = obraToEdit.id_usuario || obraToEdit.idUsuario;
+          if (rol !== 'ADMIN' && rol !== 'ROLE_ADMIN' && user?.id !== obraUserId) {
+            this.router.navigate(['/']);
+            return;
+          }
+          this.obra = { ...obraToEdit };
+          // Asegurar que id_genero esté poblado para el <select>
+          if (obraToEdit.idGenero && !obraToEdit.id_genero) {
+            this.obra.id_genero = obraToEdit.idGenero;
+          }
+          if (obraToEdit.year) {
+            // Extraer solo el año de "YYYY-MM-DD..."
+            this.yearInput = new Date(obraToEdit.year).getFullYear();
+          }
+        } else {
+          // Obra no encontrada, volver a inicio
+          this.router.navigate(['/']);
+        }
+      }
+    });
   }
 
   async onSubmit(event: Event) {
@@ -75,17 +104,25 @@ export class CrearObra implements OnInit {
         idUsuario: user.id
       };
 
-      await this.obrasService.crearObra(data);
-      this.router.navigate(['/']);
+      if (this.obra.id) {
+        // Modo edición: Incluimos el ID en el body por si el backend lo requiere
+        const updateData = { ...data, id: this.obra.id };
+        await this.obrasService.actualizarObra(this.obra.id, updateData);
+        this.router.navigate(['/obra', this.obra.id]);
+      } else {
+        // Modo creación
+        await this.obrasService.crearObra(data);
+        this.router.navigate(['/']);
+      }
     } catch (err: any) {
-      console.error('Detalle del error al crear obra:', err);
+      console.error('Detalle del error al guardar obra:', err);
       
       if (err.error && typeof err.error === 'string') {
         this.errorMsg = err.error;
       } else if (err.error?.message) {
         this.errorMsg = err.error.message;
       } else {
-        this.errorMsg = 'Error al crear la obra. Por favor, revisa los datos y la conexión.';
+        this.errorMsg = 'Error al guardar la obra. Por favor, revisa los datos y la conexión.';
       }
     } finally {
       this.submitting = false;

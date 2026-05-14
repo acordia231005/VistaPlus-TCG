@@ -1,8 +1,8 @@
 <div class="crear-obra-container">
   <div class="form-card glass">
     <header class="form-header">
-      <h1>Publicar Obra</h1>
-      <p>Comparte tu creación con la comunidad de VistaPlus</p>
+      <h1>{{ obra.id ? 'Editar Obra' : 'Publicar Obra' }}</h1>
+      <p>{{ obra.id ? 'Modifica los datos de tu obra' : 'Comparte tu creación con la comunidad de VistaPlus' }}</p>
     </header>
 
     <form (submit)="onSubmit($event)" class="create-form">
@@ -32,7 +32,9 @@
       <div class="form-group">
         <label for="genero">Género</label>
         <select id="genero" name="id_genero" [(ngModel)]="obra.id_genero" required>
-          <option *ngFor="let g of generos" [value]="g.id">{{ g.nombre }}</option>
+          @for (g of generos; track g.id) {
+            <option [value]="g.id">{{ g.nombre }}</option>
+          }
         </select>
       </div>
 
@@ -87,7 +89,7 @@
             Enviando...
           } @else {
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"></path><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-            Publicar Obra
+            {{ obra.id ? 'Guardar Cambios' : 'Publicar Obra' }}
           }
         </button>
       </div>

@@ -64,6 +64,47 @@
           </div>
           <button class="btn-secondary">Cambiar contraseña</button>
         </div>
+
+        @if (esAutor()) {
+          <div class="section-card glass full-width">
+            <div class="section-header">
+              <h3>Mis Obras Publicadas</h3>
+              <button class="btn-add-obra" routerLink="/crear-obra">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Nueva Obra
+              </button>
+            </div>
+            
+            @if (misObras().length > 0) {
+              <div class="obras-mini-grid">
+                @for (obra of misObras(); track obra.id) {
+                  <div class="obra-mini-card" [routerLink]="['/obra', obra.id]">
+                    <div class="mini-cover">
+                      @if (obra.imagen) {
+                        <img [src]="obra.imagen" [alt]="obra.titulo">
+                      }
+                      @if (!obra.imagen) {
+                        <div class="mini-placeholder" [class]="'tipo-' + obra.tipo.toLowerCase()">
+                          {{ obra.titulo.charAt(0) }}
+                        </div>
+                      }
+                    </div>
+                    <div class="mini-info">
+                      <h4>{{ obra.titulo }}</h4>
+                      <span class="mini-badge">{{ obra.tipo }}</span>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+
+            @if (misObras().length === 0) {
+              <div class="no-obras-msg">
+                <p>Aún no has publicado ninguna obra.</p>
+              </div>
+            }
+          </div>
+        }
       </div>
     </div>
   </div>

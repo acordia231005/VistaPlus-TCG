@@ -92,6 +92,12 @@
   flex-direction: column;
 }
 
+.badges-wrapper {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+
 .badge {
   display: inline-block;
   background: rgba(59, 130, 246, 0.2);
@@ -102,8 +108,12 @@
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 1px;
-  margin-bottom: 1rem;
-  align-self: flex-start;
+}
+
+.badge-genero {
+  background: rgba(139, 92, 246, 0.2);
+  color: #a78bfa;
+  border-color: rgba(139, 92, 246, 0.5);
 }
 
 .header-titulos-wrapper {
@@ -162,6 +172,28 @@
   font-size: 1rem;
   font-weight: 600;
   color: #94a3b8;
+}
+
+.meta-info {
+  display: flex !important;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-bottom: 2.5rem;
+  color: #94a3b8;
+  font-size: 1.1rem;
+}
+
+.meta-info span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.meta-info strong {
+  color: #f1f5f9;
+  margin-right: 4px;
 }
 
 .descripcion-detalle {
@@ -232,6 +264,57 @@
 
 .btn-action:active svg {
   transform: scale(0.9);
+}
+
+/* Acciones de Autor/Admin */
+.acciones-autor {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+  padding-top: 25px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.btn-edit, .btn-delete {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.btn-edit {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+  border-color: rgba(16, 185, 129, 0.2);
+}
+
+.btn-edit:hover {
+  background: rgba(16, 185, 129, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+}
+
+.btn-delete {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+.btn-delete:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
+}
+
+.btn-delete:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .puntuacion-section {
@@ -439,8 +522,9 @@
   }
 
   .meta-info {
+    display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 1.5rem;
     justify-content: center;
   }
 

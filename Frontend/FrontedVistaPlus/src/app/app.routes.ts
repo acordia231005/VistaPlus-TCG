@@ -19,5 +19,6 @@ export const routes: Routes = [
   { path: 'lista', component: Lista, canActivate: [authGuard] },
   { path: 'obra/:id', component: ObraDetalle },
   { path: 'crear-obra', component: CrearObra, canActivate: [authGuard] },
+  { path: 'editar-obra/:id', component: CrearObra, canActivate: [authGuard] },
   { path: '**', redirectTo: '' }
 ];

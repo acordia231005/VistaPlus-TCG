@@ -38,23 +38,29 @@
         <div class="obra" [routerLink]="['/obra', obra.id]" style="cursor: pointer;">
           <!-- Imagen real o placeholder -->
           <div class="imagen-placeholder" [class]="'tipo-' + obra.tipo.toLowerCase()">
-            <img *ngIf="obra.imagen" [src]="obra.imagen" [alt]="obra.titulo" class="obra-cover">
+            @if (obra.imagen) {
+              <img [src]="obra.imagen" [alt]="obra.titulo" class="obra-cover">
+            }
             <span class="tipo-badge">{{ obra.tipo }}</span>
-            <div class="rating-badge" *ngIf="medias[obra.id] && medias[obra.id] !== '-'">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#fbbf24" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-              <span>{{ medias[obra.id] }}</span>
-            </div>
-            <div class="obra-inicial" *ngIf="!obra.imagen">{{ obra.titulo.charAt(0) }}</div>
+            @if (medias[obra.id] && medias[obra.id] !== '-') {
+              <div class="rating-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#fbbf24" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <span>{{ medias[obra.id] }}</span>
+              </div>
+            }
+            @if (!obra.imagen) {
+              <div class="obra-inicial">{{ obra.titulo.charAt(0) }}</div>
+            }
           </div>
           <div class="obra-info">
             <h2 class="titulo">{{ obra.titulo }}</h2>
             <p class="descripcion">{{ obra.sinopsis }}</p>
             <div class="obra-meta">
-              @if (obra.genero_nombre) {
-                <span class="meta-tag">{{ obra.genero_nombre }}</span>
+              @if (obra.genero_nombre || obra.generoNombre) {
+                <span class="meta-tag">{{ obra.genero_nombre || obra.generoNombre }}</span>
               }
-              @if (obra.autor_username) {
-                <span class="meta-autor">{{ obra.autor_username }}</span>
+              @if (obra.autor_username || obra.autorUsername) {
+                <span class="meta-autor">{{ obra.autor_username || obra.autorUsername }}</span>
               }
             </div>
           </div>

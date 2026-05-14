@@ -232,7 +232,9 @@
             </div>
           </label>
         </div>
-        <p class="form-hint" *ngIf="rol === 'AUTOR'">Como autor podrás publicar tus propias obras.</p>
+        @if (rol === 'AUTOR') {
+          <p class="form-hint">Como autor podrás publicar tus propias obras.</p>
+        }
       </div>
 
       <button

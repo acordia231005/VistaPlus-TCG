@@ -15,36 +15,42 @@ import { ObrasService } from '../../services/obras.service';
       </div>
 
       <!-- Grid de items -->
-      <div class="list-grid" *ngIf="items().length > 0">
-        @for (obra of items(); track obra.id) {
-          <div class="card glass" [routerLink]="['/obra', obra.id]">
-          <div class="card-image">
-            <img *ngIf="obra.imagen" [src]="obra.imagen" [alt]="obra.titulo" class="obra-cover">
-            <div *ngIf="!obra.imagen" class="imagen-placeholder" [class]="'tipo-' + obra.tipo.toLowerCase()">
-              <div class="obra-inicial">{{ obra.titulo.charAt(0) }}</div>
+      @if (items().length > 0) {
+        <div class="list-grid">
+          @for (obra of items(); track obra.id) {
+            <div class="card glass" [routerLink]="['/obra', obra.id]">
+              <div class="card-image">
+                @if (obra.imagen) {
+                  <img [src]="obra.imagen" [alt]="obra.titulo" class="obra-cover">
+                }
+                @if (!obra.imagen) {
+                  <div class="imagen-placeholder" [class]="'tipo-' + obra.tipo.toLowerCase()">
+                    <div class="obra-inicial">{{ obra.titulo.charAt(0) }}</div>
+                  </div>
+                }
+                <div class="card-overlay">
+                  <span class="badge">{{ obra.tipo | uppercase }}</span>
+                </div>
+              </div>
+              <div class="card-content">
+                <h3>{{ obra.titulo }}</h3>
+              </div>
             </div>
-            <div class="card-overlay">
-              <span class="badge">{{ obra.tipo | uppercase }}</span>
-            </div>
-          </div>
-            <div class="card-content">
-              <h3>{{ obra.titulo }}</h3>
-            </div>
-          </div>
-        }
-      </div>
-
-      <!-- Estado vacío -->
-      <div class="empty-state" *ngIf="items().length === 0">
-        <div class="empty-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
-          </svg>
+          }
         </div>
-        <h2>Tu lista está vacía</h2>
-        <p>Añade películas, series o libros para tenerlos siempre a mano.</p>
-        <button class="btn-primary" routerLink="/">Explorar contenido</button>
-      </div>
+      } @else {
+        <!-- Estado vacío -->
+        <div class="empty-state">
+          <div class="empty-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <h2>Tu lista está vacía</h2>
+          <p>Añade películas, series o libros para tenerlos siempre a mano.</p>
+          <button class="btn-primary" routerLink="/">Explorar contenido</button>
+        </div>
+      }
     </div>
   `,
   styles: [`

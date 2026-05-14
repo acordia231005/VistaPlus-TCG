@@ -1,4 +1,5 @@
-<div class="detalle-container" *ngIf="obra; else noEncontrado">
+@if (obra) {
+<div class="detalle-container">
   <a routerLink="/" class="back-button">
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
       <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
@@ -8,113 +9,160 @@
   
   <div class="detalle-content">
     <div class="detalle-imagen">
-      <img *ngIf="obra.imagen" [src]="obra.imagen" [alt]="obra.titulo" class="obra-cover">
-      <div *ngIf="!obra.imagen" class="imagen-placeholder" [class]="'tipo-' + obra.tipo.toLowerCase()">
-        <div class="obra-inicial">{{ obra.titulo.charAt(0) }}</div>
-      </div>
+      @if (obra.imagen) {
+        <img [src]="obra.imagen" [alt]="obra.titulo" class="obra-cover">
+      }
+      @if (!obra.imagen) {
+        <div class="imagen-placeholder" [class]="'tipo-' + obra.tipo.toLowerCase()">
+          <div class="obra-inicial">{{ obra.titulo.charAt(0) }}</div>
+        </div>
+      }
     </div>
     
     <div class="detalle-info">
       <div class="header-titulos-wrapper">
         <div class="titulos-text">
-          <span class="badge">{{obra.tipo | uppercase}}</span>
+          <div class="badges-wrapper">
+            <span class="badge">{{obra.tipo | uppercase}}</span>
+            @if (obra.genero_nombre || obra.generoNombre) {
+              <span class="badge badge-genero">{{obra.genero_nombre || obra.generoNombre}}</span>
+            }
+          </div>
           <h1 class="titulo-detalle">{{obra.titulo}}</h1>
         </div>
         
         <!-- Puntuación Global Destacada -->
-        <div class="puntuacion-global-premium" *ngIf="mediaGlobal() !== '-'">
-          <svg class="star-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#fbbf24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <div class="nota-container">
-            <span class="nota">{{ mediaGlobal() }}</span>
-            <span class="max-nota">/10</span>
+        @if (mediaGlobal() !== '-') {
+          <div class="puntuacion-global-premium">
+            <svg class="star-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#fbbf24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <div class="nota-container">
+              <span class="nota">{{ mediaGlobal() }}</span>
+              <span class="max-nota">/10</span>
+            </div>
           </div>
-        </div>
+        }
       </div>
       
       <div class="meta-info">
-        <span *ngIf="obra.year"><strong>Año:</strong> {{obra.year | date:'yyyy'}}</span>
-        <span *ngIf="obra.autor_username"><strong>Autor:</strong> {{obra.autor_username}}</span>
-        <span *ngIf="obra.genero_nombre"><strong>Género:</strong> {{obra.genero_nombre}}</span>
+        @if (obra.year) {
+          <span><strong>Año:</strong> {{obra.year | date:'yyyy'}}</span>
+        }
+        @if (obra.autor_username || obra.autorUsername) {
+          <span><strong>Autor:</strong> {{obra.autor_username || obra.autorUsername}}</span>
+        }
+        @if (obra.genero_nombre || obra.generoNombre) {
+          <span><strong>Género:</strong> {{obra.genero_nombre || obra.generoNombre}}</span>
+        }
       </div>
       
       <p class="descripcion-detalle">{{obra.sinopsis}}</p>
       
       <div class="acciones-detalle">
         <button class="btn-action" [class.active]="enLista()" (click)="toggleLista()" [title]="enLista() ? 'Quitar de la lista' : 'Añadir a mi lista'">
-          <svg *ngIf="!enLista()" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-          <svg *ngIf="enLista()" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          @if (!enLista()) {
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          } @else {
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          }
           <span>{{ enLista() ? 'En mi lista' : 'Mi lista' }}</span>
         </button>
 
         <button class="btn-action" [class.active]="visto()" (click)="toggleVisto()" [title]="visto() ? 'Marcar como no visto' : 'Marcar como visto'">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path *ngIf="!visto()" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-            <circle *ngIf="!visto()" cx="12" cy="12" r="3"></circle>
-            <path *ngIf="visto()" d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-            <line *ngIf="visto()" x1="1" y1="1" x2="23" y2="23"></line>
+            @if (!visto()) {
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            } @else {
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+              <line x1="1" y1="1" x2="23" y2="23"></line>
+            }
           </svg>
           <span>{{ visto() ? 'Visto' : 'Marcar visto' }}</span>
         </button>
       </div>
 
-      <!-- Sistema de Puntuación -->
-      <div class="puntuacion-section" *ngIf="user()">
-        <h3>Tu Puntuación</h3>
-        <div class="stars-container">
-          <button 
-            *ngFor="let s of [1,2,3,4,5,6,7,8,9,10]" 
-            class="star-btn" 
-            [class.filled]="nuevaPuntuacion >= s"
-            (click)="guardarPuntuacion(s)">
-            ★
+      <!-- Acciones de Autor/Admin -->
+      @if (esAutorOrAdmin()) {
+        <div class="acciones-autor">
+          <button class="btn-edit" [routerLink]="['/editar-obra', obra.id]">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+            Editar Obra
           </button>
-          <span class="puntuacion-numero" *ngIf="nuevaPuntuacion > 0">{{nuevaPuntuacion}}/10</span>
+          <button class="btn-delete" (click)="eliminarObra()" [disabled]="eliminando()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+            {{ eliminando() ? 'Eliminando...' : 'Eliminar Obra' }}
+          </button>
         </div>
-      </div>
+      }
+
+      <!-- Sistema de Puntuación -->
+      @if (user()) {
+        <div class="puntuacion-section">
+          <h3>Tu Puntuación</h3>
+          <div class="stars-container">
+            @for (s of [1,2,3,4,5,6,7,8,9,10]; track s) {
+              <button 
+                class="star-btn" 
+                [class.filled]="nuevaPuntuacion >= s"
+                (click)="guardarPuntuacion(s)">
+                ★
+              </button>
+            }
+            @if (nuevaPuntuacion > 0) {
+              <span class="puntuacion-numero">{{nuevaPuntuacion}}/10</span>
+            }
+          </div>
+        </div>
+      }
 
       <div class="comentarios-section">
         <h3>Opiniones de la comunidad</h3>
         
         <!-- Formulario para nueva opinión -->
-        <div class="comentario-input-wrapper glass" *ngIf="user()">
-          <textarea 
-            [(ngModel)]="nuevoComentario" 
-            placeholder="Escribe tu opinión sobre esta obra..." 
-            rows="3"></textarea>
-          <div class="form-footer">
-            <span class="hint">Tu comentario se guardará junto con tu puntuación.</span>
-            <button 
-              class="btn-send" 
-              (click)="enviarOpinion()" 
-              [disabled]="enviando() || !nuevoComentario.trim()">
-              {{ enviando() ? 'Publicando...' : 'Publicar' }}
-            </button>
+        @if (user()) {
+          <div class="comentario-input-wrapper glass">
+            <textarea 
+              [(ngModel)]="nuevoComentario" 
+              placeholder="Escribe tu opinión sobre esta obra..." 
+              rows="3"></textarea>
+            <div class="form-footer">
+              <span class="hint">Tu comentario se guardará junto con tu puntuación.</span>
+              <button 
+                class="btn-send" 
+                (click)="enviarOpinion()" 
+                [disabled]="enviando() || !nuevoComentario.trim()">
+                {{ enviando() ? 'Publicando...' : 'Publicar' }}
+              </button>
+            </div>
           </div>
-        </div>
+        }
 
         <!-- Lista de opiniones -->
         <div class="opiniones-lista">
-          <div *ngIf="opiniones().length === 0" class="no-opiniones">
-            Aún no hay opiniones. ¡Sé el primero en compartir la tuya!
-          </div>
-          
-          <div *ngFor="let op of opiniones()" class="opinion-card glass">
-            <div class="opinion-header">
-              <span class="user-name">{{ op.usuarioUsername || 'Usuario ' + op.usuarioId }}</span>
-              <span class="rating-badge">{{ op.puntuacion }}/10</span>
+          @if (opiniones().length === 0) {
+            <div class="no-opiniones">
+              Aún no hay opiniones. ¡Sé el primero en compartir la tuya!
             </div>
-            <p class="opinion-text">{{ op.comentario }}</p>
-            <span class="opinion-date">{{ op.fecha | date:'dd/MM/yyyy' }}</span>
-          </div>
+          }
+          
+          @for (op of opiniones(); track op.id || $index) {
+            <div class="opinion-card glass">
+              <div class="opinion-header">
+                <span class="user-name">{{ op.usuarioUsername || 'Usuario ' + op.usuarioId }}</span>
+                <span class="rating-badge">{{ op.puntuacion }}/10</span>
+              </div>
+              <p class="opinion-text">{{ op.comentario }}</p>
+              <span class="opinion-date">{{ op.fecha | date:'dd/MM/yyyy' }}</span>
+            </div>
+          }
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<ng-template #noEncontrado>
+} @else {
   <div class="detalle-container">
     <h2>Obra no encontrada</h2>
     <a routerLink="/" class="btn-primary">Volver al inicio</a>
   </div>
-</ng-template>
+}
