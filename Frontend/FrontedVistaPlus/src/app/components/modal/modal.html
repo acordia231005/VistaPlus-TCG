@@ -1,0 +1,24 @@
+@if (modalService.isOpen()) {
+  <div class="modal-overlay" (click)="onCancel()">
+    <div class="modal-container glass" (click)="$event.stopPropagation()">
+      <div class="modal-header" [class]="modalService.options()?.type || 'info'">
+        <div class="modal-icon">{{ getIcon() }}</div>
+        <h2 class="modal-title">{{ modalService.options()?.title }}</h2>
+        <button class="close-btn" (click)="onCancel()">&times;</button>
+      </div>
+      
+      <div class="modal-body">
+        <p>{{ modalService.options()?.message }}</p>
+      </div>
+      
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="onCancel()">
+          {{ modalService.options()?.cancelText || 'Cancelar' }}
+        </button>
+        <button class="btn-confirm" [class]="modalService.options()?.type || 'info'" (click)="onConfirm()">
+          {{ modalService.options()?.confirmText || 'Aceptar' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

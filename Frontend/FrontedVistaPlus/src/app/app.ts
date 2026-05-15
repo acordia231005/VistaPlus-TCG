@@ -2,11 +2,12 @@ import { Component, signal, computed } from '@angular/core';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { Header } from './components/header/header';
 import { Footer } from './components/footer/footer';
+import { ModalComponent } from './components/modal/modal';
 import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Header, Footer],
+  imports: [RouterOutlet, Header, Footer, ModalComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

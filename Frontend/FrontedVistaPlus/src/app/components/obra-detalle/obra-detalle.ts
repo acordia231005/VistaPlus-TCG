@@ -4,6 +4,7 @@ import { ActivatedRoute, RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ObrasService, Obra, Opinion } from '../../services/obras.service';
 import { AuthService } from '../../services/auth.service';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
   selector: 'app-obra-detalle',
@@ -33,7 +34,8 @@ export class ObraDetalle implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private obrasService: ObrasService,
-    private authService: AuthService
+    private authService: AuthService,
+    private modalService: ModalService
   ) {}
 
   async ngOnInit() {
@@ -62,7 +64,7 @@ export class ObraDetalle implements OnInit {
       const miOp = ops.find(o => o.usuarioId === this.user()?.id);
       if (miOp) {
         this.nuevaPuntuacion = miOp.puntuacion;
-        this.nuevoComentario = miOp.comentario;
+        this.nuevoComentario = miOp.comentario || '';
       }
     }
   }
@@ -134,14 +136,25 @@ export class ObraDetalle implements OnInit {
   async eliminarObra() {
     if (!this.obra) return;
     
-    if (confirm('¿Estás seguro de que quieres eliminar esta obra? Esta acción no se puede deshacer.')) {
+    // Abrir modal de confirmación
+    const confirmed = await this.modalService.confirm({
+      title: 'Eliminar Obra',
+      message: '¿Estás seguro de que quieres eliminar esta obra? Esta acción no se puede deshacer.',
+      confirmText: 'Sí, eliminar',
+      cancelText: 'Cancelar',
+      type: 'danger'
+    });
+
+    // Si confirma en el modal, ejecutamos el borrado
+    if (confirmed) {
       this.eliminando.set(true);
       try {
         await this.obrasService.eliminarObra(this.obra.id);
         this.router.navigate(['/']);
       } catch (err) {
         console.error('Error al eliminar:', err);
-        alert('Hubo un error al eliminar la obra.');
+        // Usar alert simple solo si falla el proceso crítico
+        alert('Hubo un error al eliminar la obra. Por favor, inténtalo de nuevo.');
       } finally {
         this.eliminando.set(false);
       }
