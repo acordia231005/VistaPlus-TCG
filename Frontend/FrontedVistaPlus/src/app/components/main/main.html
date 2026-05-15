@@ -1,5 +1,50 @@
 <main class="app-main">
-  <section class="main-content">
+  <div class="main-layout">
+    <!-- Sidebar de Filtros Izquierda -->
+    <aside class="sidebar-filters glass">
+      <h2 class="sidebar-title">Filtros</h2>
+      
+      <div class="filter-group">
+        <label>Género</label>
+        <select [ngModel]="generoFiltro()" (ngModelChange)="generoFiltro.set($event); filtrarObras()" [ngModelOptions]="{standalone: true}">
+          <option [value]="0">Todos los géneros</option>
+          @for (gen of generos; track gen.id) {
+            <option [value]="gen.id">{{ gen.nombre }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Año</label>
+        <select [ngModel]="anioFiltro()" (ngModelChange)="anioFiltro.set($event); filtrarObras()" [ngModelOptions]="{standalone: true}">
+          <option value="">Cualquier año</option>
+          @for (anio of aniosDisponibles; track anio) {
+            <option [value]="anio">{{ anio }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Valoración mínima</label>
+        <div class="rating-filter-sidebar">
+          <input type="range" min="0" max="10" step="0.5" 
+                 [ngModel]="valoracionFiltro()" 
+                 (ngModelChange)="valoracionFiltro.set($event); filtrarObras()" 
+                 [ngModelOptions]="{standalone: true}">
+          <span class="rating-value">{{ valoracionFiltro() > 0 ? valoracionFiltro() + '+' : 'Todas' }}</span>
+        </div>
+      </div>
+
+      <button class="btn-reset-sidebar" (click)="resetFiltros()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+          <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+        </svg>
+        Limpiar Filtros
+      </button>
+    </aside>
+
+    <section class="main-content">
 
     <!-- Estado: cargando (Skeleton Loaders) -->
     @if (cargando) {
@@ -34,38 +79,44 @@
 
     <!-- Grid de obras -->
     @if (!cargando && !error) {
-      @for (obra of obrasFiltradas; track obra.id) {
-        <div class="obra" [routerLink]="['/obra', obra.id]" style="cursor: pointer;">
-          <!-- Imagen real o placeholder -->
-          <div class="imagen-placeholder" [class]="'tipo-' + obra.tipo.toLowerCase()">
-            @if (obra.imagen) {
-              <img [src]="obra.imagen" [alt]="obra.titulo" class="obra-cover">
-            }
-            <span class="tipo-badge">{{ obra.tipo }}</span>
-            @if (medias[obra.id] && medias[obra.id] !== '-') {
-              <div class="rating-badge">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#fbbf24" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <span>{{ medias[obra.id] }}</span>
+      <div class="main-content-grid">
+        @for (obra of obrasFiltradas; track obra.id) {
+          <div class="obra-poster" [routerLink]="['/obra', obra.id]">
+            <div class="poster-container">
+              <!-- Badge de Valoración flotante -->
+              @if (medias[obra.id] && medias[obra.id] !== '-') {
+                <div class="rating-badge-mini">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                  </svg>
+                  <span>{{ medias[obra.id] }}</span>
+                </div>
+              }
+
+              <!-- Imagen del póster -->
+              @if (obra.imagen) {
+                <img [src]="obra.imagen" [alt]="obra.titulo" class="poster-img">
+              } @else {
+                <div class="poster-placeholder" [class]="'tipo-' + obra.tipo.toLowerCase()">
+                  <span>{{ obra.titulo.charAt(0) }}</span>
+                </div>
+              }
+
+              <!-- Overlay de información -->
+              <div class="poster-overlay">
+                <h3 class="poster-title">{{ obra.titulo }}</h3>
+                <div class="poster-meta">
+                  <span class="poster-year">{{ (obra.year && obra.year.includes('-')) ? obra.year.split('-')[0] : '----' }}</span>
+                  <span class="poster-genre">{{ obra.genero_nombre || obra.generoNombre }}</span>
+                </div>
+                <div class="poster-meta">
+                  <span class="poster-author">{{ obra.autor_username || obra.autorUsername }}</span>
+                </div>
               </div>
-            }
-            @if (!obra.imagen) {
-              <div class="obra-inicial">{{ obra.titulo.charAt(0) }}</div>
-            }
-          </div>
-          <div class="obra-info">
-            <h2 class="titulo">{{ obra.titulo }}</h2>
-            <p class="descripcion">{{ obra.sinopsis }}</p>
-            <div class="obra-meta">
-              @if (obra.genero_nombre || obra.generoNombre) {
-                <span class="meta-tag">{{ obra.genero_nombre || obra.generoNombre }}</span>
-              }
-              @if (obra.autor_username || obra.autorUsername) {
-                <span class="meta-autor">{{ obra.autor_username || obra.autorUsername }}</span>
-              }
             </div>
           </div>
-        </div>
-      }
+        }
+      </div>
 
       <!-- Sin resultados -->
       @if (obrasFiltradas.length === 0) {
@@ -76,4 +127,5 @@
     }
 
   </section>
+  </div>
 </main>

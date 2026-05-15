@@ -130,7 +130,7 @@
               <button 
                 class="btn-send" 
                 (click)="enviarOpinion()" 
-                [disabled]="enviando() || !nuevoComentario?.trim()">
+                [disabled]="enviando() || !nuevoComentario.trim()">
                 {{ enviando() ? 'Publicando...' : 'Publicar' }}
               </button>
             </div>
