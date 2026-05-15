@@ -35,7 +35,7 @@ export interface Genero {
   nombre: string;
 }
 
-const API_BASE = 'http://localhost:8080';
+const API_URL = 'http://localhost:8080';
 
 @Injectable({
   providedIn: 'root'
@@ -73,7 +73,7 @@ export class ObrasService {
     this.errorSignal.set(null);
     try {
       const obras = await firstValueFrom(
-        this.http.get<Obra[]>(`${API_BASE}/obra`)
+        this.http.get<Obra[]>(`${API_URL}/obra`)
       );
       this.obrasSignal.set(obras);
     } catch {
@@ -107,7 +107,7 @@ export class ObrasService {
 
     try {
       return await firstValueFrom(
-        this.http.get<Obra>(`${API_BASE}/obra/${id}`)
+        this.http.get<Obra>(`${API_URL}/obra/${id}`)
       );
     } catch {
       return undefined;
@@ -155,7 +155,7 @@ export class ObrasService {
   async getOpinionesDeObra(id_obra: number): Promise<Opinion[]> {
     try {
       return await firstValueFrom(
-        this.http.get<Opinion[]>(`${API_BASE}/obra/${id_obra}/opiniones`)
+        this.http.get<Opinion[]>(`${API_URL}/obra/${id_obra}/opiniones`)
       );
     } catch {
       return [];
@@ -165,7 +165,7 @@ export class ObrasService {
   async puntuarObra(usuario_id: number, obra_id: number, puntuacion: number): Promise<void> {
     try {
       await firstValueFrom(
-        this.http.post(`${API_BASE}/usuario/${usuario_id}/obras/${obra_id}/puntuacion`, puntuacion)
+        this.http.post(`${API_URL}/usuario/${usuario_id}/obras/${obra_id}/puntuacion`, puntuacion)
       );
     } catch (err) {
       console.error('Error al puntuar', err);
@@ -176,7 +176,7 @@ export class ObrasService {
   async comentarObra(usuario_id: number, obra_id: number, comentario: string): Promise<void> {
     try {
       await firstValueFrom(
-        this.http.post(`${API_BASE}/usuario/${usuario_id}/obras/${obra_id}/comentario`, comentario)
+        this.http.post(`${API_URL}/usuario/${usuario_id}/obras/${obra_id}/comentario`, comentario)
       );
       // Actualizamos el contador local para que el perfil se refresque
       this.comentariosSignal.update(c => [...c, { obraId: obra_id, texto: comentario }]);
@@ -193,7 +193,7 @@ export class ObrasService {
   async crearObra(obra: Partial<Obra>): Promise<Obra> {
     try {
       const response = await firstValueFrom(
-        this.http.post<Obra>(`${API_BASE}/obra`, obra)
+        this.http.post<Obra>(`${API_URL}/obra`, obra)
       );
       // Recargamos las obras para que aparezca la nueva
       await this.cargarObras();
@@ -211,7 +211,7 @@ export class ObrasService {
   async getGeneros(): Promise<Genero[]> {
     try {
       return await firstValueFrom(
-        this.http.get<Genero[]>(`${API_BASE}/genero`)
+        this.http.get<Genero[]>(`${API_URL}/genero`)
       );
     } catch {
       // Mock de seguridad si falla la red
@@ -233,7 +233,7 @@ export class ObrasService {
   async actualizarObra(id: number, obra: Partial<Obra>): Promise<Obra> {
     try {
       const response = await firstValueFrom(
-        this.http.put<Obra>(`${API_BASE}/obra/${id}`, obra)
+        this.http.put<Obra>(`${API_URL}/obra/${id}`, obra)
       );
       await this.cargarObras(); // Refresh local list
       return response;
@@ -250,7 +250,7 @@ export class ObrasService {
   async eliminarObra(id: number): Promise<void> {
     try {
       await firstValueFrom(
-        this.http.delete(`${API_BASE}/obra/${id}`)
+        this.http.delete(`${API_URL}/obra/${id}`)
       );
       await this.cargarObras(); // Refresh local list
     } catch (err) {

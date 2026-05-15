@@ -9,7 +9,7 @@ export interface LoginResponse {
   refresh: string;
 }
 
-const API_BASE = 'http://localhost:8080';
+const API_URL = 'http://localhost:8080';
 
 export interface User {
   id: number;
@@ -54,7 +54,7 @@ export class AuthService {
   async fetchUserProfile(username: string): Promise<void> {
     try {
       const user = await firstValueFrom(
-        this.http.get<User>(`${API_BASE}/usuario/username/${username}`)
+        this.http.get<User>(`${API_URL}/usuario/username/${username}`)
       );
       console.log('Perfil de usuario recuperado:', user);
       this.currentUser.set(user);
@@ -71,7 +71,7 @@ export class AuthService {
   async login(username: string, password: string): Promise<{ success: boolean; error?: string }> {
     try {
       const response = await firstValueFrom(
-        this.http.post<LoginResponse>(`${API_BASE}/auth/login`, { username, password })
+        this.http.post<LoginResponse>(`${API_URL}/auth/login`, { username, password })
       );
       this.handleAuthSuccess(response, username);
       return { success: true };
@@ -93,7 +93,7 @@ export class AuthService {
   async register(username: string, email: string, password: string, rol: string = 'USER', nacionalidad: string = '', fechaNac: string = ''): Promise<{ success: boolean; error?: string }> {
     try {
       const response = await firstValueFrom(
-        this.http.post<LoginResponse>(`${API_BASE}/auth/register`, { username, email, password, rol, nacionalidad, fechaNac }, { observe: 'response' })
+        this.http.post<LoginResponse>(`${API_URL}/auth/register`, { username, email, password, rol, nacionalidad, fechaNac }, { observe: 'response' })
       );
       // El register puede devolver el token en el header o en el body
       const token = response.headers.get('Authorization')?.replace('Bearer ', '')
