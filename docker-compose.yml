@@ -42,7 +42,7 @@ services:
       - db
 
   frontend:
-    image: acordia2310/FrontedVistaPlus:latest
+    image: acordia2310/fronted-vista-plus:latest
     restart: always
     environment:
       # Si usas ngx-env o similar para parametrizar el frontend

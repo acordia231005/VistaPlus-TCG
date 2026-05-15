@@ -9,8 +9,6 @@ export interface LoginResponse {
   refresh: string;
 }
 
-const API_URL = 'http://localhost:8080';
-
 export interface User {
   id: number;
   username: string;
@@ -28,6 +26,7 @@ export class AuthService {
   private readonly TOKEN_KEY = 'vistaplus_token';
   private readonly REFRESH_KEY = 'vistaplus_refresh';
   private readonly USERNAME_KEY = 'vistaplus_username';
+  private apiUrl = 'http://localhost:8080';
 
   readonly isLoggedIn = signal(false);
   readonly currentUsername = signal<string | null>(null);
@@ -54,7 +53,7 @@ export class AuthService {
   async fetchUserProfile(username: string): Promise<void> {
     try {
       const user = await firstValueFrom(
-        this.http.get<User>(`${API_URL}/usuario/username/${username}`)
+        this.http.get<User>(`${this.apiUrl}/usuario/username/${username}`)
       );
       console.log('Perfil de usuario recuperado:', user);
       this.currentUser.set(user);
@@ -71,7 +70,7 @@ export class AuthService {
   async login(username: string, password: string): Promise<{ success: boolean; error?: string }> {
     try {
       const response = await firstValueFrom(
-        this.http.post<LoginResponse>(`${API_URL}/auth/login`, { username, password })
+        this.http.post<LoginResponse>(`${this.apiUrl}/auth/login`, { username, password })
       );
       this.handleAuthSuccess(response, username);
       return { success: true };
@@ -93,7 +92,7 @@ export class AuthService {
   async register(username: string, email: string, password: string, rol: string = 'USER', nacionalidad: string = '', fechaNac: string = ''): Promise<{ success: boolean; error?: string }> {
     try {
       const response = await firstValueFrom(
-        this.http.post<LoginResponse>(`${API_URL}/auth/register`, { username, email, password, rol, nacionalidad, fechaNac }, { observe: 'response' })
+        this.http.post<LoginResponse>(`${this.apiUrl}/auth/register`, { username, email, password, rol, nacionalidad, fechaNac }, { observe: 'response' })
       );
       // El register puede devolver el token en el header o en el body
       const token = response.headers.get('Authorization')?.replace('Bearer ', '')
