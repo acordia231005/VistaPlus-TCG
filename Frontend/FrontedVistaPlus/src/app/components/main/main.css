@@ -141,9 +141,9 @@
 .main-content-grid {
   width: 100%;
   display: grid;
-  /* Tamaño equilibrado: más grandes que antes, pero permitiendo varias por fila */
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 2.5rem;
+  /* Tarjetas más pequeñas para asegurar 4 por fila en la mayoría de pantallas */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
   padding: 0;
 }
 
@@ -209,7 +209,7 @@
 .poster-title {
   font-family: 'Outfit', 'Inter', sans-serif;
   font-weight: 800;
-  font-size: 1rem; /* Un poco más pequeño para el overlay */
+  font-size: 0.9rem; /* Adaptado a tarjetas más pequeñas */
   color: #ffffff;
   text-transform: uppercase;
   margin: 0;
@@ -343,8 +343,8 @@
 /* ── Skeleton Loaders Póster ── */
 .skeleton-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 2.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
   width: 100%;
 }
 

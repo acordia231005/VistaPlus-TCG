@@ -21,7 +21,8 @@ export class CrearObra implements OnInit {
     imagen: ''
   };
 
-  yearInput: number = new Date().getFullYear();
+  currentYear: number = new Date().getFullYear();
+  yearInput: number = this.currentYear;
   generos: Genero[] = [];
   submitting = false;
   errorMsg = '';

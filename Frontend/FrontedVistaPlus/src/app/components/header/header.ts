@@ -26,10 +26,12 @@ export class Header {
   });
 
   buscar(term: string) {
-    if (term.trim()) {
-      this.router.navigate(['/'], { queryParams: { q: term.trim() } });
-      this.closeMobileMenu();
-    }
+    const cleanTerm = term.trim();
+    this.router.navigate(['/'], { 
+      queryParams: { q: cleanTerm || null },
+      queryParamsHandling: 'merge' 
+    });
+    this.closeMobileMenu();
   }
 
   toggleMenu(): void {
