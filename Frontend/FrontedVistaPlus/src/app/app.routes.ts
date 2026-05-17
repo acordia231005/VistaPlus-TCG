@@ -9,10 +9,10 @@ import { Lista } from './components/lista/lista';
 import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
-  { path: '', component: Main },
-  { path: 'peliculas', component: Main },
-  { path: 'series', component: Main },
-  { path: 'libros', component: Main },
+  { path: '', component: Main, canActivate: [authGuard] },
+  { path: 'peliculas', component: Main, canActivate: [authGuard] },
+  { path: 'series', component: Main, canActivate: [authGuard] },
+  { path: 'libros', component: Main, canActivate: [authGuard] },
   { path: 'login', component: Login },
   { path: 'register', component: Register },
   { path: 'perfil', component: Profile, canActivate: [authGuard] },
