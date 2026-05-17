@@ -28,7 +28,7 @@ services:
       - db
 
   backend:
-    image: vricheb973/daw-task-backend:latest
+    image: acordia2310/-vista-plus-backend:latest
     restart: always
     environment:
       PERFIL_ACTIVO: prod
@@ -42,7 +42,7 @@ services:
       - db
 
   frontend:
-    image: acordia2310/fronted-vista-plus:latest
+    image: acordia2310/frontend-vista-plus:latest
     restart: always
     environment:
       # Si usas ngx-env o similar para parametrizar el frontend
