@@ -35,7 +35,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mariadb://db:3306/daw-task?createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: secreta
-      FRONTEND_URL: http://217.160.115.67
+      FRONTEND_URL: http://10.0.2.15
     ports:
       - "8080:8080"
     depends_on:
@@ -46,7 +46,7 @@ services:
     restart: always
     environment:
       # Si usas ngx-env o similar para parametrizar el frontend
-      API_URL: http://backend:8080
+      API_URL: http://10.0.2.15:8080
     ports:
       - "80:80"
     depends_on:
