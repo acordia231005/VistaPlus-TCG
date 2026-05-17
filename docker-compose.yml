@@ -46,7 +46,7 @@ services:
     restart: always
     environment:
       # Si usas ngx-env o similar para parametrizar el frontend
-      API_URL: http://192.168.0.112:8080
+      apiUrl: http://192.168.0.112:8080
     ports:
       - "80:80"
     depends_on:
