@@ -1,6 +1,7 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface Obra {
   id: number;
@@ -44,7 +45,7 @@ export class ObrasService {
   private readonly obrasSignal = signal<Obra[]>([]);
   private readonly cargandoSignal = signal<boolean>(false);
   private readonly errorSignal = signal<string | null>(null);
-  private apiUrl = 'http://localhost:8080';
+  private apiUrl = environment.apiUrl;
 
   // Estado de usuario
   private readonly miListaSignal = signal<Obra[]>([]);

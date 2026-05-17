@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: (window as any)['env']?.API_URL 
-  || 'http://localhost:8080/VistaPlus'
+  apiUrl: (window as any)['env']?.apiUrl 
+  || 'http://192.168.0.112:8080'
 };

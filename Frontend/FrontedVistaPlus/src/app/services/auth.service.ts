@@ -2,6 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 // Contrato real del backend: POST /auth/login → { access, refresh }
 export interface LoginResponse {
@@ -26,7 +27,7 @@ export class AuthService {
   private readonly TOKEN_KEY = 'vistaplus_token';
   private readonly REFRESH_KEY = 'vistaplus_refresh';
   private readonly USERNAME_KEY = 'vistaplus_username';
-  private apiUrl = 'http://localhost:8080';
+  private apiUrl = environment.apiUrl;
 
   readonly isLoggedIn = signal(false);
   readonly currentUsername = signal<string | null>(null);
