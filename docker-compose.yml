@@ -28,7 +28,7 @@ services:
       - db
 
   backend:
-    image: acordia2310/-vista-plus-backend:latest
+    image: acordia2310/vista-plus-backend:latest
     restart: always
     environment:
       PERFIL_ACTIVO: prod
