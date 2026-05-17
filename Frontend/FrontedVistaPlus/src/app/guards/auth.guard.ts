@@ -1,16 +1,14 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
 
 export const authGuard: CanActivateFn = () => {
-  const authService = inject(AuthService);
   const router = inject(Router);
+  const token = localStorage.getItem('vista_plus_token');
 
-  if (authService.isLoggedIn()) {
+  if (token) {
     return true;
   }
 
-  // Si no está logueado, redirige al login
   router.navigate(['/login']);
   return false;
 };
