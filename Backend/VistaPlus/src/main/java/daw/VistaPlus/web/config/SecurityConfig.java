@@ -26,6 +26,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig {
 
 
+	@Value("${app.cors.allowed-origin}")
+	private String allowedOrigins;
+
 	@Autowired
 	private JwtFilter jwtFilter;
 
