@@ -27,7 +27,7 @@ export class AuthService {
   private readonly TOKEN_KEY = 'vistaplus_token';
   private readonly REFRESH_KEY = 'vistaplus_refresh';
   private readonly USERNAME_KEY = 'vistaplus_username';
-  private readonly apiUrl = environment.apiUrl;
+  private readonly apiUrl = 'http://localhost:8080';
 
   readonly isLoggedIn = signal(false);
   readonly currentUsername = signal<string | null>(null);

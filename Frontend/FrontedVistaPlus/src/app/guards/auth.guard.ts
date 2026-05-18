@@ -3,9 +3,15 @@ import { CanActivateFn, Router } from '@angular/router';
 
 export const authGuard: CanActivateFn = () => {
   const router = inject(Router);
-  const token = localStorage.getItem('vista_plus_token');
 
-  if (token) {
+  if (typeof window !== 'undefined') {
+    const token = localStorage.getItem('vistaplus_token');
+    if (token) {
+      return true;
+    }
+  } else {
+    // Durante el SSR en el servidor, permitimos renderizar la estructura básica.
+    // Una vez en el navegador, el cliente volverá a evaluar y redirigirá si no hay token.
     return true;
   }
 

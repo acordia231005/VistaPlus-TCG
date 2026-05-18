@@ -38,7 +38,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mariadb://db:3306/daw-task?createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: secreta
-      FRONTEND_URL: http://192.168.9.150
+      FRONTEND_URL: http://localhost:4200
     ports:
       - "8080:8080"
     depends_on:
@@ -51,9 +51,9 @@ services:
       dockerfile: Dockerfile
     restart: always
     environment:
-      API_URL: http://192.168.9.150:8080
+      API_URL: http://localhost:8080
     ports:
-      - "80:4000"
+      - "4200:4000"
     depends_on:
       - backend
 volumes:

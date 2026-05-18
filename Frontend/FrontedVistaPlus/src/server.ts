@@ -13,7 +13,7 @@ const app = express();
 const angularApp = new AngularNodeAppEngine();
 
 app.get('/assets/env.js', (req, res) => {
-  const apiUrl = process.env['API_URL'] || 'http://192.168.9.150:8080';
+  const apiUrl = process.env['API_URL'] || 'http://localhost:8080';
   res.setHeader('Content-Type', 'application/javascript');
   res.send(`
 (function (window) {
@@ -64,12 +64,8 @@ app.use((req, res, next) => {
  */
 if (isMainModule(import.meta.url) || process.env['pm_id']) {
   const port = process.env['PORT'] || 4000;
-  app.listen(Number(port), '0.0.0.0', (error) => {
-    if (error) {
-      throw error;
-    }
-
-    console.log(`Node Express server listening on http://0.0.0.0:${port}`);
+  app.listen(port, () => {
+    console.log(`Node Express server listening on http://localhost:${port}`);
   });
 }
 
