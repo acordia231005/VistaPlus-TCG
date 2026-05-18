@@ -3,7 +3,7 @@ services:
     image: mariadb:11
     environment:
       MYSQL_ROOT_PASSWORD: secreta
-      MYSQL_DATABASE: daw
+      MYSQL_DATABASE: VistaPlus
       MYSQL_USER: admin
       MYSQL_PASSWORD: secreta
     ports:
@@ -35,7 +35,7 @@ services:
     restart: always
     environment:
       PERFIL_ACTIVO: prod
-      SPRING_DATASOURCE_URL: jdbc:mariadb://db:3306/daw-task?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_URL: jdbc:mariadb://db:3306/VistaPlus?createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: secreta
       
