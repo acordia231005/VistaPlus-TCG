@@ -29,13 +29,16 @@ services:
 
   backend:
     image: acordia2310/vista-plus-backend:latest
+    build:
+      context: ./Backend/VistaPlus
+      dockerfile: Dockerfile
     restart: always
     environment:
       PERFIL_ACTIVO: prod
       SPRING_DATASOURCE_URL: jdbc:mariadb://db:3306/daw-task?createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: secreta
-      FRONTEND_URL: http://192.168.0.112
+      FRONTEND_URL: http://192.168.9.150
     ports:
       - "8080:8080"
     depends_on:
@@ -43,10 +46,12 @@ services:
 
   frontend:
     image: acordia2310/frontend-vista-plus:latest
+    build:
+      context: ./Frontend/FrontedVistaPlus
+      dockerfile: Dockerfile
     restart: always
     environment:
-      # Si usas ngx-env o similar para parametrizar el frontend
-      apiUrl: http://192.168.0.112:8080
+      API_URL: http://192.168.9.150:8080
     ports:
       - "80:80"
     depends_on:
