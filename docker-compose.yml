@@ -41,9 +41,9 @@ services:
       
       # [CONFIGURACIÓN DE ENTORNOS]
       # >>> LOCAL:
-      FRONTEND_URL: http://localhost:4200
+      #FRONTEND_URL: http://localhost:4200
       # >>> VPS (Descomenta esta y comenta la de arriba si cambias de máquina):
-      # FRONTEND_URL: http://192.168.9.150
+      FRONTEND_URL: http://192.168.9.150
     ports:
       - "8080:8080"
     depends_on:
@@ -58,15 +58,15 @@ services:
     environment:
       # [CONFIGURACIÓN DE ENTORNOS]
       # >>> LOCAL:
-      API_URL: http://localhost:8080
+      #API_URL: http://localhost:8080
       # >>> VPS (Descomenta esta y comenta la de arriba si cambias de máquina):
-      # API_URL: http://192.168.9.150:8080
+      API_URL: http://192.168.9.150:8080
     ports:
       # [CONFIGURACIÓN DE ENTORNOS]
       # >>> LOCAL:
-      - "4200:4000"
+      #- "4200:4000"
       # >>> VPS (Descomenta esta para entrar directo por la IP y comenta la de arriba):
-      #- "80:4000"
+      - "80:4000"
     depends_on:
       - backend
 volumes:
