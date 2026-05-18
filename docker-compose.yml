@@ -39,11 +39,6 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: secreta
       
-      # [CONFIGURACIÓN DE ENTORNOS]
-      # >>> LOCAL:
-      #FRONTEND_URL: http://localhost:4200
-      # >>> VPS (Descomenta esta y comenta la de arriba si cambias de máquina):
-      FRONTEND_URL: http://192.168.9.150
     ports:
       - "8080:8080"
     depends_on:

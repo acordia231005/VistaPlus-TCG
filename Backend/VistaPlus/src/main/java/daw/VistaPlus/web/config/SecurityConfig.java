@@ -25,8 +25,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 public class SecurityConfig {
 
-	@Value("${frontend.url}")
-	private String frontendUrls;
 
 	@Autowired
 	private JwtFilter jwtFilter;
@@ -77,11 +75,9 @@ public class SecurityConfig {
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 
-		List<String> allowedOrigins = new java.util.ArrayList<>(Arrays.stream(frontendUrls.split(","))
-				.map(String::trim)
-				.toList());
-
-		configuration.setAllowedOrigins(allowedOrigins);
+		// Permitimos cualquier origen de forma dinámica, lo cual elimina
+		// por completo los bloqueos de CORS en cualquier entorno (Local o VPS)
+		configuration.setAllowedOriginPatterns(List.of("*"));
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 		configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept"));
 		configuration.setExposedHeaders(List.of("Authorization"));
