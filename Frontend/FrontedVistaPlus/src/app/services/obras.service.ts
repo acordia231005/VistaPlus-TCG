@@ -45,7 +45,7 @@ export class ObrasService {
   private readonly obrasSignal = signal<Obra[]>([]);
   private readonly cargandoSignal = signal<boolean>(false);
   private readonly errorSignal = signal<string | null>(null);
-  private readonly apiUrl = 'http://localhost:8080';
+  private readonly apiUrl = environment.apiUrl;
 
   // Estado de usuario
   private readonly miListaSignal = signal<Obra[]>([]);
